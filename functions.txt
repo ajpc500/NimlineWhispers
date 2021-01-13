@@ -1,0 +1,10 @@
+GetTEBAsm64
+ZwQuerySystemInformation
+ZwOpenProcess
+ZwOpenProcessToken
+ZwAdjustPrivilegesToken
+ZwAllocateVirtualMemory
+ZwFreeVirtualMemory
+ZwReadVirtualMemory
+ZwWriteVirtualMemory
+ZwClose
