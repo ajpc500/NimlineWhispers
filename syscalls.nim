@@ -3,12 +3,7 @@
 
 proc GetTEBAsm64(): LPVOID {.asmNoStackFrame.} =
     asm """
-	push rbx
-    xor rbx, rbx
-    xor rax, rax
-    mov rbx, qword ptr gs:[0x30]
-	mov rax, rbx
-	pop rbx
+        mov rax, qword ptr gs:[0x30]
 	ret
     """
 
