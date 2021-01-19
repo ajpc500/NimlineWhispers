@@ -179,7 +179,7 @@ with open(fileInName, mode='r') as fileIn:
 			if mstart:
 				inFunction = True
 				filterThisFunction = filterFunctions and not(mstart[1] in functions)
-				out += '' if filterThisFunction else 'proc '+mstart[1]+ '(' + get_function_arguments(mstart[1]) + ')' +': '+ get_function_return_type(mstart[1]) + ' {.asmNoStackFrame.} ='+'\n'
+				out += '' if filterThisFunction else 'proc '+mstart[1]+ '*(' + get_function_arguments(mstart[1]) + ')' +': '+ get_function_return_type(mstart[1]) + ' {.asmNoStackFrame.} ='+'\n'
 				out += '' if filterThisFunction else '    asm \"\"\"\n'
 			elif not filterThisFunction:
 				out += '\n'

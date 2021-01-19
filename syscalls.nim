@@ -1,13 +1,13 @@
 {.passC:"-masm=intel".}
 
 
-proc GetTEBAsm64(): LPVOID {.asmNoStackFrame.} =
+proc GetTEBAsm64*(): LPVOID {.asmNoStackFrame.} =
     asm """
-        mov rax, qword ptr gs:[0x30]
+	mov rax, qword ptr gs:[0x30]
 	ret
     """
 
-proc NtAdjustPrivilegesToken(TokenHandle: HANDLE, DisableAllPrivileges: BOOLEAN, NewState: PTOKEN_PRIVILEGES, BufferLength: ULONG, PreviousState: PTOKEN_PRIVILEGES, ReturnLength: PULONG): NTSTATUS {.asmNoStackFrame.} =
+proc NtAdjustPrivilegesToken*(TokenHandle: HANDLE, DisableAllPrivileges: BOOLEAN, NewState: PTOKEN_PRIVILEGES, BufferLength: ULONG, PreviousState: PTOKEN_PRIVILEGES, ReturnLength: PULONG): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                                 
 NtAdjustPrivilegesToken_Check_X_X_XXXX:               
@@ -107,7 +107,7 @@ NtAdjustPrivilegesToken_Epilogue:
 	ret
     """
 
-proc NtAllocateVirtualMemory(ProcessHandle: HANDLE, BaseAddress: PVOID, ZeroBits: ULONG, RegionSize: PSIZE_T, AllocationType: ULONG, Protect: ULONG): NTSTATUS {.asmNoStackFrame.} =
+proc NtAllocateVirtualMemory*(ProcessHandle: HANDLE, BaseAddress: PVOID, ZeroBits: ULONG, RegionSize: PSIZE_T, AllocationType: ULONG, Protect: ULONG): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                                 
 NtAllocateVirtualMemory_Check_X_X_XXXX:               
@@ -207,7 +207,7 @@ NtAllocateVirtualMemory_Epilogue:
 	ret
     """
 
-proc NtClose(Handle: HANDLE): NTSTATUS {.asmNoStackFrame.} =
+proc NtClose*(Handle: HANDLE): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                 
 NtClose_Check_X_X_XXXX:               
@@ -307,7 +307,7 @@ NtClose_Epilogue:
 	ret
     """
 
-proc NtFreeVirtualMemory(ProcessHandle: HANDLE, BaseAddress: PVOID, RegionSize: PSIZE_T, FreeType: ULONG): NTSTATUS {.asmNoStackFrame.} =
+proc NtFreeVirtualMemory*(ProcessHandle: HANDLE, BaseAddress: PVOID, RegionSize: PSIZE_T, FreeType: ULONG): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                             
 NtFreeVirtualMemory_Check_X_X_XXXX:               
@@ -407,7 +407,7 @@ NtFreeVirtualMemory_Epilogue:
 	ret
     """
 
-proc NtOpenProcess(ProcessHandle: PHANDLE, DesiredAccess: ACCESS_MASK, ObjectAttributes: POBJECT_ATTRIBUTES, ClientId: PCLIENT_ID): NTSTATUS {.asmNoStackFrame.} =
+proc NtOpenProcess*(ProcessHandle: PHANDLE, DesiredAccess: ACCESS_MASK, ObjectAttributes: POBJECT_ATTRIBUTES, ClientId: PCLIENT_ID): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                       
 NtOpenProcess_Check_X_X_XXXX:               
@@ -507,7 +507,7 @@ NtOpenProcess_Epilogue:
 	ret
     """
 
-proc NtOpenProcessToken(ProcessHandle: HANDLE, DesiredAccess: ACCESS_MASK, TokenHandle: PHANDLE): NTSTATUS {.asmNoStackFrame.} =
+proc NtOpenProcessToken*(ProcessHandle: HANDLE, DesiredAccess: ACCESS_MASK, TokenHandle: PHANDLE): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                            
 NtOpenProcessToken_Check_X_X_XXXX:               
@@ -607,7 +607,7 @@ NtOpenProcessToken_Epilogue:
 	ret
     """
 
-proc NtQuerySystemInformation(SystemInformationClass: SYSTEM_INFORMATION_CLASS, SystemInformation: PVOID, SystemInformationLength: ULONG, ReturnLength: PULONG): NTSTATUS {.asmNoStackFrame.} =
+proc NtQuerySystemInformation*(SystemInformationClass: SYSTEM_INFORMATION_CLASS, SystemInformation: PVOID, SystemInformationLength: ULONG, ReturnLength: PULONG): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                                  
 NtQuerySystemInformation_Check_X_X_XXXX:               
@@ -707,7 +707,7 @@ NtQuerySystemInformation_Epilogue:
 	ret
     """
 
-proc NtReadVirtualMemory(ProcessHandle: HANDLE, BaseAddress: PVOID, Buffer: PVOID, BufferSize: SIZE_T, NumberOfBytesRead: PSIZE_T): NTSTATUS {.asmNoStackFrame.} =
+proc NtReadVirtualMemory*(ProcessHandle: HANDLE, BaseAddress: PVOID, Buffer: PVOID, BufferSize: SIZE_T, NumberOfBytesRead: PSIZE_T): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                             
 NtReadVirtualMemory_Check_X_X_XXXX:               
@@ -807,7 +807,7 @@ NtReadVirtualMemory_Epilogue:
 	ret
     """
 
-proc NtWriteVirtualMemory(ProcessHandle: HANDLE, BaseAddress: PVOID, Buffer: PVOID, NumberOfBytesToWrite: SIZE_T, NumberOfBytesWritten: PSIZE_T): NTSTATUS {.asmNoStackFrame.} =
+proc NtWriteVirtualMemory*(ProcessHandle: HANDLE, BaseAddress: PVOID, Buffer: PVOID, NumberOfBytesToWrite: SIZE_T, NumberOfBytesWritten: PSIZE_T): NTSTATUS {.asmNoStackFrame.} =
     asm """
 	mov rax, gs:[0x60]                              
 NtWriteVirtualMemory_Check_X_X_XXXX:               
