@@ -89,7 +89,7 @@ def parse_function_arg(arg_list):
 				argTypeIndex = 2 
 				argNameIndex = 4
 			elif arg_list[0].upper() in ['IN','OUT'] and arg_list[1].upper() in ['IN','OUT'] and arg_list[4].upper() == 'OPTIONAL':
-				# IN OUT TYPE * Name
+				# IN OUT TYPE Name OPTIONAL
 				argTypeIndex = 2 
 				argNameIndex = 3
 
