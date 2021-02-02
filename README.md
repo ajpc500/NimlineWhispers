@@ -15,8 +15,99 @@ This is basically the same as InlineWhispers, but including for completeness.
     * `py .\syswhispers.py --versions 7,8,10 -o syscalls` was used to generate the included `syscalls.asm` and `syscalls.h`.
  * Clone this repository.
  * Update which functions are required in `functions.txt` to include only necessary functions from syscalls.asm.
- * Run the ``python NimlineWhispers.py`` command to generate the inline assembly (`syscalls.nim`) file - example in the repo.
+ * Run the ``python3 NimlineWhispers.py`` command (additional flags listed below) to generate the inline assembly (`syscalls.nim`) file - example in the repo.
  * Add `include syscalls` to your Nim project.
+
+An example of integrating NimlineWhispers output with your project can be seen in this [blog.](https://ajpc500.github.io/nim/Shellcode-Injection-using-Nim-and-Syscalls/)
+
+### Randomised Function Names ###
+
+To evade detection based on the presence of function names in our Nim executables (as outlined in [@ShitSecure](https://twitter.com/ShitSecure)'s blog [here](https://s3cur3th1ssh1t.github.io/A-tale-of-EDR-bypass-methods/)), NimlineWhispers can be run with a `--randomise` flag, as follows:
+
+```
+python3 NimlineWhispers.py --randomise
+
+
+             %              ..%%%%%#               %/.                  
+           /%%%%%,.%%%%%%%%%%%%%%%%%%%%%%%%%%%%.%%%%%%                  
+       . #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.               
+  %%*.%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ,%%         
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.         
+    #%%%%%%%%%%%%%%.                         %%%%%%%%%%%%%%%%           
+      %%%%%%%(                                     %%%%%%%%%            
+    &   %%#                                           .%%  ..           
+     &&.                          .                     . #&            
+      &&&&.               . %&&&&&&&&.                 &&&&             
+       &&&&&&&.. .   . (&&&&&&&&&&&&&&&&&%. .     .&&&&&&&              
+       .%&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&               
+         #&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&                
+           ,&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&                  
+               &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&                     
+                   &&&&&&&&&&&&&&&&&&&&&&&&&&&                          
+                            %&&&&&&&&.                                  
+                                                NimlineWhispers
+                                                @ajpc500 2021
+
+[i] in  syscalls.asm
+[i] out syscalls.nim
+[i] Function filter file "functions.txt" contains 10 functions.
+[i] Found return types for 10 functions.
+[i] Producing randomised function mapping...
+        GetTEBAsm64 -> SFvaGcZvCStqpimm
+        NtQuerySystemInformation -> ubyRCpOytBpCkrgW
+        NtOpenProcess -> sjGfpzWwEqIMryMW
+        NtOpenProcessToken -> nZFSjOMSXlJYIfGF
+        NtAdjustPrivilegesToken -> KDbJZsqcZWqlAZpm
+        NtAllocateVirtualMemory -> xANRBkMmvNMFvMkf
+        NtFreeVirtualMemory -> yZhhnBMbyifaYyWA
+        NtReadVirtualMemory -> VHlCcYwobYwUwxqH
+        NtWriteVirtualMemory -> VVkixCSJcidoBZgM
+        NtClose -> CXmzjWrWwTeuSBjT
+[+] Success! Outputted to syscalls.nim
+```
+
+For easy of integration, the mapping shown in the command-line is added a comment to the top of the outputted `syscalls.nim` file. As below (including the first function to demonstrate the output):
+
+```
+{.passC:"-masm=intel".}
+
+# GetTEBAsm64 -> SFvaGcZvCStqpimm
+# NtQuerySystemInformation -> ubyRCpOytBpCkrgW
+# NtOpenProcess -> sjGfpzWwEqIMryMW
+# NtOpenProcessToken -> nZFSjOMSXlJYIfGF
+# NtAdjustPrivilegesToken -> KDbJZsqcZWqlAZpm
+# NtAllocateVirtualMemory -> xANRBkMmvNMFvMkf
+# NtFreeVirtualMemory -> yZhhnBMbyifaYyWA
+# NtReadVirtualMemory -> VHlCcYwobYwUwxqH
+# NtWriteVirtualMemory -> VVkixCSJcidoBZgM
+# NtClose -> CXmzjWrWwTeuSBjT
+
+proc SFvaGcZvCStqpimm*(): LPVOID {.asmNoStackFrame.} =
+    asm """
+	mov rax, qword ptr gs:[0x30]
+	ret
+    """
+```
+Notably your function definitions such the below will need to be updated with the randomised names too.
+
+```
+EXTERN_C NTSTATUS NtOpenProcess(
+	OUT PHANDLE ProcessHandle,
+	IN ACCESS_MASK DesiredAccess,
+	IN POBJECT_ATTRIBUTES ObjectAttributes,
+	IN PCLIENT_ID ClientId OPTIONAL);
+```
+Should become:
+
+```
+EXTERN_C NTSTATUS sjGfpzWwEqIMryMW(
+	OUT PHANDLE ProcessHandle,
+	IN ACCESS_MASK DesiredAccess,
+	IN POBJECT_ATTRIBUTES ObjectAttributes,
+	IN PCLIENT_ID ClientId OPTIONAL);
+```
+
+`syscalls_rand.nim` is included as an example output of this randomisation function.
 
 ### Limitations ###
 
