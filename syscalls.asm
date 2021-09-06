@@ -1,12 +1,7 @@
 .code
 
-GetTEBAsm64 PROC
-	mov rax, qword ptr gs:[0x30]
-	ret
-GetTEBAsm64 ENDP
-
 NtAcceptConnectPort PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtAcceptConnectPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAcceptConnectPort_Check_6_X_XXXX
@@ -50,6 +45,8 @@ NtAcceptConnectPort_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtAcceptConnectPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAcceptConnectPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAcceptConnectPort_SystemCall_10_0_19043
 	jmp NtAcceptConnectPort_SystemCall_Unknown
 NtAcceptConnectPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0060h
@@ -96,6 +93,9 @@ NtAcceptConnectPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAcceptConnectPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0002h
 	jmp NtAcceptConnectPort_Epilogue
+NtAcceptConnectPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0002h
+	jmp NtAcceptConnectPort_Epilogue
 NtAcceptConnectPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAcceptConnectPort_Epilogue:
@@ -105,7 +105,7 @@ NtAcceptConnectPort_Epilogue:
 NtAcceptConnectPort ENDP
 
 NtAccessCheck PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtAccessCheck_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAccessCheck_Check_6_X_XXXX
@@ -173,6 +173,9 @@ NtAccessCheck_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAccessCheck_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0000h
 	jmp NtAccessCheck_Epilogue
+NtAccessCheck_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0000h
+	jmp NtAccessCheck_Epilogue
 NtAccessCheck_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAccessCheck_Epilogue:
@@ -182,7 +185,7 @@ NtAccessCheck_Epilogue:
 NtAccessCheck ENDP
 
 NtAccessCheckAndAuditAlarm PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtAccessCheckAndAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAccessCheckAndAuditAlarm_Check_6_X_XXXX
@@ -226,6 +229,8 @@ NtAccessCheckAndAuditAlarm_Check_10_0_XXXX:              ; Check build number fo
 	je  NtAccessCheckAndAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAccessCheckAndAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAccessCheckAndAuditAlarm_SystemCall_10_0_19043
 	jmp NtAccessCheckAndAuditAlarm_SystemCall_Unknown
 NtAccessCheckAndAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0026h
@@ -272,6 +277,9 @@ NtAccessCheckAndAuditAlarm_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtAccessCheckAndAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0029h
 	jmp NtAccessCheckAndAuditAlarm_Epilogue
+NtAccessCheckAndAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0029h
+	jmp NtAccessCheckAndAuditAlarm_Epilogue
 NtAccessCheckAndAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAccessCheckAndAuditAlarm_Epilogue:
@@ -281,7 +289,7 @@ NtAccessCheckAndAuditAlarm_Epilogue:
 NtAccessCheckAndAuditAlarm ENDP
 
 NtAccessCheckByType PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtAccessCheckByType_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAccessCheckByType_Check_6_X_XXXX
@@ -325,6 +333,8 @@ NtAccessCheckByType_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtAccessCheckByType_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAccessCheckByType_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAccessCheckByType_SystemCall_10_0_19043
 	jmp NtAccessCheckByType_SystemCall_Unknown
 NtAccessCheckByType_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0062h
@@ -371,6 +381,9 @@ NtAccessCheckByType_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAccessCheckByType_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0063h
 	jmp NtAccessCheckByType_Epilogue
+NtAccessCheckByType_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0063h
+	jmp NtAccessCheckByType_Epilogue
 NtAccessCheckByType_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAccessCheckByType_Epilogue:
@@ -380,7 +393,7 @@ NtAccessCheckByType_Epilogue:
 NtAccessCheckByType ENDP
 
 NtAccessCheckByTypeAndAuditAlarm PROC
-	mov rax, gs:[60h]                                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                                      ; Load PEB into RAX.
 NtAccessCheckByTypeAndAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAccessCheckByTypeAndAuditAlarm_Check_6_X_XXXX
@@ -424,6 +437,8 @@ NtAccessCheckByTypeAndAuditAlarm_Check_10_0_XXXX:              ; Check build num
 	je  NtAccessCheckByTypeAndAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAccessCheckByTypeAndAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAccessCheckByTypeAndAuditAlarm_SystemCall_10_0_19043
 	jmp NtAccessCheckByTypeAndAuditAlarm_SystemCall_Unknown
 NtAccessCheckByTypeAndAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0056h
@@ -470,6 +485,9 @@ NtAccessCheckByTypeAndAuditAlarm_SystemCall_10_0_19041:        ; Windows 10.0.19
 NtAccessCheckByTypeAndAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0059h
 	jmp NtAccessCheckByTypeAndAuditAlarm_Epilogue
+NtAccessCheckByTypeAndAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0059h
+	jmp NtAccessCheckByTypeAndAuditAlarm_Epilogue
 NtAccessCheckByTypeAndAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAccessCheckByTypeAndAuditAlarm_Epilogue:
@@ -479,7 +497,7 @@ NtAccessCheckByTypeAndAuditAlarm_Epilogue:
 NtAccessCheckByTypeAndAuditAlarm ENDP
 
 NtAccessCheckByTypeResultList PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtAccessCheckByTypeResultList_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAccessCheckByTypeResultList_Check_6_X_XXXX
@@ -523,6 +541,8 @@ NtAccessCheckByTypeResultList_Check_10_0_XXXX:              ; Check build number
 	je  NtAccessCheckByTypeResultList_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAccessCheckByTypeResultList_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAccessCheckByTypeResultList_SystemCall_10_0_19043
 	jmp NtAccessCheckByTypeResultList_SystemCall_Unknown
 NtAccessCheckByTypeResultList_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0063h
@@ -569,6 +589,9 @@ NtAccessCheckByTypeResultList_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtAccessCheckByTypeResultList_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0064h
 	jmp NtAccessCheckByTypeResultList_Epilogue
+NtAccessCheckByTypeResultList_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0064h
+	jmp NtAccessCheckByTypeResultList_Epilogue
 NtAccessCheckByTypeResultList_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAccessCheckByTypeResultList_Epilogue:
@@ -578,7 +601,7 @@ NtAccessCheckByTypeResultList_Epilogue:
 NtAccessCheckByTypeResultList ENDP
 
 NtAccessCheckByTypeResultListAndAuditAlarm PROC
-	mov rax, gs:[60h]                                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                                ; Load PEB into RAX.
 NtAccessCheckByTypeResultListAndAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAccessCheckByTypeResultListAndAuditAlarm_Check_6_X_XXXX
@@ -622,6 +645,8 @@ NtAccessCheckByTypeResultListAndAuditAlarm_Check_10_0_XXXX:              ; Check
 	je  NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_10_0_19043
 	jmp NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_Unknown
 NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0064h
@@ -668,6 +693,9 @@ NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_10_0_19041:        ; Windo
 NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0065h
 	jmp NtAccessCheckByTypeResultListAndAuditAlarm_Epilogue
+NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0065h
+	jmp NtAccessCheckByTypeResultListAndAuditAlarm_Epilogue
 NtAccessCheckByTypeResultListAndAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAccessCheckByTypeResultListAndAuditAlarm_Epilogue:
@@ -677,7 +705,7 @@ NtAccessCheckByTypeResultListAndAuditAlarm_Epilogue:
 NtAccessCheckByTypeResultListAndAuditAlarm ENDP
 
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle PROC
-	mov rax, gs:[60h]                                                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                                                        ; Load PEB into RAX.
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAccessCheckByTypeResultListAndAuditAlarmByHandle_Check_6_X_XXXX
@@ -721,6 +749,8 @@ NtAccessCheckByTypeResultListAndAuditAlarmByHandle_Check_10_0_XXXX:             
 	je  NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_10_0_19043
 	jmp NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_Unknown
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0065h
@@ -767,6 +797,9 @@ NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_10_0_19041:       
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0066h
 	jmp NtAccessCheckByTypeResultListAndAuditAlarmByHandle_Epilogue
+NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0066h
+	jmp NtAccessCheckByTypeResultListAndAuditAlarmByHandle_Epilogue
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle_Epilogue:
@@ -776,7 +809,7 @@ NtAccessCheckByTypeResultListAndAuditAlarmByHandle_Epilogue:
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle ENDP
 
 NtAddAtom PROC
-	mov rax, gs:[60h]                   ; Load PEB into RAX.
+	mov rax, gs:[60h]               ; Load PEB into RAX.
 NtAddAtom_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAddAtom_Check_6_X_XXXX
@@ -820,6 +853,8 @@ NtAddAtom_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtAddAtom_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAddAtom_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAddAtom_SystemCall_10_0_19043
 	jmp NtAddAtom_SystemCall_Unknown
 NtAddAtom_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0044h
@@ -866,6 +901,9 @@ NtAddAtom_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAddAtom_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0047h
 	jmp NtAddAtom_Epilogue
+NtAddAtom_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0047h
+	jmp NtAddAtom_Epilogue
 NtAddAtom_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAddAtom_Epilogue:
@@ -875,7 +913,7 @@ NtAddAtom_Epilogue:
 NtAddAtom ENDP
 
 NtAddBootEntry PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtAddBootEntry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAddBootEntry_Check_6_X_XXXX
@@ -919,6 +957,8 @@ NtAddBootEntry_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtAddBootEntry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAddBootEntry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAddBootEntry_SystemCall_10_0_19043
 	jmp NtAddBootEntry_SystemCall_Unknown
 NtAddBootEntry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0066h
@@ -965,6 +1005,9 @@ NtAddBootEntry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAddBootEntry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 006ah
 	jmp NtAddBootEntry_Epilogue
+NtAddBootEntry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 006ah
+	jmp NtAddBootEntry_Epilogue
 NtAddBootEntry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAddBootEntry_Epilogue:
@@ -974,7 +1017,7 @@ NtAddBootEntry_Epilogue:
 NtAddBootEntry ENDP
 
 NtAddDriverEntry PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtAddDriverEntry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAddDriverEntry_Check_6_X_XXXX
@@ -1018,6 +1061,8 @@ NtAddDriverEntry_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtAddDriverEntry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAddDriverEntry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAddDriverEntry_SystemCall_10_0_19043
 	jmp NtAddDriverEntry_SystemCall_Unknown
 NtAddDriverEntry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0067h
@@ -1064,6 +1109,9 @@ NtAddDriverEntry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAddDriverEntry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 006bh
 	jmp NtAddDriverEntry_Epilogue
+NtAddDriverEntry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 006bh
+	jmp NtAddDriverEntry_Epilogue
 NtAddDriverEntry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAddDriverEntry_Epilogue:
@@ -1073,7 +1121,7 @@ NtAddDriverEntry_Epilogue:
 NtAddDriverEntry ENDP
 
 NtAdjustGroupsToken PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtAdjustGroupsToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAdjustGroupsToken_Check_6_X_XXXX
@@ -1117,6 +1165,8 @@ NtAdjustGroupsToken_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtAdjustGroupsToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAdjustGroupsToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAdjustGroupsToken_SystemCall_10_0_19043
 	jmp NtAdjustGroupsToken_SystemCall_Unknown
 NtAdjustGroupsToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0068h
@@ -1163,6 +1213,9 @@ NtAdjustGroupsToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAdjustGroupsToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 006ch
 	jmp NtAdjustGroupsToken_Epilogue
+NtAdjustGroupsToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 006ch
+	jmp NtAdjustGroupsToken_Epilogue
 NtAdjustGroupsToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAdjustGroupsToken_Epilogue:
@@ -1172,7 +1225,7 @@ NtAdjustGroupsToken_Epilogue:
 NtAdjustGroupsToken ENDP
 
 NtAdjustPrivilegesToken PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAdjustPrivilegesToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAdjustPrivilegesToken_Check_6_X_XXXX
@@ -1216,6 +1269,8 @@ NtAdjustPrivilegesToken_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAdjustPrivilegesToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAdjustPrivilegesToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAdjustPrivilegesToken_SystemCall_10_0_19043
 	jmp NtAdjustPrivilegesToken_SystemCall_Unknown
 NtAdjustPrivilegesToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 003eh
@@ -1262,6 +1317,9 @@ NtAdjustPrivilegesToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAdjustPrivilegesToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0041h
 	jmp NtAdjustPrivilegesToken_Epilogue
+NtAdjustPrivilegesToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0041h
+	jmp NtAdjustPrivilegesToken_Epilogue
 NtAdjustPrivilegesToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAdjustPrivilegesToken_Epilogue:
@@ -1271,7 +1329,7 @@ NtAdjustPrivilegesToken_Epilogue:
 NtAdjustPrivilegesToken ENDP
 
 NtAlertResumeThread PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtAlertResumeThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlertResumeThread_Check_6_X_XXXX
@@ -1315,6 +1373,8 @@ NtAlertResumeThread_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtAlertResumeThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlertResumeThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlertResumeThread_SystemCall_10_0_19043
 	jmp NtAlertResumeThread_SystemCall_Unknown
 NtAlertResumeThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0069h
@@ -1361,6 +1421,9 @@ NtAlertResumeThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlertResumeThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 006eh
 	jmp NtAlertResumeThread_Epilogue
+NtAlertResumeThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 006eh
+	jmp NtAlertResumeThread_Epilogue
 NtAlertResumeThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlertResumeThread_Epilogue:
@@ -1370,7 +1433,7 @@ NtAlertResumeThread_Epilogue:
 NtAlertResumeThread ENDP
 
 NtAlertThread PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtAlertThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlertThread_Check_6_X_XXXX
@@ -1414,6 +1477,8 @@ NtAlertThread_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtAlertThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlertThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlertThread_SystemCall_10_0_19043
 	jmp NtAlertThread_SystemCall_Unknown
 NtAlertThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 006ah
@@ -1460,6 +1525,9 @@ NtAlertThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlertThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 006fh
 	jmp NtAlertThread_Epilogue
+NtAlertThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 006fh
+	jmp NtAlertThread_Epilogue
 NtAlertThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlertThread_Epilogue:
@@ -1469,7 +1537,7 @@ NtAlertThread_Epilogue:
 NtAlertThread ENDP
 
 NtAllocateLocallyUniqueId PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtAllocateLocallyUniqueId_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAllocateLocallyUniqueId_Check_6_X_XXXX
@@ -1513,6 +1581,8 @@ NtAllocateLocallyUniqueId_Check_10_0_XXXX:              ; Check build number for
 	je  NtAllocateLocallyUniqueId_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAllocateLocallyUniqueId_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAllocateLocallyUniqueId_SystemCall_10_0_19043
 	jmp NtAllocateLocallyUniqueId_SystemCall_Unknown
 NtAllocateLocallyUniqueId_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 006bh
@@ -1559,6 +1629,9 @@ NtAllocateLocallyUniqueId_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtAllocateLocallyUniqueId_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0071h
 	jmp NtAllocateLocallyUniqueId_Epilogue
+NtAllocateLocallyUniqueId_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0071h
+	jmp NtAllocateLocallyUniqueId_Epilogue
 NtAllocateLocallyUniqueId_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAllocateLocallyUniqueId_Epilogue:
@@ -1568,7 +1641,7 @@ NtAllocateLocallyUniqueId_Epilogue:
 NtAllocateLocallyUniqueId ENDP
 
 NtAllocateReserveObject PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAllocateReserveObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAllocateReserveObject_Check_6_X_XXXX
@@ -1612,6 +1685,8 @@ NtAllocateReserveObject_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAllocateReserveObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAllocateReserveObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAllocateReserveObject_SystemCall_10_0_19043
 	jmp NtAllocateReserveObject_SystemCall_Unknown
 NtAllocateReserveObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 006ch
@@ -1658,6 +1733,9 @@ NtAllocateReserveObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAllocateReserveObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0072h
 	jmp NtAllocateReserveObject_Epilogue
+NtAllocateReserveObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0072h
+	jmp NtAllocateReserveObject_Epilogue
 NtAllocateReserveObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAllocateReserveObject_Epilogue:
@@ -1667,7 +1745,7 @@ NtAllocateReserveObject_Epilogue:
 NtAllocateReserveObject ENDP
 
 NtAllocateUserPhysicalPages PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtAllocateUserPhysicalPages_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAllocateUserPhysicalPages_Check_6_X_XXXX
@@ -1711,6 +1789,8 @@ NtAllocateUserPhysicalPages_Check_10_0_XXXX:              ; Check build number f
 	je  NtAllocateUserPhysicalPages_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAllocateUserPhysicalPages_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAllocateUserPhysicalPages_SystemCall_10_0_19043
 	jmp NtAllocateUserPhysicalPages_SystemCall_Unknown
 NtAllocateUserPhysicalPages_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 006dh
@@ -1757,6 +1837,9 @@ NtAllocateUserPhysicalPages_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtAllocateUserPhysicalPages_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0073h
 	jmp NtAllocateUserPhysicalPages_Epilogue
+NtAllocateUserPhysicalPages_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0073h
+	jmp NtAllocateUserPhysicalPages_Epilogue
 NtAllocateUserPhysicalPages_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAllocateUserPhysicalPages_Epilogue:
@@ -1766,7 +1849,7 @@ NtAllocateUserPhysicalPages_Epilogue:
 NtAllocateUserPhysicalPages ENDP
 
 NtAllocateUuids PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtAllocateUuids_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAllocateUuids_Check_6_X_XXXX
@@ -1810,6 +1893,8 @@ NtAllocateUuids_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtAllocateUuids_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAllocateUuids_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAllocateUuids_SystemCall_10_0_19043
 	jmp NtAllocateUuids_SystemCall_Unknown
 NtAllocateUuids_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 006eh
@@ -1856,6 +1941,9 @@ NtAllocateUuids_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAllocateUuids_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0075h
 	jmp NtAllocateUuids_Epilogue
+NtAllocateUuids_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0075h
+	jmp NtAllocateUuids_Epilogue
 NtAllocateUuids_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAllocateUuids_Epilogue:
@@ -1865,7 +1953,7 @@ NtAllocateUuids_Epilogue:
 NtAllocateUuids ENDP
 
 NtAllocateVirtualMemory PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAllocateVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAllocateVirtualMemory_Check_6_X_XXXX
@@ -1909,6 +1997,8 @@ NtAllocateVirtualMemory_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAllocateVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAllocateVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAllocateVirtualMemory_SystemCall_10_0_19043
 	jmp NtAllocateVirtualMemory_SystemCall_Unknown
 NtAllocateVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0015h
@@ -1955,6 +2045,9 @@ NtAllocateVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAllocateVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0018h
 	jmp NtAllocateVirtualMemory_Epilogue
+NtAllocateVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0018h
+	jmp NtAllocateVirtualMemory_Epilogue
 NtAllocateVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAllocateVirtualMemory_Epilogue:
@@ -1964,7 +2057,7 @@ NtAllocateVirtualMemory_Epilogue:
 NtAllocateVirtualMemory ENDP
 
 NtAlpcAcceptConnectPort PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAlpcAcceptConnectPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcAcceptConnectPort_Check_6_X_XXXX
@@ -2008,6 +2101,8 @@ NtAlpcAcceptConnectPort_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAlpcAcceptConnectPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcAcceptConnectPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcAcceptConnectPort_SystemCall_10_0_19043
 	jmp NtAlpcAcceptConnectPort_SystemCall_Unknown
 NtAlpcAcceptConnectPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 006fh
@@ -2054,6 +2149,9 @@ NtAlpcAcceptConnectPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAlpcAcceptConnectPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0077h
 	jmp NtAlpcAcceptConnectPort_Epilogue
+NtAlpcAcceptConnectPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0077h
+	jmp NtAlpcAcceptConnectPort_Epilogue
 NtAlpcAcceptConnectPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcAcceptConnectPort_Epilogue:
@@ -2063,7 +2161,7 @@ NtAlpcAcceptConnectPort_Epilogue:
 NtAlpcAcceptConnectPort ENDP
 
 NtAlpcCancelMessage PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtAlpcCancelMessage_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcCancelMessage_Check_6_X_XXXX
@@ -2107,6 +2205,8 @@ NtAlpcCancelMessage_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtAlpcCancelMessage_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcCancelMessage_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcCancelMessage_SystemCall_10_0_19043
 	jmp NtAlpcCancelMessage_SystemCall_Unknown
 NtAlpcCancelMessage_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0070h
@@ -2153,6 +2253,9 @@ NtAlpcCancelMessage_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlpcCancelMessage_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0078h
 	jmp NtAlpcCancelMessage_Epilogue
+NtAlpcCancelMessage_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0078h
+	jmp NtAlpcCancelMessage_Epilogue
 NtAlpcCancelMessage_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcCancelMessage_Epilogue:
@@ -2162,7 +2265,7 @@ NtAlpcCancelMessage_Epilogue:
 NtAlpcCancelMessage ENDP
 
 NtAlpcConnectPort PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtAlpcConnectPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcConnectPort_Check_6_X_XXXX
@@ -2206,6 +2309,8 @@ NtAlpcConnectPort_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtAlpcConnectPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcConnectPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcConnectPort_SystemCall_10_0_19043
 	jmp NtAlpcConnectPort_SystemCall_Unknown
 NtAlpcConnectPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0071h
@@ -2252,6 +2357,9 @@ NtAlpcConnectPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlpcConnectPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0079h
 	jmp NtAlpcConnectPort_Epilogue
+NtAlpcConnectPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0079h
+	jmp NtAlpcConnectPort_Epilogue
 NtAlpcConnectPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcConnectPort_Epilogue:
@@ -2261,7 +2369,7 @@ NtAlpcConnectPort_Epilogue:
 NtAlpcConnectPort ENDP
 
 NtAlpcCreatePort PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtAlpcCreatePort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcCreatePort_Check_6_X_XXXX
@@ -2305,6 +2413,8 @@ NtAlpcCreatePort_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtAlpcCreatePort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcCreatePort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcCreatePort_SystemCall_10_0_19043
 	jmp NtAlpcCreatePort_SystemCall_Unknown
 NtAlpcCreatePort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0072h
@@ -2351,6 +2461,9 @@ NtAlpcCreatePort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlpcCreatePort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 007bh
 	jmp NtAlpcCreatePort_Epilogue
+NtAlpcCreatePort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 007bh
+	jmp NtAlpcCreatePort_Epilogue
 NtAlpcCreatePort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcCreatePort_Epilogue:
@@ -2360,7 +2473,7 @@ NtAlpcCreatePort_Epilogue:
 NtAlpcCreatePort ENDP
 
 NtAlpcCreatePortSection PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAlpcCreatePortSection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcCreatePortSection_Check_6_X_XXXX
@@ -2404,6 +2517,8 @@ NtAlpcCreatePortSection_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAlpcCreatePortSection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcCreatePortSection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcCreatePortSection_SystemCall_10_0_19043
 	jmp NtAlpcCreatePortSection_SystemCall_Unknown
 NtAlpcCreatePortSection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0073h
@@ -2450,6 +2565,9 @@ NtAlpcCreatePortSection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAlpcCreatePortSection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 007ch
 	jmp NtAlpcCreatePortSection_Epilogue
+NtAlpcCreatePortSection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 007ch
+	jmp NtAlpcCreatePortSection_Epilogue
 NtAlpcCreatePortSection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcCreatePortSection_Epilogue:
@@ -2459,7 +2577,7 @@ NtAlpcCreatePortSection_Epilogue:
 NtAlpcCreatePortSection ENDP
 
 NtAlpcCreateResourceReserve PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtAlpcCreateResourceReserve_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcCreateResourceReserve_Check_6_X_XXXX
@@ -2503,6 +2621,8 @@ NtAlpcCreateResourceReserve_Check_10_0_XXXX:              ; Check build number f
 	je  NtAlpcCreateResourceReserve_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcCreateResourceReserve_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcCreateResourceReserve_SystemCall_10_0_19043
 	jmp NtAlpcCreateResourceReserve_SystemCall_Unknown
 NtAlpcCreateResourceReserve_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0074h
@@ -2549,6 +2669,9 @@ NtAlpcCreateResourceReserve_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtAlpcCreateResourceReserve_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 007dh
 	jmp NtAlpcCreateResourceReserve_Epilogue
+NtAlpcCreateResourceReserve_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 007dh
+	jmp NtAlpcCreateResourceReserve_Epilogue
 NtAlpcCreateResourceReserve_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcCreateResourceReserve_Epilogue:
@@ -2558,7 +2681,7 @@ NtAlpcCreateResourceReserve_Epilogue:
 NtAlpcCreateResourceReserve ENDP
 
 NtAlpcCreateSectionView PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAlpcCreateSectionView_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcCreateSectionView_Check_6_X_XXXX
@@ -2602,6 +2725,8 @@ NtAlpcCreateSectionView_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAlpcCreateSectionView_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcCreateSectionView_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcCreateSectionView_SystemCall_10_0_19043
 	jmp NtAlpcCreateSectionView_SystemCall_Unknown
 NtAlpcCreateSectionView_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0075h
@@ -2648,6 +2773,9 @@ NtAlpcCreateSectionView_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAlpcCreateSectionView_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 007eh
 	jmp NtAlpcCreateSectionView_Epilogue
+NtAlpcCreateSectionView_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 007eh
+	jmp NtAlpcCreateSectionView_Epilogue
 NtAlpcCreateSectionView_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcCreateSectionView_Epilogue:
@@ -2657,7 +2785,7 @@ NtAlpcCreateSectionView_Epilogue:
 NtAlpcCreateSectionView ENDP
 
 NtAlpcCreateSecurityContext PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtAlpcCreateSecurityContext_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcCreateSecurityContext_Check_6_X_XXXX
@@ -2701,6 +2829,8 @@ NtAlpcCreateSecurityContext_Check_10_0_XXXX:              ; Check build number f
 	je  NtAlpcCreateSecurityContext_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcCreateSecurityContext_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcCreateSecurityContext_SystemCall_10_0_19043
 	jmp NtAlpcCreateSecurityContext_SystemCall_Unknown
 NtAlpcCreateSecurityContext_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0076h
@@ -2747,6 +2877,9 @@ NtAlpcCreateSecurityContext_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtAlpcCreateSecurityContext_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 007fh
 	jmp NtAlpcCreateSecurityContext_Epilogue
+NtAlpcCreateSecurityContext_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 007fh
+	jmp NtAlpcCreateSecurityContext_Epilogue
 NtAlpcCreateSecurityContext_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcCreateSecurityContext_Epilogue:
@@ -2756,7 +2889,7 @@ NtAlpcCreateSecurityContext_Epilogue:
 NtAlpcCreateSecurityContext ENDP
 
 NtAlpcDeletePortSection PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAlpcDeletePortSection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcDeletePortSection_Check_6_X_XXXX
@@ -2800,6 +2933,8 @@ NtAlpcDeletePortSection_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAlpcDeletePortSection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcDeletePortSection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcDeletePortSection_SystemCall_10_0_19043
 	jmp NtAlpcDeletePortSection_SystemCall_Unknown
 NtAlpcDeletePortSection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0077h
@@ -2846,6 +2981,9 @@ NtAlpcDeletePortSection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAlpcDeletePortSection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0080h
 	jmp NtAlpcDeletePortSection_Epilogue
+NtAlpcDeletePortSection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0080h
+	jmp NtAlpcDeletePortSection_Epilogue
 NtAlpcDeletePortSection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcDeletePortSection_Epilogue:
@@ -2855,7 +2993,7 @@ NtAlpcDeletePortSection_Epilogue:
 NtAlpcDeletePortSection ENDP
 
 NtAlpcDeleteResourceReserve PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtAlpcDeleteResourceReserve_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcDeleteResourceReserve_Check_6_X_XXXX
@@ -2899,6 +3037,8 @@ NtAlpcDeleteResourceReserve_Check_10_0_XXXX:              ; Check build number f
 	je  NtAlpcDeleteResourceReserve_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcDeleteResourceReserve_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcDeleteResourceReserve_SystemCall_10_0_19043
 	jmp NtAlpcDeleteResourceReserve_SystemCall_Unknown
 NtAlpcDeleteResourceReserve_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0078h
@@ -2945,6 +3085,9 @@ NtAlpcDeleteResourceReserve_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtAlpcDeleteResourceReserve_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0081h
 	jmp NtAlpcDeleteResourceReserve_Epilogue
+NtAlpcDeleteResourceReserve_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0081h
+	jmp NtAlpcDeleteResourceReserve_Epilogue
 NtAlpcDeleteResourceReserve_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcDeleteResourceReserve_Epilogue:
@@ -2954,7 +3097,7 @@ NtAlpcDeleteResourceReserve_Epilogue:
 NtAlpcDeleteResourceReserve ENDP
 
 NtAlpcDeleteSectionView PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAlpcDeleteSectionView_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcDeleteSectionView_Check_6_X_XXXX
@@ -2998,6 +3141,8 @@ NtAlpcDeleteSectionView_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAlpcDeleteSectionView_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcDeleteSectionView_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcDeleteSectionView_SystemCall_10_0_19043
 	jmp NtAlpcDeleteSectionView_SystemCall_Unknown
 NtAlpcDeleteSectionView_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0079h
@@ -3044,6 +3189,9 @@ NtAlpcDeleteSectionView_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAlpcDeleteSectionView_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0082h
 	jmp NtAlpcDeleteSectionView_Epilogue
+NtAlpcDeleteSectionView_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0082h
+	jmp NtAlpcDeleteSectionView_Epilogue
 NtAlpcDeleteSectionView_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcDeleteSectionView_Epilogue:
@@ -3053,7 +3201,7 @@ NtAlpcDeleteSectionView_Epilogue:
 NtAlpcDeleteSectionView ENDP
 
 NtAlpcDeleteSecurityContext PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtAlpcDeleteSecurityContext_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcDeleteSecurityContext_Check_6_X_XXXX
@@ -3097,6 +3245,8 @@ NtAlpcDeleteSecurityContext_Check_10_0_XXXX:              ; Check build number f
 	je  NtAlpcDeleteSecurityContext_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcDeleteSecurityContext_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcDeleteSecurityContext_SystemCall_10_0_19043
 	jmp NtAlpcDeleteSecurityContext_SystemCall_Unknown
 NtAlpcDeleteSecurityContext_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 007ah
@@ -3143,6 +3293,9 @@ NtAlpcDeleteSecurityContext_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtAlpcDeleteSecurityContext_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0083h
 	jmp NtAlpcDeleteSecurityContext_Epilogue
+NtAlpcDeleteSecurityContext_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0083h
+	jmp NtAlpcDeleteSecurityContext_Epilogue
 NtAlpcDeleteSecurityContext_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcDeleteSecurityContext_Epilogue:
@@ -3152,7 +3305,7 @@ NtAlpcDeleteSecurityContext_Epilogue:
 NtAlpcDeleteSecurityContext ENDP
 
 NtAlpcDisconnectPort PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtAlpcDisconnectPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcDisconnectPort_Check_6_X_XXXX
@@ -3196,6 +3349,8 @@ NtAlpcDisconnectPort_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtAlpcDisconnectPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcDisconnectPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcDisconnectPort_SystemCall_10_0_19043
 	jmp NtAlpcDisconnectPort_SystemCall_Unknown
 NtAlpcDisconnectPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 007bh
@@ -3242,6 +3397,9 @@ NtAlpcDisconnectPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlpcDisconnectPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0084h
 	jmp NtAlpcDisconnectPort_Epilogue
+NtAlpcDisconnectPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0084h
+	jmp NtAlpcDisconnectPort_Epilogue
 NtAlpcDisconnectPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcDisconnectPort_Epilogue:
@@ -3251,7 +3409,7 @@ NtAlpcDisconnectPort_Epilogue:
 NtAlpcDisconnectPort ENDP
 
 NtAlpcImpersonateClientOfPort PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtAlpcImpersonateClientOfPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcImpersonateClientOfPort_Check_6_X_XXXX
@@ -3295,6 +3453,8 @@ NtAlpcImpersonateClientOfPort_Check_10_0_XXXX:              ; Check build number
 	je  NtAlpcImpersonateClientOfPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcImpersonateClientOfPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcImpersonateClientOfPort_SystemCall_10_0_19043
 	jmp NtAlpcImpersonateClientOfPort_SystemCall_Unknown
 NtAlpcImpersonateClientOfPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 007ch
@@ -3341,6 +3501,9 @@ NtAlpcImpersonateClientOfPort_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtAlpcImpersonateClientOfPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0086h
 	jmp NtAlpcImpersonateClientOfPort_Epilogue
+NtAlpcImpersonateClientOfPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0086h
+	jmp NtAlpcImpersonateClientOfPort_Epilogue
 NtAlpcImpersonateClientOfPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcImpersonateClientOfPort_Epilogue:
@@ -3350,7 +3513,7 @@ NtAlpcImpersonateClientOfPort_Epilogue:
 NtAlpcImpersonateClientOfPort ENDP
 
 NtAlpcOpenSenderProcess PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAlpcOpenSenderProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcOpenSenderProcess_Check_6_X_XXXX
@@ -3394,6 +3557,8 @@ NtAlpcOpenSenderProcess_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAlpcOpenSenderProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcOpenSenderProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcOpenSenderProcess_SystemCall_10_0_19043
 	jmp NtAlpcOpenSenderProcess_SystemCall_Unknown
 NtAlpcOpenSenderProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 007dh
@@ -3440,6 +3605,9 @@ NtAlpcOpenSenderProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAlpcOpenSenderProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0087h
 	jmp NtAlpcOpenSenderProcess_Epilogue
+NtAlpcOpenSenderProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0087h
+	jmp NtAlpcOpenSenderProcess_Epilogue
 NtAlpcOpenSenderProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcOpenSenderProcess_Epilogue:
@@ -3449,7 +3617,7 @@ NtAlpcOpenSenderProcess_Epilogue:
 NtAlpcOpenSenderProcess ENDP
 
 NtAlpcOpenSenderThread PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtAlpcOpenSenderThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcOpenSenderThread_Check_6_X_XXXX
@@ -3493,6 +3661,8 @@ NtAlpcOpenSenderThread_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtAlpcOpenSenderThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcOpenSenderThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcOpenSenderThread_SystemCall_10_0_19043
 	jmp NtAlpcOpenSenderThread_SystemCall_Unknown
 NtAlpcOpenSenderThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 007eh
@@ -3539,6 +3709,9 @@ NtAlpcOpenSenderThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlpcOpenSenderThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0088h
 	jmp NtAlpcOpenSenderThread_Epilogue
+NtAlpcOpenSenderThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0088h
+	jmp NtAlpcOpenSenderThread_Epilogue
 NtAlpcOpenSenderThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcOpenSenderThread_Epilogue:
@@ -3548,7 +3721,7 @@ NtAlpcOpenSenderThread_Epilogue:
 NtAlpcOpenSenderThread ENDP
 
 NtAlpcQueryInformation PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtAlpcQueryInformation_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcQueryInformation_Check_6_X_XXXX
@@ -3592,6 +3765,8 @@ NtAlpcQueryInformation_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtAlpcQueryInformation_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcQueryInformation_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcQueryInformation_SystemCall_10_0_19043
 	jmp NtAlpcQueryInformation_SystemCall_Unknown
 NtAlpcQueryInformation_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 007fh
@@ -3638,6 +3813,9 @@ NtAlpcQueryInformation_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlpcQueryInformation_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0089h
 	jmp NtAlpcQueryInformation_Epilogue
+NtAlpcQueryInformation_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0089h
+	jmp NtAlpcQueryInformation_Epilogue
 NtAlpcQueryInformation_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcQueryInformation_Epilogue:
@@ -3647,7 +3825,7 @@ NtAlpcQueryInformation_Epilogue:
 NtAlpcQueryInformation ENDP
 
 NtAlpcQueryInformationMessage PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtAlpcQueryInformationMessage_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcQueryInformationMessage_Check_6_X_XXXX
@@ -3691,6 +3869,8 @@ NtAlpcQueryInformationMessage_Check_10_0_XXXX:              ; Check build number
 	je  NtAlpcQueryInformationMessage_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcQueryInformationMessage_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcQueryInformationMessage_SystemCall_10_0_19043
 	jmp NtAlpcQueryInformationMessage_SystemCall_Unknown
 NtAlpcQueryInformationMessage_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0080h
@@ -3737,6 +3917,9 @@ NtAlpcQueryInformationMessage_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtAlpcQueryInformationMessage_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 008ah
 	jmp NtAlpcQueryInformationMessage_Epilogue
+NtAlpcQueryInformationMessage_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 008ah
+	jmp NtAlpcQueryInformationMessage_Epilogue
 NtAlpcQueryInformationMessage_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcQueryInformationMessage_Epilogue:
@@ -3746,7 +3929,7 @@ NtAlpcQueryInformationMessage_Epilogue:
 NtAlpcQueryInformationMessage ENDP
 
 NtAlpcRevokeSecurityContext PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtAlpcRevokeSecurityContext_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcRevokeSecurityContext_Check_6_X_XXXX
@@ -3790,6 +3973,8 @@ NtAlpcRevokeSecurityContext_Check_10_0_XXXX:              ; Check build number f
 	je  NtAlpcRevokeSecurityContext_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcRevokeSecurityContext_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcRevokeSecurityContext_SystemCall_10_0_19043
 	jmp NtAlpcRevokeSecurityContext_SystemCall_Unknown
 NtAlpcRevokeSecurityContext_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0081h
@@ -3836,6 +4021,9 @@ NtAlpcRevokeSecurityContext_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtAlpcRevokeSecurityContext_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 008bh
 	jmp NtAlpcRevokeSecurityContext_Epilogue
+NtAlpcRevokeSecurityContext_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 008bh
+	jmp NtAlpcRevokeSecurityContext_Epilogue
 NtAlpcRevokeSecurityContext_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcRevokeSecurityContext_Epilogue:
@@ -3845,7 +4033,7 @@ NtAlpcRevokeSecurityContext_Epilogue:
 NtAlpcRevokeSecurityContext ENDP
 
 NtAlpcSendWaitReceivePort PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtAlpcSendWaitReceivePort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcSendWaitReceivePort_Check_6_X_XXXX
@@ -3889,6 +4077,8 @@ NtAlpcSendWaitReceivePort_Check_10_0_XXXX:              ; Check build number for
 	je  NtAlpcSendWaitReceivePort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcSendWaitReceivePort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcSendWaitReceivePort_SystemCall_10_0_19043
 	jmp NtAlpcSendWaitReceivePort_SystemCall_Unknown
 NtAlpcSendWaitReceivePort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0082h
@@ -3935,6 +4125,9 @@ NtAlpcSendWaitReceivePort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtAlpcSendWaitReceivePort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 008ch
 	jmp NtAlpcSendWaitReceivePort_Epilogue
+NtAlpcSendWaitReceivePort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 008ch
+	jmp NtAlpcSendWaitReceivePort_Epilogue
 NtAlpcSendWaitReceivePort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcSendWaitReceivePort_Epilogue:
@@ -3944,7 +4137,7 @@ NtAlpcSendWaitReceivePort_Epilogue:
 NtAlpcSendWaitReceivePort ENDP
 
 NtAlpcSetInformation PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtAlpcSetInformation_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAlpcSetInformation_Check_6_X_XXXX
@@ -3988,6 +4181,8 @@ NtAlpcSetInformation_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtAlpcSetInformation_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAlpcSetInformation_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAlpcSetInformation_SystemCall_10_0_19043
 	jmp NtAlpcSetInformation_SystemCall_Unknown
 NtAlpcSetInformation_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0083h
@@ -4034,6 +4229,9 @@ NtAlpcSetInformation_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtAlpcSetInformation_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 008dh
 	jmp NtAlpcSetInformation_Epilogue
+NtAlpcSetInformation_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 008dh
+	jmp NtAlpcSetInformation_Epilogue
 NtAlpcSetInformation_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAlpcSetInformation_Epilogue:
@@ -4043,7 +4241,7 @@ NtAlpcSetInformation_Epilogue:
 NtAlpcSetInformation ENDP
 
 NtApphelpCacheControl PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtApphelpCacheControl_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtApphelpCacheControl_Check_6_X_XXXX
@@ -4087,6 +4285,8 @@ NtApphelpCacheControl_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtApphelpCacheControl_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtApphelpCacheControl_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtApphelpCacheControl_SystemCall_10_0_19043
 	jmp NtApphelpCacheControl_SystemCall_Unknown
 NtApphelpCacheControl_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0049h
@@ -4133,6 +4333,9 @@ NtApphelpCacheControl_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtApphelpCacheControl_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 004ch
 	jmp NtApphelpCacheControl_Epilogue
+NtApphelpCacheControl_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 004ch
+	jmp NtApphelpCacheControl_Epilogue
 NtApphelpCacheControl_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtApphelpCacheControl_Epilogue:
@@ -4142,7 +4345,7 @@ NtApphelpCacheControl_Epilogue:
 NtApphelpCacheControl ENDP
 
 NtAreMappedFilesTheSame PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtAreMappedFilesTheSame_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAreMappedFilesTheSame_Check_6_X_XXXX
@@ -4186,6 +4389,8 @@ NtAreMappedFilesTheSame_Check_10_0_XXXX:              ; Check build number for W
 	je  NtAreMappedFilesTheSame_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAreMappedFilesTheSame_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAreMappedFilesTheSame_SystemCall_10_0_19043
 	jmp NtAreMappedFilesTheSame_SystemCall_Unknown
 NtAreMappedFilesTheSame_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0084h
@@ -4232,6 +4437,9 @@ NtAreMappedFilesTheSame_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtAreMappedFilesTheSame_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 008eh
 	jmp NtAreMappedFilesTheSame_Epilogue
+NtAreMappedFilesTheSame_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 008eh
+	jmp NtAreMappedFilesTheSame_Epilogue
 NtAreMappedFilesTheSame_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAreMappedFilesTheSame_Epilogue:
@@ -4241,7 +4449,7 @@ NtAreMappedFilesTheSame_Epilogue:
 NtAreMappedFilesTheSame ENDP
 
 NtAssignProcessToJobObject PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtAssignProcessToJobObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtAssignProcessToJobObject_Check_6_X_XXXX
@@ -4285,6 +4493,8 @@ NtAssignProcessToJobObject_Check_10_0_XXXX:              ; Check build number fo
 	je  NtAssignProcessToJobObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtAssignProcessToJobObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtAssignProcessToJobObject_SystemCall_10_0_19043
 	jmp NtAssignProcessToJobObject_SystemCall_Unknown
 NtAssignProcessToJobObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0085h
@@ -4331,6 +4541,9 @@ NtAssignProcessToJobObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtAssignProcessToJobObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 008fh
 	jmp NtAssignProcessToJobObject_Epilogue
+NtAssignProcessToJobObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 008fh
+	jmp NtAssignProcessToJobObject_Epilogue
 NtAssignProcessToJobObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtAssignProcessToJobObject_Epilogue:
@@ -4340,7 +4553,7 @@ NtAssignProcessToJobObject_Epilogue:
 NtAssignProcessToJobObject ENDP
 
 NtCallbackReturn PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtCallbackReturn_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCallbackReturn_Check_6_X_XXXX
@@ -4384,6 +4597,8 @@ NtCallbackReturn_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtCallbackReturn_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCallbackReturn_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCallbackReturn_SystemCall_10_0_19043
 	jmp NtCallbackReturn_SystemCall_Unknown
 NtCallbackReturn_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0002h
@@ -4430,6 +4645,9 @@ NtCallbackReturn_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCallbackReturn_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0005h
 	jmp NtCallbackReturn_Epilogue
+NtCallbackReturn_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0005h
+	jmp NtCallbackReturn_Epilogue
 NtCallbackReturn_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCallbackReturn_Epilogue:
@@ -4439,7 +4657,7 @@ NtCallbackReturn_Epilogue:
 NtCallbackReturn ENDP
 
 NtCancelIoFile PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtCancelIoFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCancelIoFile_Check_6_X_XXXX
@@ -4483,6 +4701,8 @@ NtCancelIoFile_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtCancelIoFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCancelIoFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCancelIoFile_SystemCall_10_0_19043
 	jmp NtCancelIoFile_SystemCall_Unknown
 NtCancelIoFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 005ah
@@ -4529,6 +4749,9 @@ NtCancelIoFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCancelIoFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 005dh
 	jmp NtCancelIoFile_Epilogue
+NtCancelIoFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 005dh
+	jmp NtCancelIoFile_Epilogue
 NtCancelIoFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCancelIoFile_Epilogue:
@@ -4538,7 +4761,7 @@ NtCancelIoFile_Epilogue:
 NtCancelIoFile ENDP
 
 NtCancelIoFileEx PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtCancelIoFileEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCancelIoFileEx_Check_6_X_XXXX
@@ -4582,6 +4805,8 @@ NtCancelIoFileEx_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtCancelIoFileEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCancelIoFileEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCancelIoFileEx_SystemCall_10_0_19043
 	jmp NtCancelIoFileEx_SystemCall_Unknown
 NtCancelIoFileEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0086h
@@ -4628,6 +4853,9 @@ NtCancelIoFileEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCancelIoFileEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0092h
 	jmp NtCancelIoFileEx_Epilogue
+NtCancelIoFileEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0092h
+	jmp NtCancelIoFileEx_Epilogue
 NtCancelIoFileEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCancelIoFileEx_Epilogue:
@@ -4637,7 +4865,7 @@ NtCancelIoFileEx_Epilogue:
 NtCancelIoFileEx ENDP
 
 NtCancelSynchronousIoFile PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtCancelSynchronousIoFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCancelSynchronousIoFile_Check_6_X_XXXX
@@ -4681,6 +4909,8 @@ NtCancelSynchronousIoFile_Check_10_0_XXXX:              ; Check build number for
 	je  NtCancelSynchronousIoFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCancelSynchronousIoFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCancelSynchronousIoFile_SystemCall_10_0_19043
 	jmp NtCancelSynchronousIoFile_SystemCall_Unknown
 NtCancelSynchronousIoFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0087h
@@ -4727,6 +4957,9 @@ NtCancelSynchronousIoFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtCancelSynchronousIoFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0093h
 	jmp NtCancelSynchronousIoFile_Epilogue
+NtCancelSynchronousIoFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0093h
+	jmp NtCancelSynchronousIoFile_Epilogue
 NtCancelSynchronousIoFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCancelSynchronousIoFile_Epilogue:
@@ -4736,7 +4969,7 @@ NtCancelSynchronousIoFile_Epilogue:
 NtCancelSynchronousIoFile ENDP
 
 NtCancelTimer PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtCancelTimer_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCancelTimer_Check_6_X_XXXX
@@ -4780,6 +5013,8 @@ NtCancelTimer_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCancelTimer_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCancelTimer_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCancelTimer_SystemCall_10_0_19043
 	jmp NtCancelTimer_SystemCall_Unknown
 NtCancelTimer_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 005eh
@@ -4826,6 +5061,9 @@ NtCancelTimer_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCancelTimer_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0061h
 	jmp NtCancelTimer_Epilogue
+NtCancelTimer_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0061h
+	jmp NtCancelTimer_Epilogue
 NtCancelTimer_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCancelTimer_Epilogue:
@@ -4835,7 +5073,7 @@ NtCancelTimer_Epilogue:
 NtCancelTimer ENDP
 
 NtClearEvent PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtClearEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtClearEvent_Check_6_X_XXXX
@@ -4879,6 +5117,8 @@ NtClearEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtClearEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtClearEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtClearEvent_SystemCall_10_0_19043
 	jmp NtClearEvent_SystemCall_Unknown
 NtClearEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 003bh
@@ -4925,6 +5165,9 @@ NtClearEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtClearEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 003eh
 	jmp NtClearEvent_Epilogue
+NtClearEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 003eh
+	jmp NtClearEvent_Epilogue
 NtClearEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtClearEvent_Epilogue:
@@ -4934,7 +5177,7 @@ NtClearEvent_Epilogue:
 NtClearEvent ENDP
 
 NtClose PROC
-	mov rax, gs:[60h]                 ; Load PEB into RAX.
+	mov rax, gs:[60h]             ; Load PEB into RAX.
 NtClose_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtClose_Check_6_X_XXXX
@@ -4978,6 +5221,8 @@ NtClose_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtClose_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtClose_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtClose_SystemCall_10_0_19043
 	jmp NtClose_SystemCall_Unknown
 NtClose_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 000ch
@@ -5024,6 +5269,9 @@ NtClose_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtClose_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 000fh
 	jmp NtClose_Epilogue
+NtClose_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 000fh
+	jmp NtClose_Epilogue
 NtClose_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtClose_Epilogue:
@@ -5033,7 +5281,7 @@ NtClose_Epilogue:
 NtClose ENDP
 
 NtCloseObjectAuditAlarm PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtCloseObjectAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCloseObjectAuditAlarm_Check_6_X_XXXX
@@ -5077,6 +5325,8 @@ NtCloseObjectAuditAlarm_Check_10_0_XXXX:              ; Check build number for W
 	je  NtCloseObjectAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCloseObjectAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCloseObjectAuditAlarm_SystemCall_10_0_19043
 	jmp NtCloseObjectAuditAlarm_SystemCall_Unknown
 NtCloseObjectAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0038h
@@ -5123,6 +5373,9 @@ NtCloseObjectAuditAlarm_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtCloseObjectAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 003bh
 	jmp NtCloseObjectAuditAlarm_Epilogue
+NtCloseObjectAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 003bh
+	jmp NtCloseObjectAuditAlarm_Epilogue
 NtCloseObjectAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCloseObjectAuditAlarm_Epilogue:
@@ -5132,7 +5385,7 @@ NtCloseObjectAuditAlarm_Epilogue:
 NtCloseObjectAuditAlarm ENDP
 
 NtCommitComplete PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtCommitComplete_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCommitComplete_Check_6_X_XXXX
@@ -5176,6 +5429,8 @@ NtCommitComplete_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtCommitComplete_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCommitComplete_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCommitComplete_SystemCall_10_0_19043
 	jmp NtCommitComplete_SystemCall_Unknown
 NtCommitComplete_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0088h
@@ -5222,6 +5477,9 @@ NtCommitComplete_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCommitComplete_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0096h
 	jmp NtCommitComplete_Epilogue
+NtCommitComplete_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0096h
+	jmp NtCommitComplete_Epilogue
 NtCommitComplete_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCommitComplete_Epilogue:
@@ -5231,7 +5489,7 @@ NtCommitComplete_Epilogue:
 NtCommitComplete ENDP
 
 NtCommitEnlistment PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtCommitEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCommitEnlistment_Check_6_X_XXXX
@@ -5275,6 +5533,8 @@ NtCommitEnlistment_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtCommitEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCommitEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCommitEnlistment_SystemCall_10_0_19043
 	jmp NtCommitEnlistment_SystemCall_Unknown
 NtCommitEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0089h
@@ -5321,6 +5581,9 @@ NtCommitEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCommitEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0097h
 	jmp NtCommitEnlistment_Epilogue
+NtCommitEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0097h
+	jmp NtCommitEnlistment_Epilogue
 NtCommitEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCommitEnlistment_Epilogue:
@@ -5330,7 +5593,7 @@ NtCommitEnlistment_Epilogue:
 NtCommitEnlistment ENDP
 
 NtCommitTransaction PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtCommitTransaction_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCommitTransaction_Check_6_X_XXXX
@@ -5374,6 +5637,8 @@ NtCommitTransaction_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtCommitTransaction_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCommitTransaction_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCommitTransaction_SystemCall_10_0_19043
 	jmp NtCommitTransaction_SystemCall_Unknown
 NtCommitTransaction_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 008ah
@@ -5420,6 +5685,9 @@ NtCommitTransaction_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCommitTransaction_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0099h
 	jmp NtCommitTransaction_Epilogue
+NtCommitTransaction_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0099h
+	jmp NtCommitTransaction_Epilogue
 NtCommitTransaction_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCommitTransaction_Epilogue:
@@ -5429,7 +5697,7 @@ NtCommitTransaction_Epilogue:
 NtCommitTransaction ENDP
 
 NtCompactKeys PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtCompactKeys_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCompactKeys_Check_6_X_XXXX
@@ -5473,6 +5741,8 @@ NtCompactKeys_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCompactKeys_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCompactKeys_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCompactKeys_SystemCall_10_0_19043
 	jmp NtCompactKeys_SystemCall_Unknown
 NtCompactKeys_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 008bh
@@ -5519,6 +5789,9 @@ NtCompactKeys_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCompactKeys_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 009ah
 	jmp NtCompactKeys_Epilogue
+NtCompactKeys_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 009ah
+	jmp NtCompactKeys_Epilogue
 NtCompactKeys_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCompactKeys_Epilogue:
@@ -5528,7 +5801,7 @@ NtCompactKeys_Epilogue:
 NtCompactKeys ENDP
 
 NtCompareTokens PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtCompareTokens_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCompareTokens_Check_6_X_XXXX
@@ -5572,6 +5845,8 @@ NtCompareTokens_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtCompareTokens_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCompareTokens_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCompareTokens_SystemCall_10_0_19043
 	jmp NtCompareTokens_SystemCall_Unknown
 NtCompareTokens_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 008ch
@@ -5618,6 +5893,9 @@ NtCompareTokens_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCompareTokens_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 009dh
 	jmp NtCompareTokens_Epilogue
+NtCompareTokens_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 009dh
+	jmp NtCompareTokens_Epilogue
 NtCompareTokens_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCompareTokens_Epilogue:
@@ -5627,7 +5905,7 @@ NtCompareTokens_Epilogue:
 NtCompareTokens ENDP
 
 NtCompleteConnectPort PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtCompleteConnectPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCompleteConnectPort_Check_6_X_XXXX
@@ -5671,6 +5949,8 @@ NtCompleteConnectPort_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtCompleteConnectPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCompleteConnectPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCompleteConnectPort_SystemCall_10_0_19043
 	jmp NtCompleteConnectPort_SystemCall_Unknown
 NtCompleteConnectPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 008dh
@@ -5717,6 +5997,9 @@ NtCompleteConnectPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCompleteConnectPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 009eh
 	jmp NtCompleteConnectPort_Epilogue
+NtCompleteConnectPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 009eh
+	jmp NtCompleteConnectPort_Epilogue
 NtCompleteConnectPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCompleteConnectPort_Epilogue:
@@ -5726,7 +6009,7 @@ NtCompleteConnectPort_Epilogue:
 NtCompleteConnectPort ENDP
 
 NtCompressKey PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtCompressKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCompressKey_Check_6_X_XXXX
@@ -5770,6 +6053,8 @@ NtCompressKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCompressKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCompressKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCompressKey_SystemCall_10_0_19043
 	jmp NtCompressKey_SystemCall_Unknown
 NtCompressKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 008eh
@@ -5816,6 +6101,9 @@ NtCompressKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCompressKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 009fh
 	jmp NtCompressKey_Epilogue
+NtCompressKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 009fh
+	jmp NtCompressKey_Epilogue
 NtCompressKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCompressKey_Epilogue:
@@ -5825,7 +6113,7 @@ NtCompressKey_Epilogue:
 NtCompressKey ENDP
 
 NtConnectPort PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtConnectPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtConnectPort_Check_6_X_XXXX
@@ -5869,6 +6157,8 @@ NtConnectPort_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtConnectPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtConnectPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtConnectPort_SystemCall_10_0_19043
 	jmp NtConnectPort_SystemCall_Unknown
 NtConnectPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 008fh
@@ -5915,6 +6205,9 @@ NtConnectPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtConnectPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00a0h
 	jmp NtConnectPort_Epilogue
+NtConnectPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00a0h
+	jmp NtConnectPort_Epilogue
 NtConnectPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtConnectPort_Epilogue:
@@ -5924,7 +6217,7 @@ NtConnectPort_Epilogue:
 NtConnectPort ENDP
 
 NtContinue PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtContinue_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtContinue_Check_6_X_XXXX
@@ -5968,6 +6261,8 @@ NtContinue_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtContinue_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtContinue_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtContinue_SystemCall_10_0_19043
 	jmp NtContinue_SystemCall_Unknown
 NtContinue_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0040h
@@ -6014,6 +6309,9 @@ NtContinue_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtContinue_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0043h
 	jmp NtContinue_Epilogue
+NtContinue_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0043h
+	jmp NtContinue_Epilogue
 NtContinue_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtContinue_Epilogue:
@@ -6023,7 +6321,7 @@ NtContinue_Epilogue:
 NtContinue ENDP
 
 NtCreateDebugObject PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtCreateDebugObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateDebugObject_Check_6_X_XXXX
@@ -6067,6 +6365,8 @@ NtCreateDebugObject_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtCreateDebugObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateDebugObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateDebugObject_SystemCall_10_0_19043
 	jmp NtCreateDebugObject_SystemCall_Unknown
 NtCreateDebugObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0090h
@@ -6113,6 +6413,9 @@ NtCreateDebugObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateDebugObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00a5h
 	jmp NtCreateDebugObject_Epilogue
+NtCreateDebugObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00a5h
+	jmp NtCreateDebugObject_Epilogue
 NtCreateDebugObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateDebugObject_Epilogue:
@@ -6122,7 +6425,7 @@ NtCreateDebugObject_Epilogue:
 NtCreateDebugObject ENDP
 
 NtCreateDirectoryObject PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtCreateDirectoryObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateDirectoryObject_Check_6_X_XXXX
@@ -6166,6 +6469,8 @@ NtCreateDirectoryObject_Check_10_0_XXXX:              ; Check build number for W
 	je  NtCreateDirectoryObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateDirectoryObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateDirectoryObject_SystemCall_10_0_19043
 	jmp NtCreateDirectoryObject_SystemCall_Unknown
 NtCreateDirectoryObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0091h
@@ -6212,6 +6517,9 @@ NtCreateDirectoryObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtCreateDirectoryObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00a6h
 	jmp NtCreateDirectoryObject_Epilogue
+NtCreateDirectoryObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00a6h
+	jmp NtCreateDirectoryObject_Epilogue
 NtCreateDirectoryObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateDirectoryObject_Epilogue:
@@ -6221,7 +6529,7 @@ NtCreateDirectoryObject_Epilogue:
 NtCreateDirectoryObject ENDP
 
 NtCreateEnlistment PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtCreateEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateEnlistment_Check_6_X_XXXX
@@ -6265,6 +6573,8 @@ NtCreateEnlistment_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtCreateEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateEnlistment_SystemCall_10_0_19043
 	jmp NtCreateEnlistment_SystemCall_Unknown
 NtCreateEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0092h
@@ -6311,6 +6621,9 @@ NtCreateEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00a9h
 	jmp NtCreateEnlistment_Epilogue
+NtCreateEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00a9h
+	jmp NtCreateEnlistment_Epilogue
 NtCreateEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateEnlistment_Epilogue:
@@ -6320,7 +6633,7 @@ NtCreateEnlistment_Epilogue:
 NtCreateEnlistment ENDP
 
 NtCreateEvent PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtCreateEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateEvent_Check_6_X_XXXX
@@ -6364,6 +6677,8 @@ NtCreateEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCreateEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateEvent_SystemCall_10_0_19043
 	jmp NtCreateEvent_SystemCall_Unknown
 NtCreateEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0045h
@@ -6410,6 +6725,9 @@ NtCreateEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0048h
 	jmp NtCreateEvent_Epilogue
+NtCreateEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0048h
+	jmp NtCreateEvent_Epilogue
 NtCreateEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateEvent_Epilogue:
@@ -6419,7 +6737,7 @@ NtCreateEvent_Epilogue:
 NtCreateEvent ENDP
 
 NtCreateEventPair PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtCreateEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateEventPair_Check_6_X_XXXX
@@ -6463,6 +6781,8 @@ NtCreateEventPair_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtCreateEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateEventPair_SystemCall_10_0_19043
 	jmp NtCreateEventPair_SystemCall_Unknown
 NtCreateEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0093h
@@ -6509,6 +6829,9 @@ NtCreateEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00aah
 	jmp NtCreateEventPair_Epilogue
+NtCreateEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00aah
+	jmp NtCreateEventPair_Epilogue
 NtCreateEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateEventPair_Epilogue:
@@ -6518,7 +6841,7 @@ NtCreateEventPair_Epilogue:
 NtCreateEventPair ENDP
 
 NtCreateFile PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtCreateFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateFile_Check_6_X_XXXX
@@ -6562,6 +6885,8 @@ NtCreateFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCreateFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateFile_SystemCall_10_0_19043
 	jmp NtCreateFile_SystemCall_Unknown
 NtCreateFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0052h
@@ -6608,6 +6933,9 @@ NtCreateFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0055h
 	jmp NtCreateFile_Epilogue
+NtCreateFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0055h
+	jmp NtCreateFile_Epilogue
 NtCreateFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateFile_Epilogue:
@@ -6617,7 +6945,7 @@ NtCreateFile_Epilogue:
 NtCreateFile ENDP
 
 NtCreateIoCompletion PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtCreateIoCompletion_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateIoCompletion_Check_6_X_XXXX
@@ -6661,6 +6989,8 @@ NtCreateIoCompletion_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtCreateIoCompletion_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateIoCompletion_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateIoCompletion_SystemCall_10_0_19043
 	jmp NtCreateIoCompletion_SystemCall_Unknown
 NtCreateIoCompletion_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0094h
@@ -6707,6 +7037,9 @@ NtCreateIoCompletion_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateIoCompletion_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00ach
 	jmp NtCreateIoCompletion_Epilogue
+NtCreateIoCompletion_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00ach
+	jmp NtCreateIoCompletion_Epilogue
 NtCreateIoCompletion_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateIoCompletion_Epilogue:
@@ -6716,7 +7049,7 @@ NtCreateIoCompletion_Epilogue:
 NtCreateIoCompletion ENDP
 
 NtCreateJobObject PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtCreateJobObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateJobObject_Check_6_X_XXXX
@@ -6760,6 +7093,8 @@ NtCreateJobObject_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtCreateJobObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateJobObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateJobObject_SystemCall_10_0_19043
 	jmp NtCreateJobObject_SystemCall_Unknown
 NtCreateJobObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0095h
@@ -6806,6 +7141,9 @@ NtCreateJobObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateJobObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00adh
 	jmp NtCreateJobObject_Epilogue
+NtCreateJobObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00adh
+	jmp NtCreateJobObject_Epilogue
 NtCreateJobObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateJobObject_Epilogue:
@@ -6815,7 +7153,7 @@ NtCreateJobObject_Epilogue:
 NtCreateJobObject ENDP
 
 NtCreateJobSet PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtCreateJobSet_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateJobSet_Check_6_X_XXXX
@@ -6859,6 +7197,8 @@ NtCreateJobSet_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtCreateJobSet_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateJobSet_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateJobSet_SystemCall_10_0_19043
 	jmp NtCreateJobSet_SystemCall_Unknown
 NtCreateJobSet_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0096h
@@ -6905,6 +7245,9 @@ NtCreateJobSet_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateJobSet_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00aeh
 	jmp NtCreateJobSet_Epilogue
+NtCreateJobSet_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00aeh
+	jmp NtCreateJobSet_Epilogue
 NtCreateJobSet_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateJobSet_Epilogue:
@@ -6914,7 +7257,7 @@ NtCreateJobSet_Epilogue:
 NtCreateJobSet ENDP
 
 NtCreateKey PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtCreateKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateKey_Check_6_X_XXXX
@@ -6958,6 +7301,8 @@ NtCreateKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCreateKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateKey_SystemCall_10_0_19043
 	jmp NtCreateKey_SystemCall_Unknown
 NtCreateKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 001ah
@@ -7004,6 +7349,9 @@ NtCreateKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 001dh
 	jmp NtCreateKey_Epilogue
+NtCreateKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 001dh
+	jmp NtCreateKey_Epilogue
 NtCreateKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateKey_Epilogue:
@@ -7013,7 +7361,7 @@ NtCreateKey_Epilogue:
 NtCreateKey ENDP
 
 NtCreateKeyTransacted PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtCreateKeyTransacted_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateKeyTransacted_Check_6_X_XXXX
@@ -7057,6 +7405,8 @@ NtCreateKeyTransacted_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtCreateKeyTransacted_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateKeyTransacted_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateKeyTransacted_SystemCall_10_0_19043
 	jmp NtCreateKeyTransacted_SystemCall_Unknown
 NtCreateKeyTransacted_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0097h
@@ -7103,6 +7453,9 @@ NtCreateKeyTransacted_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateKeyTransacted_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00afh
 	jmp NtCreateKeyTransacted_Epilogue
+NtCreateKeyTransacted_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00afh
+	jmp NtCreateKeyTransacted_Epilogue
 NtCreateKeyTransacted_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateKeyTransacted_Epilogue:
@@ -7112,7 +7465,7 @@ NtCreateKeyTransacted_Epilogue:
 NtCreateKeyTransacted ENDP
 
 NtCreateKeyedEvent PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtCreateKeyedEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateKeyedEvent_Check_6_X_XXXX
@@ -7156,6 +7509,8 @@ NtCreateKeyedEvent_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtCreateKeyedEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateKeyedEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateKeyedEvent_SystemCall_10_0_19043
 	jmp NtCreateKeyedEvent_SystemCall_Unknown
 NtCreateKeyedEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0098h
@@ -7202,6 +7557,9 @@ NtCreateKeyedEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateKeyedEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b0h
 	jmp NtCreateKeyedEvent_Epilogue
+NtCreateKeyedEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b0h
+	jmp NtCreateKeyedEvent_Epilogue
 NtCreateKeyedEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateKeyedEvent_Epilogue:
@@ -7211,7 +7569,7 @@ NtCreateKeyedEvent_Epilogue:
 NtCreateKeyedEvent ENDP
 
 NtCreateMailslotFile PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtCreateMailslotFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateMailslotFile_Check_6_X_XXXX
@@ -7255,6 +7613,8 @@ NtCreateMailslotFile_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtCreateMailslotFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateMailslotFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateMailslotFile_SystemCall_10_0_19043
 	jmp NtCreateMailslotFile_SystemCall_Unknown
 NtCreateMailslotFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0099h
@@ -7301,6 +7661,9 @@ NtCreateMailslotFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateMailslotFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b2h
 	jmp NtCreateMailslotFile_Epilogue
+NtCreateMailslotFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b2h
+	jmp NtCreateMailslotFile_Epilogue
 NtCreateMailslotFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateMailslotFile_Epilogue:
@@ -7310,7 +7673,7 @@ NtCreateMailslotFile_Epilogue:
 NtCreateMailslotFile ENDP
 
 NtCreateMutant PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtCreateMutant_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateMutant_Check_6_X_XXXX
@@ -7354,6 +7717,8 @@ NtCreateMutant_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtCreateMutant_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateMutant_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateMutant_SystemCall_10_0_19043
 	jmp NtCreateMutant_SystemCall_Unknown
 NtCreateMutant_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 009ah
@@ -7400,6 +7765,9 @@ NtCreateMutant_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateMutant_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b3h
 	jmp NtCreateMutant_Epilogue
+NtCreateMutant_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b3h
+	jmp NtCreateMutant_Epilogue
 NtCreateMutant_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateMutant_Epilogue:
@@ -7409,7 +7777,7 @@ NtCreateMutant_Epilogue:
 NtCreateMutant ENDP
 
 NtCreateNamedPipeFile PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtCreateNamedPipeFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateNamedPipeFile_Check_6_X_XXXX
@@ -7453,6 +7821,8 @@ NtCreateNamedPipeFile_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtCreateNamedPipeFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateNamedPipeFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateNamedPipeFile_SystemCall_10_0_19043
 	jmp NtCreateNamedPipeFile_SystemCall_Unknown
 NtCreateNamedPipeFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 009bh
@@ -7499,6 +7869,9 @@ NtCreateNamedPipeFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateNamedPipeFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b4h
 	jmp NtCreateNamedPipeFile_Epilogue
+NtCreateNamedPipeFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b4h
+	jmp NtCreateNamedPipeFile_Epilogue
 NtCreateNamedPipeFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateNamedPipeFile_Epilogue:
@@ -7508,7 +7881,7 @@ NtCreateNamedPipeFile_Epilogue:
 NtCreateNamedPipeFile ENDP
 
 NtCreatePagingFile PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtCreatePagingFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreatePagingFile_Check_6_X_XXXX
@@ -7552,6 +7925,8 @@ NtCreatePagingFile_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtCreatePagingFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreatePagingFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreatePagingFile_SystemCall_10_0_19043
 	jmp NtCreatePagingFile_SystemCall_Unknown
 NtCreatePagingFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 009ch
@@ -7598,6 +7973,9 @@ NtCreatePagingFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreatePagingFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b5h
 	jmp NtCreatePagingFile_Epilogue
+NtCreatePagingFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b5h
+	jmp NtCreatePagingFile_Epilogue
 NtCreatePagingFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreatePagingFile_Epilogue:
@@ -7607,7 +7985,7 @@ NtCreatePagingFile_Epilogue:
 NtCreatePagingFile ENDP
 
 NtCreatePort PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtCreatePort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreatePort_Check_6_X_XXXX
@@ -7651,6 +8029,8 @@ NtCreatePort_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCreatePort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreatePort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreatePort_SystemCall_10_0_19043
 	jmp NtCreatePort_SystemCall_Unknown
 NtCreatePort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 009dh
@@ -7697,6 +8077,9 @@ NtCreatePort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreatePort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b7h
 	jmp NtCreatePort_Epilogue
+NtCreatePort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b7h
+	jmp NtCreatePort_Epilogue
 NtCreatePort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreatePort_Epilogue:
@@ -7706,7 +8089,7 @@ NtCreatePort_Epilogue:
 NtCreatePort ENDP
 
 NtCreatePrivateNamespace PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtCreatePrivateNamespace_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreatePrivateNamespace_Check_6_X_XXXX
@@ -7750,6 +8133,8 @@ NtCreatePrivateNamespace_Check_10_0_XXXX:              ; Check build number for 
 	je  NtCreatePrivateNamespace_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreatePrivateNamespace_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreatePrivateNamespace_SystemCall_10_0_19043
 	jmp NtCreatePrivateNamespace_SystemCall_Unknown
 NtCreatePrivateNamespace_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 009eh
@@ -7796,6 +8181,9 @@ NtCreatePrivateNamespace_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtCreatePrivateNamespace_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b8h
 	jmp NtCreatePrivateNamespace_Epilogue
+NtCreatePrivateNamespace_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b8h
+	jmp NtCreatePrivateNamespace_Epilogue
 NtCreatePrivateNamespace_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreatePrivateNamespace_Epilogue:
@@ -7805,7 +8193,7 @@ NtCreatePrivateNamespace_Epilogue:
 NtCreatePrivateNamespace ENDP
 
 NtCreateProcess PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtCreateProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateProcess_Check_6_X_XXXX
@@ -7849,6 +8237,8 @@ NtCreateProcess_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtCreateProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateProcess_SystemCall_10_0_19043
 	jmp NtCreateProcess_SystemCall_Unknown
 NtCreateProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 009fh
@@ -7895,6 +8285,9 @@ NtCreateProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00b9h
 	jmp NtCreateProcess_Epilogue
+NtCreateProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00b9h
+	jmp NtCreateProcess_Epilogue
 NtCreateProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateProcess_Epilogue:
@@ -7904,7 +8297,7 @@ NtCreateProcess_Epilogue:
 NtCreateProcess ENDP
 
 NtCreateProcessEx PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtCreateProcessEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateProcessEx_Check_6_X_XXXX
@@ -7948,6 +8341,8 @@ NtCreateProcessEx_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtCreateProcessEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateProcessEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateProcessEx_SystemCall_10_0_19043
 	jmp NtCreateProcessEx_SystemCall_Unknown
 NtCreateProcessEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 004ah
@@ -7994,6 +8389,9 @@ NtCreateProcessEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateProcessEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 004dh
 	jmp NtCreateProcessEx_Epilogue
+NtCreateProcessEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 004dh
+	jmp NtCreateProcessEx_Epilogue
 NtCreateProcessEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateProcessEx_Epilogue:
@@ -8003,7 +8401,7 @@ NtCreateProcessEx_Epilogue:
 NtCreateProcessEx ENDP
 
 NtCreateProfile PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtCreateProfile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateProfile_Check_6_X_XXXX
@@ -8047,6 +8445,8 @@ NtCreateProfile_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtCreateProfile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateProfile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateProfile_SystemCall_10_0_19043
 	jmp NtCreateProfile_SystemCall_Unknown
 NtCreateProfile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a0h
@@ -8093,6 +8493,9 @@ NtCreateProfile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateProfile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00bah
 	jmp NtCreateProfile_Epilogue
+NtCreateProfile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00bah
+	jmp NtCreateProfile_Epilogue
 NtCreateProfile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateProfile_Epilogue:
@@ -8102,7 +8505,7 @@ NtCreateProfile_Epilogue:
 NtCreateProfile ENDP
 
 NtCreateProfileEx PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtCreateProfileEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateProfileEx_Check_6_X_XXXX
@@ -8146,6 +8549,8 @@ NtCreateProfileEx_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtCreateProfileEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateProfileEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateProfileEx_SystemCall_10_0_19043
 	jmp NtCreateProfileEx_SystemCall_Unknown
 NtCreateProfileEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a1h
@@ -8192,6 +8597,9 @@ NtCreateProfileEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateProfileEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00bbh
 	jmp NtCreateProfileEx_Epilogue
+NtCreateProfileEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00bbh
+	jmp NtCreateProfileEx_Epilogue
 NtCreateProfileEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateProfileEx_Epilogue:
@@ -8201,7 +8609,7 @@ NtCreateProfileEx_Epilogue:
 NtCreateProfileEx ENDP
 
 NtCreateResourceManager PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtCreateResourceManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateResourceManager_Check_6_X_XXXX
@@ -8245,6 +8653,8 @@ NtCreateResourceManager_Check_10_0_XXXX:              ; Check build number for W
 	je  NtCreateResourceManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateResourceManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateResourceManager_SystemCall_10_0_19043
 	jmp NtCreateResourceManager_SystemCall_Unknown
 NtCreateResourceManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a2h
@@ -8291,6 +8701,9 @@ NtCreateResourceManager_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtCreateResourceManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00bdh
 	jmp NtCreateResourceManager_Epilogue
+NtCreateResourceManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00bdh
+	jmp NtCreateResourceManager_Epilogue
 NtCreateResourceManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateResourceManager_Epilogue:
@@ -8300,7 +8713,7 @@ NtCreateResourceManager_Epilogue:
 NtCreateResourceManager ENDP
 
 NtCreateSection PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtCreateSection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateSection_Check_6_X_XXXX
@@ -8344,6 +8757,8 @@ NtCreateSection_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtCreateSection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateSection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateSection_SystemCall_10_0_19043
 	jmp NtCreateSection_SystemCall_Unknown
 NtCreateSection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0047h
@@ -8390,6 +8805,9 @@ NtCreateSection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateSection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 004ah
 	jmp NtCreateSection_Epilogue
+NtCreateSection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 004ah
+	jmp NtCreateSection_Epilogue
 NtCreateSection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateSection_Epilogue:
@@ -8399,7 +8817,7 @@ NtCreateSection_Epilogue:
 NtCreateSection ENDP
 
 NtCreateSemaphore PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtCreateSemaphore_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateSemaphore_Check_6_X_XXXX
@@ -8443,6 +8861,8 @@ NtCreateSemaphore_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtCreateSemaphore_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateSemaphore_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateSemaphore_SystemCall_10_0_19043
 	jmp NtCreateSemaphore_SystemCall_Unknown
 NtCreateSemaphore_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a3h
@@ -8489,6 +8909,9 @@ NtCreateSemaphore_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateSemaphore_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00bfh
 	jmp NtCreateSemaphore_Epilogue
+NtCreateSemaphore_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00bfh
+	jmp NtCreateSemaphore_Epilogue
 NtCreateSemaphore_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateSemaphore_Epilogue:
@@ -8498,7 +8921,7 @@ NtCreateSemaphore_Epilogue:
 NtCreateSemaphore ENDP
 
 NtCreateSymbolicLinkObject PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtCreateSymbolicLinkObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateSymbolicLinkObject_Check_6_X_XXXX
@@ -8542,6 +8965,8 @@ NtCreateSymbolicLinkObject_Check_10_0_XXXX:              ; Check build number fo
 	je  NtCreateSymbolicLinkObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateSymbolicLinkObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateSymbolicLinkObject_SystemCall_10_0_19043
 	jmp NtCreateSymbolicLinkObject_SystemCall_Unknown
 NtCreateSymbolicLinkObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a4h
@@ -8588,6 +9013,9 @@ NtCreateSymbolicLinkObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtCreateSymbolicLinkObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00c0h
 	jmp NtCreateSymbolicLinkObject_Epilogue
+NtCreateSymbolicLinkObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00c0h
+	jmp NtCreateSymbolicLinkObject_Epilogue
 NtCreateSymbolicLinkObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateSymbolicLinkObject_Epilogue:
@@ -8597,7 +9025,7 @@ NtCreateSymbolicLinkObject_Epilogue:
 NtCreateSymbolicLinkObject ENDP
 
 NtCreateThread PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtCreateThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateThread_Check_6_X_XXXX
@@ -8641,6 +9069,8 @@ NtCreateThread_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtCreateThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateThread_SystemCall_10_0_19043
 	jmp NtCreateThread_SystemCall_Unknown
 NtCreateThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 004bh
@@ -8687,6 +9117,9 @@ NtCreateThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 004eh
 	jmp NtCreateThread_Epilogue
+NtCreateThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 004eh
+	jmp NtCreateThread_Epilogue
 NtCreateThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateThread_Epilogue:
@@ -8696,7 +9129,7 @@ NtCreateThread_Epilogue:
 NtCreateThread ENDP
 
 NtCreateThreadEx PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtCreateThreadEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateThreadEx_Check_6_X_XXXX
@@ -8740,6 +9173,8 @@ NtCreateThreadEx_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtCreateThreadEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateThreadEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateThreadEx_SystemCall_10_0_19043
 	jmp NtCreateThreadEx_SystemCall_Unknown
 NtCreateThreadEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a5h
@@ -8786,6 +9221,9 @@ NtCreateThreadEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateThreadEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00c1h
 	jmp NtCreateThreadEx_Epilogue
+NtCreateThreadEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00c1h
+	jmp NtCreateThreadEx_Epilogue
 NtCreateThreadEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateThreadEx_Epilogue:
@@ -8795,7 +9233,7 @@ NtCreateThreadEx_Epilogue:
 NtCreateThreadEx ENDP
 
 NtCreateTimer PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtCreateTimer_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateTimer_Check_6_X_XXXX
@@ -8839,6 +9277,8 @@ NtCreateTimer_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCreateTimer_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateTimer_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateTimer_SystemCall_10_0_19043
 	jmp NtCreateTimer_SystemCall_Unknown
 NtCreateTimer_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a6h
@@ -8885,6 +9325,9 @@ NtCreateTimer_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateTimer_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00c2h
 	jmp NtCreateTimer_Epilogue
+NtCreateTimer_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00c2h
+	jmp NtCreateTimer_Epilogue
 NtCreateTimer_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateTimer_Epilogue:
@@ -8894,7 +9337,7 @@ NtCreateTimer_Epilogue:
 NtCreateTimer ENDP
 
 NtCreateToken PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtCreateToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateToken_Check_6_X_XXXX
@@ -8938,6 +9381,8 @@ NtCreateToken_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtCreateToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateToken_SystemCall_10_0_19043
 	jmp NtCreateToken_SystemCall_Unknown
 NtCreateToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a7h
@@ -8984,6 +9429,9 @@ NtCreateToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00c4h
 	jmp NtCreateToken_Epilogue
+NtCreateToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00c4h
+	jmp NtCreateToken_Epilogue
 NtCreateToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateToken_Epilogue:
@@ -8993,7 +9441,7 @@ NtCreateToken_Epilogue:
 NtCreateToken ENDP
 
 NtCreateTransaction PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtCreateTransaction_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateTransaction_Check_6_X_XXXX
@@ -9037,6 +9485,8 @@ NtCreateTransaction_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtCreateTransaction_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateTransaction_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateTransaction_SystemCall_10_0_19043
 	jmp NtCreateTransaction_SystemCall_Unknown
 NtCreateTransaction_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a8h
@@ -9083,6 +9533,9 @@ NtCreateTransaction_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateTransaction_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00c6h
 	jmp NtCreateTransaction_Epilogue
+NtCreateTransaction_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00c6h
+	jmp NtCreateTransaction_Epilogue
 NtCreateTransaction_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateTransaction_Epilogue:
@@ -9092,7 +9545,7 @@ NtCreateTransaction_Epilogue:
 NtCreateTransaction ENDP
 
 NtCreateTransactionManager PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtCreateTransactionManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateTransactionManager_Check_6_X_XXXX
@@ -9136,6 +9589,8 @@ NtCreateTransactionManager_Check_10_0_XXXX:              ; Check build number fo
 	je  NtCreateTransactionManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateTransactionManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateTransactionManager_SystemCall_10_0_19043
 	jmp NtCreateTransactionManager_SystemCall_Unknown
 NtCreateTransactionManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00a9h
@@ -9182,6 +9637,9 @@ NtCreateTransactionManager_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtCreateTransactionManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00c7h
 	jmp NtCreateTransactionManager_Epilogue
+NtCreateTransactionManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00c7h
+	jmp NtCreateTransactionManager_Epilogue
 NtCreateTransactionManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateTransactionManager_Epilogue:
@@ -9191,7 +9649,7 @@ NtCreateTransactionManager_Epilogue:
 NtCreateTransactionManager ENDP
 
 NtCreateUserProcess PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtCreateUserProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateUserProcess_Check_6_X_XXXX
@@ -9235,6 +9693,8 @@ NtCreateUserProcess_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtCreateUserProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateUserProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateUserProcess_SystemCall_10_0_19043
 	jmp NtCreateUserProcess_SystemCall_Unknown
 NtCreateUserProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00aah
@@ -9281,6 +9741,9 @@ NtCreateUserProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateUserProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00c8h
 	jmp NtCreateUserProcess_Epilogue
+NtCreateUserProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00c8h
+	jmp NtCreateUserProcess_Epilogue
 NtCreateUserProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateUserProcess_Epilogue:
@@ -9290,7 +9753,7 @@ NtCreateUserProcess_Epilogue:
 NtCreateUserProcess ENDP
 
 NtCreateWaitablePort PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtCreateWaitablePort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateWaitablePort_Check_6_X_XXXX
@@ -9334,6 +9797,8 @@ NtCreateWaitablePort_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtCreateWaitablePort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateWaitablePort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateWaitablePort_SystemCall_10_0_19043
 	jmp NtCreateWaitablePort_SystemCall_Unknown
 NtCreateWaitablePort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00abh
@@ -9380,6 +9845,9 @@ NtCreateWaitablePort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateWaitablePort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00cah
 	jmp NtCreateWaitablePort_Epilogue
+NtCreateWaitablePort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00cah
+	jmp NtCreateWaitablePort_Epilogue
 NtCreateWaitablePort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateWaitablePort_Epilogue:
@@ -9389,7 +9857,7 @@ NtCreateWaitablePort_Epilogue:
 NtCreateWaitablePort ENDP
 
 NtCreateWorkerFactory PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtCreateWorkerFactory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtCreateWorkerFactory_Check_6_X_XXXX
@@ -9433,6 +9901,8 @@ NtCreateWorkerFactory_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtCreateWorkerFactory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtCreateWorkerFactory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtCreateWorkerFactory_SystemCall_10_0_19043
 	jmp NtCreateWorkerFactory_SystemCall_Unknown
 NtCreateWorkerFactory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00ach
@@ -9479,6 +9949,9 @@ NtCreateWorkerFactory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtCreateWorkerFactory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00cch
 	jmp NtCreateWorkerFactory_Epilogue
+NtCreateWorkerFactory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00cch
+	jmp NtCreateWorkerFactory_Epilogue
 NtCreateWorkerFactory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtCreateWorkerFactory_Epilogue:
@@ -9488,7 +9961,7 @@ NtCreateWorkerFactory_Epilogue:
 NtCreateWorkerFactory ENDP
 
 NtDebugActiveProcess PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtDebugActiveProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDebugActiveProcess_Check_6_X_XXXX
@@ -9532,6 +10005,8 @@ NtDebugActiveProcess_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtDebugActiveProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDebugActiveProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDebugActiveProcess_SystemCall_10_0_19043
 	jmp NtDebugActiveProcess_SystemCall_Unknown
 NtDebugActiveProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00adh
@@ -9578,6 +10053,9 @@ NtDebugActiveProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDebugActiveProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00cdh
 	jmp NtDebugActiveProcess_Epilogue
+NtDebugActiveProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00cdh
+	jmp NtDebugActiveProcess_Epilogue
 NtDebugActiveProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDebugActiveProcess_Epilogue:
@@ -9587,7 +10065,7 @@ NtDebugActiveProcess_Epilogue:
 NtDebugActiveProcess ENDP
 
 NtDebugContinue PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtDebugContinue_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDebugContinue_Check_6_X_XXXX
@@ -9631,6 +10109,8 @@ NtDebugContinue_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtDebugContinue_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDebugContinue_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDebugContinue_SystemCall_10_0_19043
 	jmp NtDebugContinue_SystemCall_Unknown
 NtDebugContinue_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00aeh
@@ -9677,6 +10157,9 @@ NtDebugContinue_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDebugContinue_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00ceh
 	jmp NtDebugContinue_Epilogue
+NtDebugContinue_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00ceh
+	jmp NtDebugContinue_Epilogue
 NtDebugContinue_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDebugContinue_Epilogue:
@@ -9686,7 +10169,7 @@ NtDebugContinue_Epilogue:
 NtDebugContinue ENDP
 
 NtDelayExecution PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtDelayExecution_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDelayExecution_Check_6_X_XXXX
@@ -9730,6 +10213,8 @@ NtDelayExecution_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtDelayExecution_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDelayExecution_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDelayExecution_SystemCall_10_0_19043
 	jmp NtDelayExecution_SystemCall_Unknown
 NtDelayExecution_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0031h
@@ -9776,6 +10261,9 @@ NtDelayExecution_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDelayExecution_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0034h
 	jmp NtDelayExecution_Epilogue
+NtDelayExecution_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0034h
+	jmp NtDelayExecution_Epilogue
 NtDelayExecution_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDelayExecution_Epilogue:
@@ -9785,7 +10273,7 @@ NtDelayExecution_Epilogue:
 NtDelayExecution ENDP
 
 NtDeleteAtom PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtDeleteAtom_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeleteAtom_Check_6_X_XXXX
@@ -9829,6 +10317,8 @@ NtDeleteAtom_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtDeleteAtom_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeleteAtom_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeleteAtom_SystemCall_10_0_19043
 	jmp NtDeleteAtom_SystemCall_Unknown
 NtDeleteAtom_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00afh
@@ -9875,6 +10365,9 @@ NtDeleteAtom_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDeleteAtom_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00cfh
 	jmp NtDeleteAtom_Epilogue
+NtDeleteAtom_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00cfh
+	jmp NtDeleteAtom_Epilogue
 NtDeleteAtom_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeleteAtom_Epilogue:
@@ -9884,7 +10377,7 @@ NtDeleteAtom_Epilogue:
 NtDeleteAtom ENDP
 
 NtDeleteBootEntry PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtDeleteBootEntry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeleteBootEntry_Check_6_X_XXXX
@@ -9928,6 +10421,8 @@ NtDeleteBootEntry_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtDeleteBootEntry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeleteBootEntry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeleteBootEntry_SystemCall_10_0_19043
 	jmp NtDeleteBootEntry_SystemCall_Unknown
 NtDeleteBootEntry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b0h
@@ -9974,6 +10469,9 @@ NtDeleteBootEntry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDeleteBootEntry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00d0h
 	jmp NtDeleteBootEntry_Epilogue
+NtDeleteBootEntry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00d0h
+	jmp NtDeleteBootEntry_Epilogue
 NtDeleteBootEntry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeleteBootEntry_Epilogue:
@@ -9983,7 +10481,7 @@ NtDeleteBootEntry_Epilogue:
 NtDeleteBootEntry ENDP
 
 NtDeleteDriverEntry PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtDeleteDriverEntry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeleteDriverEntry_Check_6_X_XXXX
@@ -10027,6 +10525,8 @@ NtDeleteDriverEntry_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtDeleteDriverEntry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeleteDriverEntry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeleteDriverEntry_SystemCall_10_0_19043
 	jmp NtDeleteDriverEntry_SystemCall_Unknown
 NtDeleteDriverEntry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b1h
@@ -10073,6 +10573,9 @@ NtDeleteDriverEntry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDeleteDriverEntry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00d1h
 	jmp NtDeleteDriverEntry_Epilogue
+NtDeleteDriverEntry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00d1h
+	jmp NtDeleteDriverEntry_Epilogue
 NtDeleteDriverEntry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeleteDriverEntry_Epilogue:
@@ -10082,7 +10585,7 @@ NtDeleteDriverEntry_Epilogue:
 NtDeleteDriverEntry ENDP
 
 NtDeleteFile PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtDeleteFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeleteFile_Check_6_X_XXXX
@@ -10126,6 +10629,8 @@ NtDeleteFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtDeleteFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeleteFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeleteFile_SystemCall_10_0_19043
 	jmp NtDeleteFile_SystemCall_Unknown
 NtDeleteFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b2h
@@ -10172,6 +10677,9 @@ NtDeleteFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDeleteFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00d2h
 	jmp NtDeleteFile_Epilogue
+NtDeleteFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00d2h
+	jmp NtDeleteFile_Epilogue
 NtDeleteFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeleteFile_Epilogue:
@@ -10181,7 +10689,7 @@ NtDeleteFile_Epilogue:
 NtDeleteFile ENDP
 
 NtDeleteKey PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtDeleteKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeleteKey_Check_6_X_XXXX
@@ -10225,6 +10733,8 @@ NtDeleteKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtDeleteKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeleteKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeleteKey_SystemCall_10_0_19043
 	jmp NtDeleteKey_SystemCall_Unknown
 NtDeleteKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b3h
@@ -10271,6 +10781,9 @@ NtDeleteKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDeleteKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00d3h
 	jmp NtDeleteKey_Epilogue
+NtDeleteKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00d3h
+	jmp NtDeleteKey_Epilogue
 NtDeleteKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeleteKey_Epilogue:
@@ -10280,7 +10793,7 @@ NtDeleteKey_Epilogue:
 NtDeleteKey ENDP
 
 NtDeleteObjectAuditAlarm PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtDeleteObjectAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeleteObjectAuditAlarm_Check_6_X_XXXX
@@ -10324,6 +10837,8 @@ NtDeleteObjectAuditAlarm_Check_10_0_XXXX:              ; Check build number for 
 	je  NtDeleteObjectAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeleteObjectAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeleteObjectAuditAlarm_SystemCall_10_0_19043
 	jmp NtDeleteObjectAuditAlarm_SystemCall_Unknown
 NtDeleteObjectAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b4h
@@ -10370,6 +10885,9 @@ NtDeleteObjectAuditAlarm_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtDeleteObjectAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00d4h
 	jmp NtDeleteObjectAuditAlarm_Epilogue
+NtDeleteObjectAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00d4h
+	jmp NtDeleteObjectAuditAlarm_Epilogue
 NtDeleteObjectAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeleteObjectAuditAlarm_Epilogue:
@@ -10379,7 +10897,7 @@ NtDeleteObjectAuditAlarm_Epilogue:
 NtDeleteObjectAuditAlarm ENDP
 
 NtDeletePrivateNamespace PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtDeletePrivateNamespace_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeletePrivateNamespace_Check_6_X_XXXX
@@ -10423,6 +10941,8 @@ NtDeletePrivateNamespace_Check_10_0_XXXX:              ; Check build number for 
 	je  NtDeletePrivateNamespace_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeletePrivateNamespace_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeletePrivateNamespace_SystemCall_10_0_19043
 	jmp NtDeletePrivateNamespace_SystemCall_Unknown
 NtDeletePrivateNamespace_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b5h
@@ -10469,6 +10989,9 @@ NtDeletePrivateNamespace_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtDeletePrivateNamespace_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00d5h
 	jmp NtDeletePrivateNamespace_Epilogue
+NtDeletePrivateNamespace_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00d5h
+	jmp NtDeletePrivateNamespace_Epilogue
 NtDeletePrivateNamespace_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeletePrivateNamespace_Epilogue:
@@ -10478,7 +11001,7 @@ NtDeletePrivateNamespace_Epilogue:
 NtDeletePrivateNamespace ENDP
 
 NtDeleteValueKey PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtDeleteValueKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeleteValueKey_Check_6_X_XXXX
@@ -10522,6 +11045,8 @@ NtDeleteValueKey_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtDeleteValueKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeleteValueKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeleteValueKey_SystemCall_10_0_19043
 	jmp NtDeleteValueKey_SystemCall_Unknown
 NtDeleteValueKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b6h
@@ -10568,6 +11093,9 @@ NtDeleteValueKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDeleteValueKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00d6h
 	jmp NtDeleteValueKey_Epilogue
+NtDeleteValueKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00d6h
+	jmp NtDeleteValueKey_Epilogue
 NtDeleteValueKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeleteValueKey_Epilogue:
@@ -10577,7 +11105,7 @@ NtDeleteValueKey_Epilogue:
 NtDeleteValueKey ENDP
 
 NtDeviceIoControlFile PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtDeviceIoControlFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDeviceIoControlFile_Check_6_X_XXXX
@@ -10621,6 +11149,8 @@ NtDeviceIoControlFile_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtDeviceIoControlFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDeviceIoControlFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDeviceIoControlFile_SystemCall_10_0_19043
 	jmp NtDeviceIoControlFile_SystemCall_Unknown
 NtDeviceIoControlFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0004h
@@ -10667,6 +11197,9 @@ NtDeviceIoControlFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDeviceIoControlFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0007h
 	jmp NtDeviceIoControlFile_Epilogue
+NtDeviceIoControlFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0007h
+	jmp NtDeviceIoControlFile_Epilogue
 NtDeviceIoControlFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDeviceIoControlFile_Epilogue:
@@ -10676,7 +11209,7 @@ NtDeviceIoControlFile_Epilogue:
 NtDeviceIoControlFile ENDP
 
 NtDisableLastKnownGood PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtDisableLastKnownGood_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDisableLastKnownGood_Check_6_X_XXXX
@@ -10720,6 +11253,8 @@ NtDisableLastKnownGood_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtDisableLastKnownGood_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDisableLastKnownGood_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDisableLastKnownGood_SystemCall_10_0_19043
 	jmp NtDisableLastKnownGood_SystemCall_Unknown
 NtDisableLastKnownGood_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b7h
@@ -10766,6 +11301,9 @@ NtDisableLastKnownGood_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDisableLastKnownGood_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00dah
 	jmp NtDisableLastKnownGood_Epilogue
+NtDisableLastKnownGood_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00dah
+	jmp NtDisableLastKnownGood_Epilogue
 NtDisableLastKnownGood_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDisableLastKnownGood_Epilogue:
@@ -10775,7 +11313,7 @@ NtDisableLastKnownGood_Epilogue:
 NtDisableLastKnownGood ENDP
 
 NtDisplayString PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtDisplayString_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDisplayString_Check_6_X_XXXX
@@ -10819,6 +11357,8 @@ NtDisplayString_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtDisplayString_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDisplayString_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDisplayString_SystemCall_10_0_19043
 	jmp NtDisplayString_SystemCall_Unknown
 NtDisplayString_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b8h
@@ -10865,6 +11405,9 @@ NtDisplayString_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDisplayString_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00dbh
 	jmp NtDisplayString_Epilogue
+NtDisplayString_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00dbh
+	jmp NtDisplayString_Epilogue
 NtDisplayString_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDisplayString_Epilogue:
@@ -10874,7 +11417,7 @@ NtDisplayString_Epilogue:
 NtDisplayString ENDP
 
 NtDrawText PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtDrawText_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDrawText_Check_6_X_XXXX
@@ -10918,6 +11461,8 @@ NtDrawText_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtDrawText_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDrawText_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDrawText_SystemCall_10_0_19043
 	jmp NtDrawText_SystemCall_Unknown
 NtDrawText_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00b9h
@@ -10964,6 +11509,9 @@ NtDrawText_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDrawText_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00dch
 	jmp NtDrawText_Epilogue
+NtDrawText_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00dch
+	jmp NtDrawText_Epilogue
 NtDrawText_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDrawText_Epilogue:
@@ -10973,7 +11521,7 @@ NtDrawText_Epilogue:
 NtDrawText ENDP
 
 NtDuplicateObject PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtDuplicateObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDuplicateObject_Check_6_X_XXXX
@@ -11017,6 +11565,8 @@ NtDuplicateObject_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtDuplicateObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDuplicateObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDuplicateObject_SystemCall_10_0_19043
 	jmp NtDuplicateObject_SystemCall_Unknown
 NtDuplicateObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0039h
@@ -11063,6 +11613,9 @@ NtDuplicateObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDuplicateObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 003ch
 	jmp NtDuplicateObject_Epilogue
+NtDuplicateObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 003ch
+	jmp NtDuplicateObject_Epilogue
 NtDuplicateObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDuplicateObject_Epilogue:
@@ -11072,7 +11625,7 @@ NtDuplicateObject_Epilogue:
 NtDuplicateObject ENDP
 
 NtDuplicateToken PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtDuplicateToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtDuplicateToken_Check_6_X_XXXX
@@ -11116,6 +11669,8 @@ NtDuplicateToken_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtDuplicateToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtDuplicateToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtDuplicateToken_SystemCall_10_0_19043
 	jmp NtDuplicateToken_SystemCall_Unknown
 NtDuplicateToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 003fh
@@ -11162,6 +11717,9 @@ NtDuplicateToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtDuplicateToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0042h
 	jmp NtDuplicateToken_Epilogue
+NtDuplicateToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0042h
+	jmp NtDuplicateToken_Epilogue
 NtDuplicateToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtDuplicateToken_Epilogue:
@@ -11171,7 +11729,7 @@ NtDuplicateToken_Epilogue:
 NtDuplicateToken ENDP
 
 NtEnableLastKnownGood PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtEnableLastKnownGood_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtEnableLastKnownGood_Check_6_X_XXXX
@@ -11215,6 +11773,8 @@ NtEnableLastKnownGood_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtEnableLastKnownGood_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtEnableLastKnownGood_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtEnableLastKnownGood_SystemCall_10_0_19043
 	jmp NtEnableLastKnownGood_SystemCall_Unknown
 NtEnableLastKnownGood_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00bah
@@ -11261,6 +11821,9 @@ NtEnableLastKnownGood_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtEnableLastKnownGood_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00ddh
 	jmp NtEnableLastKnownGood_Epilogue
+NtEnableLastKnownGood_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00ddh
+	jmp NtEnableLastKnownGood_Epilogue
 NtEnableLastKnownGood_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtEnableLastKnownGood_Epilogue:
@@ -11270,7 +11833,7 @@ NtEnableLastKnownGood_Epilogue:
 NtEnableLastKnownGood ENDP
 
 NtEnumerateBootEntries PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtEnumerateBootEntries_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtEnumerateBootEntries_Check_6_X_XXXX
@@ -11314,6 +11877,8 @@ NtEnumerateBootEntries_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtEnumerateBootEntries_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtEnumerateBootEntries_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtEnumerateBootEntries_SystemCall_10_0_19043
 	jmp NtEnumerateBootEntries_SystemCall_Unknown
 NtEnumerateBootEntries_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00bbh
@@ -11360,6 +11925,9 @@ NtEnumerateBootEntries_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtEnumerateBootEntries_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00deh
 	jmp NtEnumerateBootEntries_Epilogue
+NtEnumerateBootEntries_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00deh
+	jmp NtEnumerateBootEntries_Epilogue
 NtEnumerateBootEntries_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtEnumerateBootEntries_Epilogue:
@@ -11369,7 +11937,7 @@ NtEnumerateBootEntries_Epilogue:
 NtEnumerateBootEntries ENDP
 
 NtEnumerateDriverEntries PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtEnumerateDriverEntries_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtEnumerateDriverEntries_Check_6_X_XXXX
@@ -11413,6 +11981,8 @@ NtEnumerateDriverEntries_Check_10_0_XXXX:              ; Check build number for 
 	je  NtEnumerateDriverEntries_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtEnumerateDriverEntries_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtEnumerateDriverEntries_SystemCall_10_0_19043
 	jmp NtEnumerateDriverEntries_SystemCall_Unknown
 NtEnumerateDriverEntries_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00bch
@@ -11459,6 +12029,9 @@ NtEnumerateDriverEntries_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtEnumerateDriverEntries_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00dfh
 	jmp NtEnumerateDriverEntries_Epilogue
+NtEnumerateDriverEntries_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00dfh
+	jmp NtEnumerateDriverEntries_Epilogue
 NtEnumerateDriverEntries_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtEnumerateDriverEntries_Epilogue:
@@ -11468,7 +12041,7 @@ NtEnumerateDriverEntries_Epilogue:
 NtEnumerateDriverEntries ENDP
 
 NtEnumerateKey PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtEnumerateKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtEnumerateKey_Check_6_X_XXXX
@@ -11512,6 +12085,8 @@ NtEnumerateKey_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtEnumerateKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtEnumerateKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtEnumerateKey_SystemCall_10_0_19043
 	jmp NtEnumerateKey_SystemCall_Unknown
 NtEnumerateKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 002fh
@@ -11558,6 +12133,9 @@ NtEnumerateKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtEnumerateKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0032h
 	jmp NtEnumerateKey_Epilogue
+NtEnumerateKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0032h
+	jmp NtEnumerateKey_Epilogue
 NtEnumerateKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtEnumerateKey_Epilogue:
@@ -11567,7 +12145,7 @@ NtEnumerateKey_Epilogue:
 NtEnumerateKey ENDP
 
 NtEnumerateSystemEnvironmentValuesEx PROC
-	mov rax, gs:[60h]                                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                                          ; Load PEB into RAX.
 NtEnumerateSystemEnvironmentValuesEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtEnumerateSystemEnvironmentValuesEx_Check_6_X_XXXX
@@ -11611,6 +12189,8 @@ NtEnumerateSystemEnvironmentValuesEx_Check_10_0_XXXX:              ; Check build
 	je  NtEnumerateSystemEnvironmentValuesEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtEnumerateSystemEnvironmentValuesEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtEnumerateSystemEnvironmentValuesEx_SystemCall_10_0_19043
 	jmp NtEnumerateSystemEnvironmentValuesEx_SystemCall_Unknown
 NtEnumerateSystemEnvironmentValuesEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00bdh
@@ -11657,6 +12237,9 @@ NtEnumerateSystemEnvironmentValuesEx_SystemCall_10_0_19041:        ; Windows 10.
 NtEnumerateSystemEnvironmentValuesEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00e0h
 	jmp NtEnumerateSystemEnvironmentValuesEx_Epilogue
+NtEnumerateSystemEnvironmentValuesEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00e0h
+	jmp NtEnumerateSystemEnvironmentValuesEx_Epilogue
 NtEnumerateSystemEnvironmentValuesEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtEnumerateSystemEnvironmentValuesEx_Epilogue:
@@ -11666,7 +12249,7 @@ NtEnumerateSystemEnvironmentValuesEx_Epilogue:
 NtEnumerateSystemEnvironmentValuesEx ENDP
 
 NtEnumerateTransactionObject PROC
-	mov rax, gs:[60h]                                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                                  ; Load PEB into RAX.
 NtEnumerateTransactionObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtEnumerateTransactionObject_Check_6_X_XXXX
@@ -11710,6 +12293,8 @@ NtEnumerateTransactionObject_Check_10_0_XXXX:              ; Check build number 
 	je  NtEnumerateTransactionObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtEnumerateTransactionObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtEnumerateTransactionObject_SystemCall_10_0_19043
 	jmp NtEnumerateTransactionObject_SystemCall_Unknown
 NtEnumerateTransactionObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00beh
@@ -11756,6 +12341,9 @@ NtEnumerateTransactionObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 
 NtEnumerateTransactionObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00e1h
 	jmp NtEnumerateTransactionObject_Epilogue
+NtEnumerateTransactionObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00e1h
+	jmp NtEnumerateTransactionObject_Epilogue
 NtEnumerateTransactionObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtEnumerateTransactionObject_Epilogue:
@@ -11765,7 +12353,7 @@ NtEnumerateTransactionObject_Epilogue:
 NtEnumerateTransactionObject ENDP
 
 NtEnumerateValueKey PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtEnumerateValueKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtEnumerateValueKey_Check_6_X_XXXX
@@ -11809,6 +12397,8 @@ NtEnumerateValueKey_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtEnumerateValueKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtEnumerateValueKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtEnumerateValueKey_SystemCall_10_0_19043
 	jmp NtEnumerateValueKey_SystemCall_Unknown
 NtEnumerateValueKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0010h
@@ -11855,6 +12445,9 @@ NtEnumerateValueKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtEnumerateValueKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0013h
 	jmp NtEnumerateValueKey_Epilogue
+NtEnumerateValueKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0013h
+	jmp NtEnumerateValueKey_Epilogue
 NtEnumerateValueKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtEnumerateValueKey_Epilogue:
@@ -11864,7 +12457,7 @@ NtEnumerateValueKey_Epilogue:
 NtEnumerateValueKey ENDP
 
 NtExtendSection PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtExtendSection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtExtendSection_Check_6_X_XXXX
@@ -11908,6 +12501,8 @@ NtExtendSection_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtExtendSection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtExtendSection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtExtendSection_SystemCall_10_0_19043
 	jmp NtExtendSection_SystemCall_Unknown
 NtExtendSection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00bfh
@@ -11954,6 +12549,9 @@ NtExtendSection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtExtendSection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00e2h
 	jmp NtExtendSection_Epilogue
+NtExtendSection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00e2h
+	jmp NtExtendSection_Epilogue
 NtExtendSection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtExtendSection_Epilogue:
@@ -11963,7 +12561,7 @@ NtExtendSection_Epilogue:
 NtExtendSection ENDP
 
 NtFilterToken PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtFilterToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFilterToken_Check_6_X_XXXX
@@ -12007,6 +12605,8 @@ NtFilterToken_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtFilterToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFilterToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFilterToken_SystemCall_10_0_19043
 	jmp NtFilterToken_SystemCall_Unknown
 NtFilterToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c0h
@@ -12053,6 +12653,9 @@ NtFilterToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFilterToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00e4h
 	jmp NtFilterToken_Epilogue
+NtFilterToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00e4h
+	jmp NtFilterToken_Epilogue
 NtFilterToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFilterToken_Epilogue:
@@ -12062,7 +12665,7 @@ NtFilterToken_Epilogue:
 NtFilterToken ENDP
 
 NtFindAtom PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtFindAtom_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFindAtom_Check_6_X_XXXX
@@ -12106,6 +12709,8 @@ NtFindAtom_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtFindAtom_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFindAtom_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFindAtom_SystemCall_10_0_19043
 	jmp NtFindAtom_SystemCall_Unknown
 NtFindAtom_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0011h
@@ -12152,6 +12757,9 @@ NtFindAtom_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFindAtom_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0014h
 	jmp NtFindAtom_Epilogue
+NtFindAtom_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0014h
+	jmp NtFindAtom_Epilogue
 NtFindAtom_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFindAtom_Epilogue:
@@ -12161,7 +12769,7 @@ NtFindAtom_Epilogue:
 NtFindAtom ENDP
 
 NtFlushBuffersFile PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtFlushBuffersFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFlushBuffersFile_Check_6_X_XXXX
@@ -12205,6 +12813,8 @@ NtFlushBuffersFile_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtFlushBuffersFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFlushBuffersFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFlushBuffersFile_SystemCall_10_0_19043
 	jmp NtFlushBuffersFile_SystemCall_Unknown
 NtFlushBuffersFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0048h
@@ -12251,6 +12861,9 @@ NtFlushBuffersFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFlushBuffersFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 004bh
 	jmp NtFlushBuffersFile_Epilogue
+NtFlushBuffersFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 004bh
+	jmp NtFlushBuffersFile_Epilogue
 NtFlushBuffersFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFlushBuffersFile_Epilogue:
@@ -12260,7 +12873,7 @@ NtFlushBuffersFile_Epilogue:
 NtFlushBuffersFile ENDP
 
 NtFlushInstallUILanguage PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtFlushInstallUILanguage_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFlushInstallUILanguage_Check_6_X_XXXX
@@ -12304,6 +12917,8 @@ NtFlushInstallUILanguage_Check_10_0_XXXX:              ; Check build number for 
 	je  NtFlushInstallUILanguage_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFlushInstallUILanguage_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFlushInstallUILanguage_SystemCall_10_0_19043
 	jmp NtFlushInstallUILanguage_SystemCall_Unknown
 NtFlushInstallUILanguage_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c1h
@@ -12350,6 +12965,9 @@ NtFlushInstallUILanguage_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtFlushInstallUILanguage_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00e7h
 	jmp NtFlushInstallUILanguage_Epilogue
+NtFlushInstallUILanguage_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00e7h
+	jmp NtFlushInstallUILanguage_Epilogue
 NtFlushInstallUILanguage_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFlushInstallUILanguage_Epilogue:
@@ -12359,7 +12977,7 @@ NtFlushInstallUILanguage_Epilogue:
 NtFlushInstallUILanguage ENDP
 
 NtFlushInstructionCache PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtFlushInstructionCache_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFlushInstructionCache_Check_6_X_XXXX
@@ -12403,6 +13021,8 @@ NtFlushInstructionCache_Check_10_0_XXXX:              ; Check build number for W
 	je  NtFlushInstructionCache_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFlushInstructionCache_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFlushInstructionCache_SystemCall_10_0_19043
 	jmp NtFlushInstructionCache_SystemCall_Unknown
 NtFlushInstructionCache_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c2h
@@ -12449,6 +13069,9 @@ NtFlushInstructionCache_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtFlushInstructionCache_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00e8h
 	jmp NtFlushInstructionCache_Epilogue
+NtFlushInstructionCache_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00e8h
+	jmp NtFlushInstructionCache_Epilogue
 NtFlushInstructionCache_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFlushInstructionCache_Epilogue:
@@ -12458,7 +13081,7 @@ NtFlushInstructionCache_Epilogue:
 NtFlushInstructionCache ENDP
 
 NtFlushKey PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtFlushKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFlushKey_Check_6_X_XXXX
@@ -12502,6 +13125,8 @@ NtFlushKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtFlushKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFlushKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFlushKey_SystemCall_10_0_19043
 	jmp NtFlushKey_SystemCall_Unknown
 NtFlushKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c3h
@@ -12548,6 +13173,9 @@ NtFlushKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFlushKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00e9h
 	jmp NtFlushKey_Epilogue
+NtFlushKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00e9h
+	jmp NtFlushKey_Epilogue
 NtFlushKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFlushKey_Epilogue:
@@ -12557,7 +13185,7 @@ NtFlushKey_Epilogue:
 NtFlushKey ENDP
 
 NtFlushProcessWriteBuffers PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtFlushProcessWriteBuffers_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFlushProcessWriteBuffers_Check_6_X_XXXX
@@ -12601,6 +13229,8 @@ NtFlushProcessWriteBuffers_Check_10_0_XXXX:              ; Check build number fo
 	je  NtFlushProcessWriteBuffers_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFlushProcessWriteBuffers_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFlushProcessWriteBuffers_SystemCall_10_0_19043
 	jmp NtFlushProcessWriteBuffers_SystemCall_Unknown
 NtFlushProcessWriteBuffers_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c4h
@@ -12647,6 +13277,9 @@ NtFlushProcessWriteBuffers_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtFlushProcessWriteBuffers_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00eah
 	jmp NtFlushProcessWriteBuffers_Epilogue
+NtFlushProcessWriteBuffers_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00eah
+	jmp NtFlushProcessWriteBuffers_Epilogue
 NtFlushProcessWriteBuffers_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFlushProcessWriteBuffers_Epilogue:
@@ -12656,7 +13289,7 @@ NtFlushProcessWriteBuffers_Epilogue:
 NtFlushProcessWriteBuffers ENDP
 
 NtFlushVirtualMemory PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtFlushVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFlushVirtualMemory_Check_6_X_XXXX
@@ -12700,6 +13333,8 @@ NtFlushVirtualMemory_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtFlushVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFlushVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFlushVirtualMemory_SystemCall_10_0_19043
 	jmp NtFlushVirtualMemory_SystemCall_Unknown
 NtFlushVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c5h
@@ -12746,6 +13381,9 @@ NtFlushVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFlushVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00ebh
 	jmp NtFlushVirtualMemory_Epilogue
+NtFlushVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00ebh
+	jmp NtFlushVirtualMemory_Epilogue
 NtFlushVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFlushVirtualMemory_Epilogue:
@@ -12755,7 +13393,7 @@ NtFlushVirtualMemory_Epilogue:
 NtFlushVirtualMemory ENDP
 
 NtFlushWriteBuffer PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtFlushWriteBuffer_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFlushWriteBuffer_Check_6_X_XXXX
@@ -12799,6 +13437,8 @@ NtFlushWriteBuffer_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtFlushWriteBuffer_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFlushWriteBuffer_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFlushWriteBuffer_SystemCall_10_0_19043
 	jmp NtFlushWriteBuffer_SystemCall_Unknown
 NtFlushWriteBuffer_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c6h
@@ -12845,6 +13485,9 @@ NtFlushWriteBuffer_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFlushWriteBuffer_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00ech
 	jmp NtFlushWriteBuffer_Epilogue
+NtFlushWriteBuffer_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00ech
+	jmp NtFlushWriteBuffer_Epilogue
 NtFlushWriteBuffer_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFlushWriteBuffer_Epilogue:
@@ -12854,7 +13497,7 @@ NtFlushWriteBuffer_Epilogue:
 NtFlushWriteBuffer ENDP
 
 NtFreeUserPhysicalPages PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtFreeUserPhysicalPages_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFreeUserPhysicalPages_Check_6_X_XXXX
@@ -12898,6 +13541,8 @@ NtFreeUserPhysicalPages_Check_10_0_XXXX:              ; Check build number for W
 	je  NtFreeUserPhysicalPages_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFreeUserPhysicalPages_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFreeUserPhysicalPages_SystemCall_10_0_19043
 	jmp NtFreeUserPhysicalPages_SystemCall_Unknown
 NtFreeUserPhysicalPages_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c7h
@@ -12944,6 +13589,9 @@ NtFreeUserPhysicalPages_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtFreeUserPhysicalPages_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00edh
 	jmp NtFreeUserPhysicalPages_Epilogue
+NtFreeUserPhysicalPages_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00edh
+	jmp NtFreeUserPhysicalPages_Epilogue
 NtFreeUserPhysicalPages_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFreeUserPhysicalPages_Epilogue:
@@ -12953,7 +13601,7 @@ NtFreeUserPhysicalPages_Epilogue:
 NtFreeUserPhysicalPages ENDP
 
 NtFreeVirtualMemory PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtFreeVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFreeVirtualMemory_Check_6_X_XXXX
@@ -12997,6 +13645,8 @@ NtFreeVirtualMemory_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtFreeVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFreeVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFreeVirtualMemory_SystemCall_10_0_19043
 	jmp NtFreeVirtualMemory_SystemCall_Unknown
 NtFreeVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 001bh
@@ -13043,6 +13693,9 @@ NtFreeVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFreeVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 001eh
 	jmp NtFreeVirtualMemory_Epilogue
+NtFreeVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 001eh
+	jmp NtFreeVirtualMemory_Epilogue
 NtFreeVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFreeVirtualMemory_Epilogue:
@@ -13052,7 +13705,7 @@ NtFreeVirtualMemory_Epilogue:
 NtFreeVirtualMemory ENDP
 
 NtFreezeRegistry PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtFreezeRegistry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFreezeRegistry_Check_6_X_XXXX
@@ -13096,6 +13749,8 @@ NtFreezeRegistry_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtFreezeRegistry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFreezeRegistry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFreezeRegistry_SystemCall_10_0_19043
 	jmp NtFreezeRegistry_SystemCall_Unknown
 NtFreezeRegistry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c8h
@@ -13142,6 +13797,9 @@ NtFreezeRegistry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFreezeRegistry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00eeh
 	jmp NtFreezeRegistry_Epilogue
+NtFreezeRegistry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00eeh
+	jmp NtFreezeRegistry_Epilogue
 NtFreezeRegistry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFreezeRegistry_Epilogue:
@@ -13151,7 +13809,7 @@ NtFreezeRegistry_Epilogue:
 NtFreezeRegistry ENDP
 
 NtFreezeTransactions PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtFreezeTransactions_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFreezeTransactions_Check_6_X_XXXX
@@ -13195,6 +13853,8 @@ NtFreezeTransactions_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtFreezeTransactions_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFreezeTransactions_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFreezeTransactions_SystemCall_10_0_19043
 	jmp NtFreezeTransactions_SystemCall_Unknown
 NtFreezeTransactions_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00c9h
@@ -13241,6 +13901,9 @@ NtFreezeTransactions_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFreezeTransactions_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00efh
 	jmp NtFreezeTransactions_Epilogue
+NtFreezeTransactions_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00efh
+	jmp NtFreezeTransactions_Epilogue
 NtFreezeTransactions_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFreezeTransactions_Epilogue:
@@ -13250,7 +13913,7 @@ NtFreezeTransactions_Epilogue:
 NtFreezeTransactions ENDP
 
 NtFsControlFile PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtFsControlFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtFsControlFile_Check_6_X_XXXX
@@ -13294,6 +13957,8 @@ NtFsControlFile_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtFsControlFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtFsControlFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtFsControlFile_SystemCall_10_0_19043
 	jmp NtFsControlFile_SystemCall_Unknown
 NtFsControlFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0036h
@@ -13340,6 +14005,9 @@ NtFsControlFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtFsControlFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0039h
 	jmp NtFsControlFile_Epilogue
+NtFsControlFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0039h
+	jmp NtFsControlFile_Epilogue
 NtFsControlFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtFsControlFile_Epilogue:
@@ -13349,7 +14017,7 @@ NtFsControlFile_Epilogue:
 NtFsControlFile ENDP
 
 NtGetContextThread PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtGetContextThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetContextThread_Check_6_X_XXXX
@@ -13393,6 +14061,8 @@ NtGetContextThread_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtGetContextThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetContextThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetContextThread_SystemCall_10_0_19043
 	jmp NtGetContextThread_SystemCall_Unknown
 NtGetContextThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00cah
@@ -13439,6 +14109,9 @@ NtGetContextThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtGetContextThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00f2h
 	jmp NtGetContextThread_Epilogue
+NtGetContextThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00f2h
+	jmp NtGetContextThread_Epilogue
 NtGetContextThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetContextThread_Epilogue:
@@ -13448,7 +14121,7 @@ NtGetContextThread_Epilogue:
 NtGetContextThread ENDP
 
 NtGetCurrentProcessorNumber PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtGetCurrentProcessorNumber_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetCurrentProcessorNumber_Check_6_X_XXXX
@@ -13492,6 +14165,8 @@ NtGetCurrentProcessorNumber_Check_10_0_XXXX:              ; Check build number f
 	je  NtGetCurrentProcessorNumber_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetCurrentProcessorNumber_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetCurrentProcessorNumber_SystemCall_10_0_19043
 	jmp NtGetCurrentProcessorNumber_SystemCall_Unknown
 NtGetCurrentProcessorNumber_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00cbh
@@ -13538,6 +14213,9 @@ NtGetCurrentProcessorNumber_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtGetCurrentProcessorNumber_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00f3h
 	jmp NtGetCurrentProcessorNumber_Epilogue
+NtGetCurrentProcessorNumber_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00f3h
+	jmp NtGetCurrentProcessorNumber_Epilogue
 NtGetCurrentProcessorNumber_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetCurrentProcessorNumber_Epilogue:
@@ -13547,7 +14225,7 @@ NtGetCurrentProcessorNumber_Epilogue:
 NtGetCurrentProcessorNumber ENDP
 
 NtGetDevicePowerState PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtGetDevicePowerState_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetDevicePowerState_Check_6_X_XXXX
@@ -13591,6 +14269,8 @@ NtGetDevicePowerState_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtGetDevicePowerState_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetDevicePowerState_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetDevicePowerState_SystemCall_10_0_19043
 	jmp NtGetDevicePowerState_SystemCall_Unknown
 NtGetDevicePowerState_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00cch
@@ -13637,6 +14317,9 @@ NtGetDevicePowerState_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtGetDevicePowerState_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00f5h
 	jmp NtGetDevicePowerState_Epilogue
+NtGetDevicePowerState_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00f5h
+	jmp NtGetDevicePowerState_Epilogue
 NtGetDevicePowerState_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetDevicePowerState_Epilogue:
@@ -13646,7 +14329,7 @@ NtGetDevicePowerState_Epilogue:
 NtGetDevicePowerState ENDP
 
 NtGetMUIRegistryInfo PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtGetMUIRegistryInfo_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetMUIRegistryInfo_Check_6_X_XXXX
@@ -13690,6 +14373,8 @@ NtGetMUIRegistryInfo_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtGetMUIRegistryInfo_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetMUIRegistryInfo_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetMUIRegistryInfo_SystemCall_10_0_19043
 	jmp NtGetMUIRegistryInfo_SystemCall_Unknown
 NtGetMUIRegistryInfo_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00cdh
@@ -13736,6 +14421,9 @@ NtGetMUIRegistryInfo_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtGetMUIRegistryInfo_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00f6h
 	jmp NtGetMUIRegistryInfo_Epilogue
+NtGetMUIRegistryInfo_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00f6h
+	jmp NtGetMUIRegistryInfo_Epilogue
 NtGetMUIRegistryInfo_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetMUIRegistryInfo_Epilogue:
@@ -13745,7 +14433,7 @@ NtGetMUIRegistryInfo_Epilogue:
 NtGetMUIRegistryInfo ENDP
 
 NtGetNextProcess PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtGetNextProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetNextProcess_Check_6_X_XXXX
@@ -13789,6 +14477,8 @@ NtGetNextProcess_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtGetNextProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetNextProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetNextProcess_SystemCall_10_0_19043
 	jmp NtGetNextProcess_SystemCall_Unknown
 NtGetNextProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00ceh
@@ -13835,6 +14525,9 @@ NtGetNextProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtGetNextProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00f7h
 	jmp NtGetNextProcess_Epilogue
+NtGetNextProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00f7h
+	jmp NtGetNextProcess_Epilogue
 NtGetNextProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetNextProcess_Epilogue:
@@ -13844,7 +14537,7 @@ NtGetNextProcess_Epilogue:
 NtGetNextProcess ENDP
 
 NtGetNextThread PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtGetNextThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetNextThread_Check_6_X_XXXX
@@ -13888,6 +14581,8 @@ NtGetNextThread_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtGetNextThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetNextThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetNextThread_SystemCall_10_0_19043
 	jmp NtGetNextThread_SystemCall_Unknown
 NtGetNextThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00cfh
@@ -13934,6 +14629,9 @@ NtGetNextThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtGetNextThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00f8h
 	jmp NtGetNextThread_Epilogue
+NtGetNextThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00f8h
+	jmp NtGetNextThread_Epilogue
 NtGetNextThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetNextThread_Epilogue:
@@ -13943,7 +14641,7 @@ NtGetNextThread_Epilogue:
 NtGetNextThread ENDP
 
 NtGetNlsSectionPtr PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtGetNlsSectionPtr_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetNlsSectionPtr_Check_6_X_XXXX
@@ -13987,6 +14685,8 @@ NtGetNlsSectionPtr_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtGetNlsSectionPtr_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetNlsSectionPtr_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetNlsSectionPtr_SystemCall_10_0_19043
 	jmp NtGetNlsSectionPtr_SystemCall_Unknown
 NtGetNlsSectionPtr_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d0h
@@ -14033,6 +14733,9 @@ NtGetNlsSectionPtr_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtGetNlsSectionPtr_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00f9h
 	jmp NtGetNlsSectionPtr_Epilogue
+NtGetNlsSectionPtr_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00f9h
+	jmp NtGetNlsSectionPtr_Epilogue
 NtGetNlsSectionPtr_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetNlsSectionPtr_Epilogue:
@@ -14042,7 +14745,7 @@ NtGetNlsSectionPtr_Epilogue:
 NtGetNlsSectionPtr ENDP
 
 NtGetNotificationResourceManager PROC
-	mov rax, gs:[60h]                                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                                      ; Load PEB into RAX.
 NtGetNotificationResourceManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetNotificationResourceManager_Check_6_X_XXXX
@@ -14086,6 +14789,8 @@ NtGetNotificationResourceManager_Check_10_0_XXXX:              ; Check build num
 	je  NtGetNotificationResourceManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetNotificationResourceManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetNotificationResourceManager_SystemCall_10_0_19043
 	jmp NtGetNotificationResourceManager_SystemCall_Unknown
 NtGetNotificationResourceManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d1h
@@ -14132,6 +14837,9 @@ NtGetNotificationResourceManager_SystemCall_10_0_19041:        ; Windows 10.0.19
 NtGetNotificationResourceManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00fah
 	jmp NtGetNotificationResourceManager_Epilogue
+NtGetNotificationResourceManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00fah
+	jmp NtGetNotificationResourceManager_Epilogue
 NtGetNotificationResourceManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetNotificationResourceManager_Epilogue:
@@ -14141,7 +14849,7 @@ NtGetNotificationResourceManager_Epilogue:
 NtGetNotificationResourceManager ENDP
 
 NtGetWriteWatch PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtGetWriteWatch_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtGetWriteWatch_Check_6_X_XXXX
@@ -14185,6 +14893,8 @@ NtGetWriteWatch_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtGetWriteWatch_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtGetWriteWatch_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtGetWriteWatch_SystemCall_10_0_19043
 	jmp NtGetWriteWatch_SystemCall_Unknown
 NtGetWriteWatch_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d3h
@@ -14231,6 +14941,9 @@ NtGetWriteWatch_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtGetWriteWatch_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00fbh
 	jmp NtGetWriteWatch_Epilogue
+NtGetWriteWatch_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00fbh
+	jmp NtGetWriteWatch_Epilogue
 NtGetWriteWatch_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtGetWriteWatch_Epilogue:
@@ -14240,7 +14953,7 @@ NtGetWriteWatch_Epilogue:
 NtGetWriteWatch ENDP
 
 NtImpersonateAnonymousToken PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtImpersonateAnonymousToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtImpersonateAnonymousToken_Check_6_X_XXXX
@@ -14284,6 +14997,8 @@ NtImpersonateAnonymousToken_Check_10_0_XXXX:              ; Check build number f
 	je  NtImpersonateAnonymousToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtImpersonateAnonymousToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtImpersonateAnonymousToken_SystemCall_10_0_19043
 	jmp NtImpersonateAnonymousToken_SystemCall_Unknown
 NtImpersonateAnonymousToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d4h
@@ -14330,6 +15045,9 @@ NtImpersonateAnonymousToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtImpersonateAnonymousToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00fch
 	jmp NtImpersonateAnonymousToken_Epilogue
+NtImpersonateAnonymousToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00fch
+	jmp NtImpersonateAnonymousToken_Epilogue
 NtImpersonateAnonymousToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtImpersonateAnonymousToken_Epilogue:
@@ -14339,7 +15057,7 @@ NtImpersonateAnonymousToken_Epilogue:
 NtImpersonateAnonymousToken ENDP
 
 NtImpersonateClientOfPort PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtImpersonateClientOfPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtImpersonateClientOfPort_Check_6_X_XXXX
@@ -14383,6 +15101,8 @@ NtImpersonateClientOfPort_Check_10_0_XXXX:              ; Check build number for
 	je  NtImpersonateClientOfPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtImpersonateClientOfPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtImpersonateClientOfPort_SystemCall_10_0_19043
 	jmp NtImpersonateClientOfPort_SystemCall_Unknown
 NtImpersonateClientOfPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 001ch
@@ -14429,6 +15149,9 @@ NtImpersonateClientOfPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtImpersonateClientOfPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 001fh
 	jmp NtImpersonateClientOfPort_Epilogue
+NtImpersonateClientOfPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 001fh
+	jmp NtImpersonateClientOfPort_Epilogue
 NtImpersonateClientOfPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtImpersonateClientOfPort_Epilogue:
@@ -14438,7 +15161,7 @@ NtImpersonateClientOfPort_Epilogue:
 NtImpersonateClientOfPort ENDP
 
 NtImpersonateThread PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtImpersonateThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtImpersonateThread_Check_6_X_XXXX
@@ -14482,6 +15205,8 @@ NtImpersonateThread_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtImpersonateThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtImpersonateThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtImpersonateThread_SystemCall_10_0_19043
 	jmp NtImpersonateThread_SystemCall_Unknown
 NtImpersonateThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d5h
@@ -14528,6 +15253,9 @@ NtImpersonateThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtImpersonateThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00fdh
 	jmp NtImpersonateThread_Epilogue
+NtImpersonateThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00fdh
+	jmp NtImpersonateThread_Epilogue
 NtImpersonateThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtImpersonateThread_Epilogue:
@@ -14537,7 +15265,7 @@ NtImpersonateThread_Epilogue:
 NtImpersonateThread ENDP
 
 NtInitializeNlsFiles PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtInitializeNlsFiles_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtInitializeNlsFiles_Check_6_X_XXXX
@@ -14581,6 +15309,8 @@ NtInitializeNlsFiles_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtInitializeNlsFiles_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtInitializeNlsFiles_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtInitializeNlsFiles_SystemCall_10_0_19043
 	jmp NtInitializeNlsFiles_SystemCall_Unknown
 NtInitializeNlsFiles_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d6h
@@ -14627,6 +15357,9 @@ NtInitializeNlsFiles_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtInitializeNlsFiles_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 00ffh
 	jmp NtInitializeNlsFiles_Epilogue
+NtInitializeNlsFiles_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 00ffh
+	jmp NtInitializeNlsFiles_Epilogue
 NtInitializeNlsFiles_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtInitializeNlsFiles_Epilogue:
@@ -14636,7 +15369,7 @@ NtInitializeNlsFiles_Epilogue:
 NtInitializeNlsFiles ENDP
 
 NtInitializeRegistry PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtInitializeRegistry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtInitializeRegistry_Check_6_X_XXXX
@@ -14680,6 +15413,8 @@ NtInitializeRegistry_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtInitializeRegistry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtInitializeRegistry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtInitializeRegistry_SystemCall_10_0_19043
 	jmp NtInitializeRegistry_SystemCall_Unknown
 NtInitializeRegistry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d7h
@@ -14726,6 +15461,9 @@ NtInitializeRegistry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtInitializeRegistry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0100h
 	jmp NtInitializeRegistry_Epilogue
+NtInitializeRegistry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0100h
+	jmp NtInitializeRegistry_Epilogue
 NtInitializeRegistry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtInitializeRegistry_Epilogue:
@@ -14735,7 +15473,7 @@ NtInitializeRegistry_Epilogue:
 NtInitializeRegistry ENDP
 
 NtInitiatePowerAction PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtInitiatePowerAction_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtInitiatePowerAction_Check_6_X_XXXX
@@ -14779,6 +15517,8 @@ NtInitiatePowerAction_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtInitiatePowerAction_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtInitiatePowerAction_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtInitiatePowerAction_SystemCall_10_0_19043
 	jmp NtInitiatePowerAction_SystemCall_Unknown
 NtInitiatePowerAction_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d8h
@@ -14825,6 +15565,9 @@ NtInitiatePowerAction_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtInitiatePowerAction_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0101h
 	jmp NtInitiatePowerAction_Epilogue
+NtInitiatePowerAction_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0101h
+	jmp NtInitiatePowerAction_Epilogue
 NtInitiatePowerAction_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtInitiatePowerAction_Epilogue:
@@ -14834,7 +15577,7 @@ NtInitiatePowerAction_Epilogue:
 NtInitiatePowerAction ENDP
 
 NtIsProcessInJob PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtIsProcessInJob_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtIsProcessInJob_Check_6_X_XXXX
@@ -14878,6 +15621,8 @@ NtIsProcessInJob_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtIsProcessInJob_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtIsProcessInJob_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtIsProcessInJob_SystemCall_10_0_19043
 	jmp NtIsProcessInJob_SystemCall_Unknown
 NtIsProcessInJob_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 004ch
@@ -14924,6 +15669,9 @@ NtIsProcessInJob_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtIsProcessInJob_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 004fh
 	jmp NtIsProcessInJob_Epilogue
+NtIsProcessInJob_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 004fh
+	jmp NtIsProcessInJob_Epilogue
 NtIsProcessInJob_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtIsProcessInJob_Epilogue:
@@ -14933,7 +15681,7 @@ NtIsProcessInJob_Epilogue:
 NtIsProcessInJob ENDP
 
 NtIsSystemResumeAutomatic PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtIsSystemResumeAutomatic_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtIsSystemResumeAutomatic_Check_6_X_XXXX
@@ -14977,6 +15725,8 @@ NtIsSystemResumeAutomatic_Check_10_0_XXXX:              ; Check build number for
 	je  NtIsSystemResumeAutomatic_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtIsSystemResumeAutomatic_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtIsSystemResumeAutomatic_SystemCall_10_0_19043
 	jmp NtIsSystemResumeAutomatic_SystemCall_Unknown
 NtIsSystemResumeAutomatic_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00d9h
@@ -15023,6 +15773,9 @@ NtIsSystemResumeAutomatic_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtIsSystemResumeAutomatic_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0102h
 	jmp NtIsSystemResumeAutomatic_Epilogue
+NtIsSystemResumeAutomatic_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0102h
+	jmp NtIsSystemResumeAutomatic_Epilogue
 NtIsSystemResumeAutomatic_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtIsSystemResumeAutomatic_Epilogue:
@@ -15032,7 +15785,7 @@ NtIsSystemResumeAutomatic_Epilogue:
 NtIsSystemResumeAutomatic ENDP
 
 NtIsUILanguageComitted PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtIsUILanguageComitted_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtIsUILanguageComitted_Check_6_X_XXXX
@@ -15076,6 +15829,8 @@ NtIsUILanguageComitted_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtIsUILanguageComitted_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtIsUILanguageComitted_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtIsUILanguageComitted_SystemCall_10_0_19043
 	jmp NtIsUILanguageComitted_SystemCall_Unknown
 NtIsUILanguageComitted_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00dah
@@ -15122,6 +15877,9 @@ NtIsUILanguageComitted_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtIsUILanguageComitted_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0103h
 	jmp NtIsUILanguageComitted_Epilogue
+NtIsUILanguageComitted_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0103h
+	jmp NtIsUILanguageComitted_Epilogue
 NtIsUILanguageComitted_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtIsUILanguageComitted_Epilogue:
@@ -15131,7 +15889,7 @@ NtIsUILanguageComitted_Epilogue:
 NtIsUILanguageComitted ENDP
 
 NtListenPort PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtListenPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtListenPort_Check_6_X_XXXX
@@ -15175,6 +15933,8 @@ NtListenPort_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtListenPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtListenPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtListenPort_SystemCall_10_0_19043
 	jmp NtListenPort_SystemCall_Unknown
 NtListenPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00dbh
@@ -15221,6 +15981,9 @@ NtListenPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtListenPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0104h
 	jmp NtListenPort_Epilogue
+NtListenPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0104h
+	jmp NtListenPort_Epilogue
 NtListenPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtListenPort_Epilogue:
@@ -15230,7 +15993,7 @@ NtListenPort_Epilogue:
 NtListenPort ENDP
 
 NtLoadDriver PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtLoadDriver_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLoadDriver_Check_6_X_XXXX
@@ -15274,6 +16037,8 @@ NtLoadDriver_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtLoadDriver_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLoadDriver_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLoadDriver_SystemCall_10_0_19043
 	jmp NtLoadDriver_SystemCall_Unknown
 NtLoadDriver_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00dch
@@ -15320,6 +16085,9 @@ NtLoadDriver_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtLoadDriver_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0105h
 	jmp NtLoadDriver_Epilogue
+NtLoadDriver_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0105h
+	jmp NtLoadDriver_Epilogue
 NtLoadDriver_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLoadDriver_Epilogue:
@@ -15329,7 +16097,7 @@ NtLoadDriver_Epilogue:
 NtLoadDriver ENDP
 
 NtLoadKey PROC
-	mov rax, gs:[60h]                   ; Load PEB into RAX.
+	mov rax, gs:[60h]               ; Load PEB into RAX.
 NtLoadKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLoadKey_Check_6_X_XXXX
@@ -15373,6 +16141,8 @@ NtLoadKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtLoadKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLoadKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLoadKey_SystemCall_10_0_19043
 	jmp NtLoadKey_SystemCall_Unknown
 NtLoadKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00ddh
@@ -15419,6 +16189,9 @@ NtLoadKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtLoadKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0107h
 	jmp NtLoadKey_Epilogue
+NtLoadKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0107h
+	jmp NtLoadKey_Epilogue
 NtLoadKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLoadKey_Epilogue:
@@ -15428,7 +16201,7 @@ NtLoadKey_Epilogue:
 NtLoadKey ENDP
 
 NtLoadKey2 PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtLoadKey2_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLoadKey2_Check_6_X_XXXX
@@ -15472,6 +16245,8 @@ NtLoadKey2_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtLoadKey2_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLoadKey2_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLoadKey2_SystemCall_10_0_19043
 	jmp NtLoadKey2_SystemCall_Unknown
 NtLoadKey2_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00deh
@@ -15518,6 +16293,9 @@ NtLoadKey2_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtLoadKey2_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0108h
 	jmp NtLoadKey2_Epilogue
+NtLoadKey2_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0108h
+	jmp NtLoadKey2_Epilogue
 NtLoadKey2_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLoadKey2_Epilogue:
@@ -15527,7 +16305,7 @@ NtLoadKey2_Epilogue:
 NtLoadKey2 ENDP
 
 NtLoadKeyEx PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtLoadKeyEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLoadKeyEx_Check_6_X_XXXX
@@ -15571,6 +16349,8 @@ NtLoadKeyEx_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtLoadKeyEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLoadKeyEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLoadKeyEx_SystemCall_10_0_19043
 	jmp NtLoadKeyEx_SystemCall_Unknown
 NtLoadKeyEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00dfh
@@ -15617,6 +16397,9 @@ NtLoadKeyEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtLoadKeyEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0109h
 	jmp NtLoadKeyEx_Epilogue
+NtLoadKeyEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0109h
+	jmp NtLoadKeyEx_Epilogue
 NtLoadKeyEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLoadKeyEx_Epilogue:
@@ -15626,7 +16409,7 @@ NtLoadKeyEx_Epilogue:
 NtLoadKeyEx ENDP
 
 NtLockFile PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtLockFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLockFile_Check_6_X_XXXX
@@ -15670,6 +16453,8 @@ NtLockFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtLockFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLockFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLockFile_SystemCall_10_0_19043
 	jmp NtLockFile_SystemCall_Unknown
 NtLockFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e0h
@@ -15716,6 +16501,9 @@ NtLockFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtLockFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 010ah
 	jmp NtLockFile_Epilogue
+NtLockFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 010ah
+	jmp NtLockFile_Epilogue
 NtLockFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLockFile_Epilogue:
@@ -15725,7 +16513,7 @@ NtLockFile_Epilogue:
 NtLockFile ENDP
 
 NtLockProductActivationKeys PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtLockProductActivationKeys_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLockProductActivationKeys_Check_6_X_XXXX
@@ -15769,6 +16557,8 @@ NtLockProductActivationKeys_Check_10_0_XXXX:              ; Check build number f
 	je  NtLockProductActivationKeys_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLockProductActivationKeys_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLockProductActivationKeys_SystemCall_10_0_19043
 	jmp NtLockProductActivationKeys_SystemCall_Unknown
 NtLockProductActivationKeys_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e1h
@@ -15815,6 +16605,9 @@ NtLockProductActivationKeys_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtLockProductActivationKeys_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 010bh
 	jmp NtLockProductActivationKeys_Epilogue
+NtLockProductActivationKeys_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 010bh
+	jmp NtLockProductActivationKeys_Epilogue
 NtLockProductActivationKeys_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLockProductActivationKeys_Epilogue:
@@ -15824,7 +16617,7 @@ NtLockProductActivationKeys_Epilogue:
 NtLockProductActivationKeys ENDP
 
 NtLockRegistryKey PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtLockRegistryKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLockRegistryKey_Check_6_X_XXXX
@@ -15868,6 +16661,8 @@ NtLockRegistryKey_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtLockRegistryKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLockRegistryKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLockRegistryKey_SystemCall_10_0_19043
 	jmp NtLockRegistryKey_SystemCall_Unknown
 NtLockRegistryKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e2h
@@ -15914,6 +16709,9 @@ NtLockRegistryKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtLockRegistryKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 010ch
 	jmp NtLockRegistryKey_Epilogue
+NtLockRegistryKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 010ch
+	jmp NtLockRegistryKey_Epilogue
 NtLockRegistryKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLockRegistryKey_Epilogue:
@@ -15923,7 +16721,7 @@ NtLockRegistryKey_Epilogue:
 NtLockRegistryKey ENDP
 
 NtLockVirtualMemory PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtLockVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtLockVirtualMemory_Check_6_X_XXXX
@@ -15967,6 +16765,8 @@ NtLockVirtualMemory_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtLockVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtLockVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtLockVirtualMemory_SystemCall_10_0_19043
 	jmp NtLockVirtualMemory_SystemCall_Unknown
 NtLockVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e3h
@@ -16013,6 +16813,9 @@ NtLockVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtLockVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 010dh
 	jmp NtLockVirtualMemory_Epilogue
+NtLockVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 010dh
+	jmp NtLockVirtualMemory_Epilogue
 NtLockVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtLockVirtualMemory_Epilogue:
@@ -16022,7 +16825,7 @@ NtLockVirtualMemory_Epilogue:
 NtLockVirtualMemory ENDP
 
 NtMakePermanentObject PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtMakePermanentObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtMakePermanentObject_Check_6_X_XXXX
@@ -16066,6 +16869,8 @@ NtMakePermanentObject_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtMakePermanentObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtMakePermanentObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtMakePermanentObject_SystemCall_10_0_19043
 	jmp NtMakePermanentObject_SystemCall_Unknown
 NtMakePermanentObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e4h
@@ -16112,6 +16917,9 @@ NtMakePermanentObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtMakePermanentObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 010eh
 	jmp NtMakePermanentObject_Epilogue
+NtMakePermanentObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 010eh
+	jmp NtMakePermanentObject_Epilogue
 NtMakePermanentObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtMakePermanentObject_Epilogue:
@@ -16121,7 +16929,7 @@ NtMakePermanentObject_Epilogue:
 NtMakePermanentObject ENDP
 
 NtMakeTemporaryObject PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtMakeTemporaryObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtMakeTemporaryObject_Check_6_X_XXXX
@@ -16165,6 +16973,8 @@ NtMakeTemporaryObject_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtMakeTemporaryObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtMakeTemporaryObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtMakeTemporaryObject_SystemCall_10_0_19043
 	jmp NtMakeTemporaryObject_SystemCall_Unknown
 NtMakeTemporaryObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e5h
@@ -16211,6 +17021,9 @@ NtMakeTemporaryObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtMakeTemporaryObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 010fh
 	jmp NtMakeTemporaryObject_Epilogue
+NtMakeTemporaryObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 010fh
+	jmp NtMakeTemporaryObject_Epilogue
 NtMakeTemporaryObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtMakeTemporaryObject_Epilogue:
@@ -16220,7 +17033,7 @@ NtMakeTemporaryObject_Epilogue:
 NtMakeTemporaryObject ENDP
 
 NtMapCMFModule PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtMapCMFModule_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtMapCMFModule_Check_6_X_XXXX
@@ -16264,6 +17077,8 @@ NtMapCMFModule_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtMapCMFModule_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtMapCMFModule_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtMapCMFModule_SystemCall_10_0_19043
 	jmp NtMapCMFModule_SystemCall_Unknown
 NtMapCMFModule_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e6h
@@ -16310,6 +17125,9 @@ NtMapCMFModule_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtMapCMFModule_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0112h
 	jmp NtMapCMFModule_Epilogue
+NtMapCMFModule_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0112h
+	jmp NtMapCMFModule_Epilogue
 NtMapCMFModule_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtMapCMFModule_Epilogue:
@@ -16319,7 +17137,7 @@ NtMapCMFModule_Epilogue:
 NtMapCMFModule ENDP
 
 NtMapUserPhysicalPages PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtMapUserPhysicalPages_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtMapUserPhysicalPages_Check_6_X_XXXX
@@ -16363,6 +17181,8 @@ NtMapUserPhysicalPages_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtMapUserPhysicalPages_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtMapUserPhysicalPages_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtMapUserPhysicalPages_SystemCall_10_0_19043
 	jmp NtMapUserPhysicalPages_SystemCall_Unknown
 NtMapUserPhysicalPages_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e7h
@@ -16409,6 +17229,9 @@ NtMapUserPhysicalPages_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtMapUserPhysicalPages_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0113h
 	jmp NtMapUserPhysicalPages_Epilogue
+NtMapUserPhysicalPages_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0113h
+	jmp NtMapUserPhysicalPages_Epilogue
 NtMapUserPhysicalPages_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtMapUserPhysicalPages_Epilogue:
@@ -16418,7 +17241,7 @@ NtMapUserPhysicalPages_Epilogue:
 NtMapUserPhysicalPages ENDP
 
 NtMapUserPhysicalPagesScatter PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtMapUserPhysicalPagesScatter_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtMapUserPhysicalPagesScatter_Check_6_X_XXXX
@@ -16458,6 +17281,8 @@ NtMapUserPhysicalPagesScatter_Check_10_0_XXXX:              ; Check build number
 	je  NtMapUserPhysicalPagesScatter_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtMapUserPhysicalPagesScatter_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtMapUserPhysicalPagesScatter_SystemCall_10_0_19043
 	jmp NtMapUserPhysicalPagesScatter_SystemCall_Unknown
 NtMapUserPhysicalPagesScatter_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0000h
@@ -16504,6 +17329,9 @@ NtMapUserPhysicalPagesScatter_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtMapUserPhysicalPagesScatter_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0003h
 	jmp NtMapUserPhysicalPagesScatter_Epilogue
+NtMapUserPhysicalPagesScatter_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0003h
+	jmp NtMapUserPhysicalPagesScatter_Epilogue
 NtMapUserPhysicalPagesScatter_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtMapUserPhysicalPagesScatter_Epilogue:
@@ -16513,7 +17341,7 @@ NtMapUserPhysicalPagesScatter_Epilogue:
 NtMapUserPhysicalPagesScatter ENDP
 
 NtMapViewOfSection PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtMapViewOfSection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtMapViewOfSection_Check_6_X_XXXX
@@ -16557,6 +17385,8 @@ NtMapViewOfSection_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtMapViewOfSection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtMapViewOfSection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtMapViewOfSection_SystemCall_10_0_19043
 	jmp NtMapViewOfSection_SystemCall_Unknown
 NtMapViewOfSection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0025h
@@ -16603,6 +17433,9 @@ NtMapViewOfSection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtMapViewOfSection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0028h
 	jmp NtMapViewOfSection_Epilogue
+NtMapViewOfSection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0028h
+	jmp NtMapViewOfSection_Epilogue
 NtMapViewOfSection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtMapViewOfSection_Epilogue:
@@ -16612,7 +17445,7 @@ NtMapViewOfSection_Epilogue:
 NtMapViewOfSection ENDP
 
 NtModifyBootEntry PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtModifyBootEntry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtModifyBootEntry_Check_6_X_XXXX
@@ -16656,6 +17489,8 @@ NtModifyBootEntry_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtModifyBootEntry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtModifyBootEntry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtModifyBootEntry_SystemCall_10_0_19043
 	jmp NtModifyBootEntry_SystemCall_Unknown
 NtModifyBootEntry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e8h
@@ -16702,6 +17537,9 @@ NtModifyBootEntry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtModifyBootEntry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0115h
 	jmp NtModifyBootEntry_Epilogue
+NtModifyBootEntry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0115h
+	jmp NtModifyBootEntry_Epilogue
 NtModifyBootEntry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtModifyBootEntry_Epilogue:
@@ -16711,7 +17549,7 @@ NtModifyBootEntry_Epilogue:
 NtModifyBootEntry ENDP
 
 NtModifyDriverEntry PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtModifyDriverEntry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtModifyDriverEntry_Check_6_X_XXXX
@@ -16755,6 +17593,8 @@ NtModifyDriverEntry_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtModifyDriverEntry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtModifyDriverEntry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtModifyDriverEntry_SystemCall_10_0_19043
 	jmp NtModifyDriverEntry_SystemCall_Unknown
 NtModifyDriverEntry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00e9h
@@ -16801,6 +17641,9 @@ NtModifyDriverEntry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtModifyDriverEntry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0116h
 	jmp NtModifyDriverEntry_Epilogue
+NtModifyDriverEntry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0116h
+	jmp NtModifyDriverEntry_Epilogue
 NtModifyDriverEntry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtModifyDriverEntry_Epilogue:
@@ -16810,7 +17653,7 @@ NtModifyDriverEntry_Epilogue:
 NtModifyDriverEntry ENDP
 
 NtNotifyChangeDirectoryFile PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtNotifyChangeDirectoryFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtNotifyChangeDirectoryFile_Check_6_X_XXXX
@@ -16854,6 +17697,8 @@ NtNotifyChangeDirectoryFile_Check_10_0_XXXX:              ; Check build number f
 	je  NtNotifyChangeDirectoryFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtNotifyChangeDirectoryFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtNotifyChangeDirectoryFile_SystemCall_10_0_19043
 	jmp NtNotifyChangeDirectoryFile_SystemCall_Unknown
 NtNotifyChangeDirectoryFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00eah
@@ -16900,6 +17745,9 @@ NtNotifyChangeDirectoryFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtNotifyChangeDirectoryFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0117h
 	jmp NtNotifyChangeDirectoryFile_Epilogue
+NtNotifyChangeDirectoryFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0117h
+	jmp NtNotifyChangeDirectoryFile_Epilogue
 NtNotifyChangeDirectoryFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtNotifyChangeDirectoryFile_Epilogue:
@@ -16909,7 +17757,7 @@ NtNotifyChangeDirectoryFile_Epilogue:
 NtNotifyChangeDirectoryFile ENDP
 
 NtNotifyChangeKey PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtNotifyChangeKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtNotifyChangeKey_Check_6_X_XXXX
@@ -16953,6 +17801,8 @@ NtNotifyChangeKey_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtNotifyChangeKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtNotifyChangeKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtNotifyChangeKey_SystemCall_10_0_19043
 	jmp NtNotifyChangeKey_SystemCall_Unknown
 NtNotifyChangeKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00ebh
@@ -16999,6 +17849,9 @@ NtNotifyChangeKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtNotifyChangeKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0119h
 	jmp NtNotifyChangeKey_Epilogue
+NtNotifyChangeKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0119h
+	jmp NtNotifyChangeKey_Epilogue
 NtNotifyChangeKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtNotifyChangeKey_Epilogue:
@@ -17008,7 +17861,7 @@ NtNotifyChangeKey_Epilogue:
 NtNotifyChangeKey ENDP
 
 NtNotifyChangeMultipleKeys PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtNotifyChangeMultipleKeys_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtNotifyChangeMultipleKeys_Check_6_X_XXXX
@@ -17052,6 +17905,8 @@ NtNotifyChangeMultipleKeys_Check_10_0_XXXX:              ; Check build number fo
 	je  NtNotifyChangeMultipleKeys_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtNotifyChangeMultipleKeys_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtNotifyChangeMultipleKeys_SystemCall_10_0_19043
 	jmp NtNotifyChangeMultipleKeys_SystemCall_Unknown
 NtNotifyChangeMultipleKeys_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00ech
@@ -17098,6 +17953,9 @@ NtNotifyChangeMultipleKeys_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtNotifyChangeMultipleKeys_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 011ah
 	jmp NtNotifyChangeMultipleKeys_Epilogue
+NtNotifyChangeMultipleKeys_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 011ah
+	jmp NtNotifyChangeMultipleKeys_Epilogue
 NtNotifyChangeMultipleKeys_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtNotifyChangeMultipleKeys_Epilogue:
@@ -17107,7 +17965,7 @@ NtNotifyChangeMultipleKeys_Epilogue:
 NtNotifyChangeMultipleKeys ENDP
 
 NtNotifyChangeSession PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtNotifyChangeSession_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtNotifyChangeSession_Check_6_X_XXXX
@@ -17151,6 +18009,8 @@ NtNotifyChangeSession_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtNotifyChangeSession_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtNotifyChangeSession_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtNotifyChangeSession_SystemCall_10_0_19043
 	jmp NtNotifyChangeSession_SystemCall_Unknown
 NtNotifyChangeSession_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00edh
@@ -17197,6 +18057,9 @@ NtNotifyChangeSession_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtNotifyChangeSession_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 011bh
 	jmp NtNotifyChangeSession_Epilogue
+NtNotifyChangeSession_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 011bh
+	jmp NtNotifyChangeSession_Epilogue
 NtNotifyChangeSession_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtNotifyChangeSession_Epilogue:
@@ -17206,7 +18069,7 @@ NtNotifyChangeSession_Epilogue:
 NtNotifyChangeSession ENDP
 
 NtOpenDirectoryObject PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtOpenDirectoryObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenDirectoryObject_Check_6_X_XXXX
@@ -17250,6 +18113,8 @@ NtOpenDirectoryObject_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtOpenDirectoryObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenDirectoryObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenDirectoryObject_SystemCall_10_0_19043
 	jmp NtOpenDirectoryObject_SystemCall_Unknown
 NtOpenDirectoryObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0055h
@@ -17296,6 +18161,9 @@ NtOpenDirectoryObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenDirectoryObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0058h
 	jmp NtOpenDirectoryObject_Epilogue
+NtOpenDirectoryObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0058h
+	jmp NtOpenDirectoryObject_Epilogue
 NtOpenDirectoryObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenDirectoryObject_Epilogue:
@@ -17305,7 +18173,7 @@ NtOpenDirectoryObject_Epilogue:
 NtOpenDirectoryObject ENDP
 
 NtOpenEnlistment PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtOpenEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenEnlistment_Check_6_X_XXXX
@@ -17349,6 +18217,8 @@ NtOpenEnlistment_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtOpenEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenEnlistment_SystemCall_10_0_19043
 	jmp NtOpenEnlistment_SystemCall_Unknown
 NtOpenEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00eeh
@@ -17395,6 +18265,9 @@ NtOpenEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 011ch
 	jmp NtOpenEnlistment_Epilogue
+NtOpenEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 011ch
+	jmp NtOpenEnlistment_Epilogue
 NtOpenEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenEnlistment_Epilogue:
@@ -17404,7 +18277,7 @@ NtOpenEnlistment_Epilogue:
 NtOpenEnlistment ENDP
 
 NtOpenEvent PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtOpenEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenEvent_Check_6_X_XXXX
@@ -17448,6 +18321,8 @@ NtOpenEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenEvent_SystemCall_10_0_19043
 	jmp NtOpenEvent_SystemCall_Unknown
 NtOpenEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 003dh
@@ -17494,6 +18369,9 @@ NtOpenEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0040h
 	jmp NtOpenEvent_Epilogue
+NtOpenEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0040h
+	jmp NtOpenEvent_Epilogue
 NtOpenEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenEvent_Epilogue:
@@ -17503,7 +18381,7 @@ NtOpenEvent_Epilogue:
 NtOpenEvent ENDP
 
 NtOpenEventPair PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtOpenEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenEventPair_Check_6_X_XXXX
@@ -17547,6 +18425,8 @@ NtOpenEventPair_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtOpenEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenEventPair_SystemCall_10_0_19043
 	jmp NtOpenEventPair_SystemCall_Unknown
 NtOpenEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00efh
@@ -17593,6 +18473,9 @@ NtOpenEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 011dh
 	jmp NtOpenEventPair_Epilogue
+NtOpenEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 011dh
+	jmp NtOpenEventPair_Epilogue
 NtOpenEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenEventPair_Epilogue:
@@ -17602,7 +18485,7 @@ NtOpenEventPair_Epilogue:
 NtOpenEventPair ENDP
 
 NtOpenFile PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtOpenFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenFile_Check_6_X_XXXX
@@ -17646,6 +18529,8 @@ NtOpenFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenFile_SystemCall_10_0_19043
 	jmp NtOpenFile_SystemCall_Unknown
 NtOpenFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0030h
@@ -17692,6 +18577,9 @@ NtOpenFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0033h
 	jmp NtOpenFile_Epilogue
+NtOpenFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0033h
+	jmp NtOpenFile_Epilogue
 NtOpenFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenFile_Epilogue:
@@ -17701,7 +18589,7 @@ NtOpenFile_Epilogue:
 NtOpenFile ENDP
 
 NtOpenIoCompletion PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtOpenIoCompletion_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenIoCompletion_Check_6_X_XXXX
@@ -17745,6 +18633,8 @@ NtOpenIoCompletion_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtOpenIoCompletion_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenIoCompletion_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenIoCompletion_SystemCall_10_0_19043
 	jmp NtOpenIoCompletion_SystemCall_Unknown
 NtOpenIoCompletion_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f0h
@@ -17791,6 +18681,9 @@ NtOpenIoCompletion_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenIoCompletion_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 011eh
 	jmp NtOpenIoCompletion_Epilogue
+NtOpenIoCompletion_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 011eh
+	jmp NtOpenIoCompletion_Epilogue
 NtOpenIoCompletion_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenIoCompletion_Epilogue:
@@ -17800,7 +18693,7 @@ NtOpenIoCompletion_Epilogue:
 NtOpenIoCompletion ENDP
 
 NtOpenJobObject PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtOpenJobObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenJobObject_Check_6_X_XXXX
@@ -17844,6 +18737,8 @@ NtOpenJobObject_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtOpenJobObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenJobObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenJobObject_SystemCall_10_0_19043
 	jmp NtOpenJobObject_SystemCall_Unknown
 NtOpenJobObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f1h
@@ -17890,6 +18785,9 @@ NtOpenJobObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenJobObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 011fh
 	jmp NtOpenJobObject_Epilogue
+NtOpenJobObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 011fh
+	jmp NtOpenJobObject_Epilogue
 NtOpenJobObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenJobObject_Epilogue:
@@ -17899,7 +18797,7 @@ NtOpenJobObject_Epilogue:
 NtOpenJobObject ENDP
 
 NtOpenKey PROC
-	mov rax, gs:[60h]                   ; Load PEB into RAX.
+	mov rax, gs:[60h]               ; Load PEB into RAX.
 NtOpenKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenKey_Check_6_X_XXXX
@@ -17943,6 +18841,8 @@ NtOpenKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenKey_SystemCall_10_0_19043
 	jmp NtOpenKey_SystemCall_Unknown
 NtOpenKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 000fh
@@ -17989,6 +18889,9 @@ NtOpenKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0012h
 	jmp NtOpenKey_Epilogue
+NtOpenKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0012h
+	jmp NtOpenKey_Epilogue
 NtOpenKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenKey_Epilogue:
@@ -17998,7 +18901,7 @@ NtOpenKey_Epilogue:
 NtOpenKey ENDP
 
 NtOpenKeyEx PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtOpenKeyEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenKeyEx_Check_6_X_XXXX
@@ -18042,6 +18945,8 @@ NtOpenKeyEx_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenKeyEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenKeyEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenKeyEx_SystemCall_10_0_19043
 	jmp NtOpenKeyEx_SystemCall_Unknown
 NtOpenKeyEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f2h
@@ -18088,6 +18993,9 @@ NtOpenKeyEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenKeyEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0120h
 	jmp NtOpenKeyEx_Epilogue
+NtOpenKeyEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0120h
+	jmp NtOpenKeyEx_Epilogue
 NtOpenKeyEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenKeyEx_Epilogue:
@@ -18097,7 +19005,7 @@ NtOpenKeyEx_Epilogue:
 NtOpenKeyEx ENDP
 
 NtOpenKeyTransacted PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtOpenKeyTransacted_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenKeyTransacted_Check_6_X_XXXX
@@ -18141,6 +19049,8 @@ NtOpenKeyTransacted_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtOpenKeyTransacted_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenKeyTransacted_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenKeyTransacted_SystemCall_10_0_19043
 	jmp NtOpenKeyTransacted_SystemCall_Unknown
 NtOpenKeyTransacted_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f3h
@@ -18187,6 +19097,9 @@ NtOpenKeyTransacted_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenKeyTransacted_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0121h
 	jmp NtOpenKeyTransacted_Epilogue
+NtOpenKeyTransacted_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0121h
+	jmp NtOpenKeyTransacted_Epilogue
 NtOpenKeyTransacted_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenKeyTransacted_Epilogue:
@@ -18196,7 +19109,7 @@ NtOpenKeyTransacted_Epilogue:
 NtOpenKeyTransacted ENDP
 
 NtOpenKeyTransactedEx PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtOpenKeyTransactedEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenKeyTransactedEx_Check_6_X_XXXX
@@ -18240,6 +19153,8 @@ NtOpenKeyTransactedEx_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtOpenKeyTransactedEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenKeyTransactedEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenKeyTransactedEx_SystemCall_10_0_19043
 	jmp NtOpenKeyTransactedEx_SystemCall_Unknown
 NtOpenKeyTransactedEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f4h
@@ -18286,6 +19201,9 @@ NtOpenKeyTransactedEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenKeyTransactedEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0122h
 	jmp NtOpenKeyTransactedEx_Epilogue
+NtOpenKeyTransactedEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0122h
+	jmp NtOpenKeyTransactedEx_Epilogue
 NtOpenKeyTransactedEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenKeyTransactedEx_Epilogue:
@@ -18295,7 +19213,7 @@ NtOpenKeyTransactedEx_Epilogue:
 NtOpenKeyTransactedEx ENDP
 
 NtOpenKeyedEvent PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtOpenKeyedEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenKeyedEvent_Check_6_X_XXXX
@@ -18339,6 +19257,8 @@ NtOpenKeyedEvent_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtOpenKeyedEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenKeyedEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenKeyedEvent_SystemCall_10_0_19043
 	jmp NtOpenKeyedEvent_SystemCall_Unknown
 NtOpenKeyedEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f5h
@@ -18385,6 +19305,9 @@ NtOpenKeyedEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenKeyedEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0123h
 	jmp NtOpenKeyedEvent_Epilogue
+NtOpenKeyedEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0123h
+	jmp NtOpenKeyedEvent_Epilogue
 NtOpenKeyedEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenKeyedEvent_Epilogue:
@@ -18394,7 +19317,7 @@ NtOpenKeyedEvent_Epilogue:
 NtOpenKeyedEvent ENDP
 
 NtOpenMutant PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtOpenMutant_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenMutant_Check_6_X_XXXX
@@ -18438,6 +19361,8 @@ NtOpenMutant_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenMutant_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenMutant_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenMutant_SystemCall_10_0_19043
 	jmp NtOpenMutant_SystemCall_Unknown
 NtOpenMutant_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f6h
@@ -18484,6 +19409,9 @@ NtOpenMutant_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenMutant_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0124h
 	jmp NtOpenMutant_Epilogue
+NtOpenMutant_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0124h
+	jmp NtOpenMutant_Epilogue
 NtOpenMutant_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenMutant_Epilogue:
@@ -18493,7 +19421,7 @@ NtOpenMutant_Epilogue:
 NtOpenMutant ENDP
 
 NtOpenObjectAuditAlarm PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtOpenObjectAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenObjectAuditAlarm_Check_6_X_XXXX
@@ -18537,6 +19465,8 @@ NtOpenObjectAuditAlarm_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtOpenObjectAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenObjectAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenObjectAuditAlarm_SystemCall_10_0_19043
 	jmp NtOpenObjectAuditAlarm_SystemCall_Unknown
 NtOpenObjectAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f7h
@@ -18583,6 +19513,9 @@ NtOpenObjectAuditAlarm_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenObjectAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0125h
 	jmp NtOpenObjectAuditAlarm_Epilogue
+NtOpenObjectAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0125h
+	jmp NtOpenObjectAuditAlarm_Epilogue
 NtOpenObjectAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenObjectAuditAlarm_Epilogue:
@@ -18592,7 +19525,7 @@ NtOpenObjectAuditAlarm_Epilogue:
 NtOpenObjectAuditAlarm ENDP
 
 NtOpenPrivateNamespace PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtOpenPrivateNamespace_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenPrivateNamespace_Check_6_X_XXXX
@@ -18636,6 +19569,8 @@ NtOpenPrivateNamespace_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtOpenPrivateNamespace_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenPrivateNamespace_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenPrivateNamespace_SystemCall_10_0_19043
 	jmp NtOpenPrivateNamespace_SystemCall_Unknown
 NtOpenPrivateNamespace_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f8h
@@ -18682,6 +19617,9 @@ NtOpenPrivateNamespace_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenPrivateNamespace_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0127h
 	jmp NtOpenPrivateNamespace_Epilogue
+NtOpenPrivateNamespace_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0127h
+	jmp NtOpenPrivateNamespace_Epilogue
 NtOpenPrivateNamespace_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenPrivateNamespace_Epilogue:
@@ -18691,7 +19629,7 @@ NtOpenPrivateNamespace_Epilogue:
 NtOpenPrivateNamespace ENDP
 
 NtOpenProcess PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtOpenProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenProcess_Check_6_X_XXXX
@@ -18735,6 +19673,8 @@ NtOpenProcess_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenProcess_SystemCall_10_0_19043
 	jmp NtOpenProcess_SystemCall_Unknown
 NtOpenProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0023h
@@ -18781,6 +19721,9 @@ NtOpenProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0026h
 	jmp NtOpenProcess_Epilogue
+NtOpenProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0026h
+	jmp NtOpenProcess_Epilogue
 NtOpenProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenProcess_Epilogue:
@@ -18790,7 +19733,7 @@ NtOpenProcess_Epilogue:
 NtOpenProcess ENDP
 
 NtOpenProcessToken PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtOpenProcessToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenProcessToken_Check_6_X_XXXX
@@ -18834,6 +19777,8 @@ NtOpenProcessToken_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtOpenProcessToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenProcessToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenProcessToken_SystemCall_10_0_19043
 	jmp NtOpenProcessToken_SystemCall_Unknown
 NtOpenProcessToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00f9h
@@ -18880,6 +19825,9 @@ NtOpenProcessToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenProcessToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0128h
 	jmp NtOpenProcessToken_Epilogue
+NtOpenProcessToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0128h
+	jmp NtOpenProcessToken_Epilogue
 NtOpenProcessToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenProcessToken_Epilogue:
@@ -18889,7 +19837,7 @@ NtOpenProcessToken_Epilogue:
 NtOpenProcessToken ENDP
 
 NtOpenProcessTokenEx PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtOpenProcessTokenEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenProcessTokenEx_Check_6_X_XXXX
@@ -18933,6 +19881,8 @@ NtOpenProcessTokenEx_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtOpenProcessTokenEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenProcessTokenEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenProcessTokenEx_SystemCall_10_0_19043
 	jmp NtOpenProcessTokenEx_SystemCall_Unknown
 NtOpenProcessTokenEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 002dh
@@ -18979,6 +19929,9 @@ NtOpenProcessTokenEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenProcessTokenEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0030h
 	jmp NtOpenProcessTokenEx_Epilogue
+NtOpenProcessTokenEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0030h
+	jmp NtOpenProcessTokenEx_Epilogue
 NtOpenProcessTokenEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenProcessTokenEx_Epilogue:
@@ -18988,7 +19941,7 @@ NtOpenProcessTokenEx_Epilogue:
 NtOpenProcessTokenEx ENDP
 
 NtOpenResourceManager PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtOpenResourceManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenResourceManager_Check_6_X_XXXX
@@ -19032,6 +19985,8 @@ NtOpenResourceManager_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtOpenResourceManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenResourceManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenResourceManager_SystemCall_10_0_19043
 	jmp NtOpenResourceManager_SystemCall_Unknown
 NtOpenResourceManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00fah
@@ -19078,6 +20033,9 @@ NtOpenResourceManager_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenResourceManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 012ah
 	jmp NtOpenResourceManager_Epilogue
+NtOpenResourceManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 012ah
+	jmp NtOpenResourceManager_Epilogue
 NtOpenResourceManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenResourceManager_Epilogue:
@@ -19087,7 +20045,7 @@ NtOpenResourceManager_Epilogue:
 NtOpenResourceManager ENDP
 
 NtOpenSection PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtOpenSection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenSection_Check_6_X_XXXX
@@ -19131,6 +20089,8 @@ NtOpenSection_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenSection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenSection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenSection_SystemCall_10_0_19043
 	jmp NtOpenSection_SystemCall_Unknown
 NtOpenSection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0034h
@@ -19177,6 +20137,9 @@ NtOpenSection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenSection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0037h
 	jmp NtOpenSection_Epilogue
+NtOpenSection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0037h
+	jmp NtOpenSection_Epilogue
 NtOpenSection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenSection_Epilogue:
@@ -19186,7 +20149,7 @@ NtOpenSection_Epilogue:
 NtOpenSection ENDP
 
 NtOpenSemaphore PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtOpenSemaphore_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenSemaphore_Check_6_X_XXXX
@@ -19230,6 +20193,8 @@ NtOpenSemaphore_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtOpenSemaphore_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenSemaphore_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenSemaphore_SystemCall_10_0_19043
 	jmp NtOpenSemaphore_SystemCall_Unknown
 NtOpenSemaphore_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00fbh
@@ -19276,6 +20241,9 @@ NtOpenSemaphore_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenSemaphore_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 012bh
 	jmp NtOpenSemaphore_Epilogue
+NtOpenSemaphore_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 012bh
+	jmp NtOpenSemaphore_Epilogue
 NtOpenSemaphore_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenSemaphore_Epilogue:
@@ -19285,7 +20253,7 @@ NtOpenSemaphore_Epilogue:
 NtOpenSemaphore ENDP
 
 NtOpenSession PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtOpenSession_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenSession_Check_6_X_XXXX
@@ -19329,6 +20297,8 @@ NtOpenSession_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenSession_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenSession_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenSession_SystemCall_10_0_19043
 	jmp NtOpenSession_SystemCall_Unknown
 NtOpenSession_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00fch
@@ -19375,6 +20345,9 @@ NtOpenSession_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenSession_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 012ch
 	jmp NtOpenSession_Epilogue
+NtOpenSession_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 012ch
+	jmp NtOpenSession_Epilogue
 NtOpenSession_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenSession_Epilogue:
@@ -19384,7 +20357,7 @@ NtOpenSession_Epilogue:
 NtOpenSession ENDP
 
 NtOpenSymbolicLinkObject PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtOpenSymbolicLinkObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenSymbolicLinkObject_Check_6_X_XXXX
@@ -19428,6 +20401,8 @@ NtOpenSymbolicLinkObject_Check_10_0_XXXX:              ; Check build number for 
 	je  NtOpenSymbolicLinkObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenSymbolicLinkObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenSymbolicLinkObject_SystemCall_10_0_19043
 	jmp NtOpenSymbolicLinkObject_SystemCall_Unknown
 NtOpenSymbolicLinkObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00fdh
@@ -19474,6 +20449,9 @@ NtOpenSymbolicLinkObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtOpenSymbolicLinkObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 012dh
 	jmp NtOpenSymbolicLinkObject_Epilogue
+NtOpenSymbolicLinkObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 012dh
+	jmp NtOpenSymbolicLinkObject_Epilogue
 NtOpenSymbolicLinkObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenSymbolicLinkObject_Epilogue:
@@ -19483,7 +20461,7 @@ NtOpenSymbolicLinkObject_Epilogue:
 NtOpenSymbolicLinkObject ENDP
 
 NtOpenThread PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtOpenThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenThread_Check_6_X_XXXX
@@ -19527,6 +20505,8 @@ NtOpenThread_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenThread_SystemCall_10_0_19043
 	jmp NtOpenThread_SystemCall_Unknown
 NtOpenThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00feh
@@ -19573,6 +20553,9 @@ NtOpenThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 012eh
 	jmp NtOpenThread_Epilogue
+NtOpenThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 012eh
+	jmp NtOpenThread_Epilogue
 NtOpenThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenThread_Epilogue:
@@ -19582,7 +20565,7 @@ NtOpenThread_Epilogue:
 NtOpenThread ENDP
 
 NtOpenThreadToken PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtOpenThreadToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenThreadToken_Check_6_X_XXXX
@@ -19626,6 +20609,8 @@ NtOpenThreadToken_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtOpenThreadToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenThreadToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenThreadToken_SystemCall_10_0_19043
 	jmp NtOpenThreadToken_SystemCall_Unknown
 NtOpenThreadToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0021h
@@ -19672,6 +20657,9 @@ NtOpenThreadToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenThreadToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0024h
 	jmp NtOpenThreadToken_Epilogue
+NtOpenThreadToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0024h
+	jmp NtOpenThreadToken_Epilogue
 NtOpenThreadToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenThreadToken_Epilogue:
@@ -19681,7 +20669,7 @@ NtOpenThreadToken_Epilogue:
 NtOpenThreadToken ENDP
 
 NtOpenThreadTokenEx PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtOpenThreadTokenEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenThreadTokenEx_Check_6_X_XXXX
@@ -19725,6 +20713,8 @@ NtOpenThreadTokenEx_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtOpenThreadTokenEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenThreadTokenEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenThreadTokenEx_SystemCall_10_0_19043
 	jmp NtOpenThreadTokenEx_SystemCall_Unknown
 NtOpenThreadTokenEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 002ch
@@ -19771,6 +20761,9 @@ NtOpenThreadTokenEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenThreadTokenEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 002fh
 	jmp NtOpenThreadTokenEx_Epilogue
+NtOpenThreadTokenEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 002fh
+	jmp NtOpenThreadTokenEx_Epilogue
 NtOpenThreadTokenEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenThreadTokenEx_Epilogue:
@@ -19780,7 +20773,7 @@ NtOpenThreadTokenEx_Epilogue:
 NtOpenThreadTokenEx ENDP
 
 NtOpenTimer PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtOpenTimer_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenTimer_Check_6_X_XXXX
@@ -19824,6 +20817,8 @@ NtOpenTimer_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtOpenTimer_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenTimer_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenTimer_SystemCall_10_0_19043
 	jmp NtOpenTimer_SystemCall_Unknown
 NtOpenTimer_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 00ffh
@@ -19870,6 +20865,9 @@ NtOpenTimer_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenTimer_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 012fh
 	jmp NtOpenTimer_Epilogue
+NtOpenTimer_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 012fh
+	jmp NtOpenTimer_Epilogue
 NtOpenTimer_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenTimer_Epilogue:
@@ -19879,7 +20877,7 @@ NtOpenTimer_Epilogue:
 NtOpenTimer ENDP
 
 NtOpenTransaction PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtOpenTransaction_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenTransaction_Check_6_X_XXXX
@@ -19923,6 +20921,8 @@ NtOpenTransaction_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtOpenTransaction_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenTransaction_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenTransaction_SystemCall_10_0_19043
 	jmp NtOpenTransaction_SystemCall_Unknown
 NtOpenTransaction_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0100h
@@ -19969,6 +20969,9 @@ NtOpenTransaction_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtOpenTransaction_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0130h
 	jmp NtOpenTransaction_Epilogue
+NtOpenTransaction_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0130h
+	jmp NtOpenTransaction_Epilogue
 NtOpenTransaction_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenTransaction_Epilogue:
@@ -19978,7 +20981,7 @@ NtOpenTransaction_Epilogue:
 NtOpenTransaction ENDP
 
 NtOpenTransactionManager PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtOpenTransactionManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtOpenTransactionManager_Check_6_X_XXXX
@@ -20022,6 +21025,8 @@ NtOpenTransactionManager_Check_10_0_XXXX:              ; Check build number for 
 	je  NtOpenTransactionManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtOpenTransactionManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtOpenTransactionManager_SystemCall_10_0_19043
 	jmp NtOpenTransactionManager_SystemCall_Unknown
 NtOpenTransactionManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0101h
@@ -20068,6 +21073,9 @@ NtOpenTransactionManager_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtOpenTransactionManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0131h
 	jmp NtOpenTransactionManager_Epilogue
+NtOpenTransactionManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0131h
+	jmp NtOpenTransactionManager_Epilogue
 NtOpenTransactionManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtOpenTransactionManager_Epilogue:
@@ -20077,7 +21085,7 @@ NtOpenTransactionManager_Epilogue:
 NtOpenTransactionManager ENDP
 
 NtPlugPlayControl PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtPlugPlayControl_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPlugPlayControl_Check_6_X_XXXX
@@ -20121,6 +21129,8 @@ NtPlugPlayControl_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtPlugPlayControl_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPlugPlayControl_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPlugPlayControl_SystemCall_10_0_19043
 	jmp NtPlugPlayControl_SystemCall_Unknown
 NtPlugPlayControl_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0102h
@@ -20167,6 +21177,9 @@ NtPlugPlayControl_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPlugPlayControl_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0132h
 	jmp NtPlugPlayControl_Epilogue
+NtPlugPlayControl_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0132h
+	jmp NtPlugPlayControl_Epilogue
 NtPlugPlayControl_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPlugPlayControl_Epilogue:
@@ -20176,7 +21189,7 @@ NtPlugPlayControl_Epilogue:
 NtPlugPlayControl ENDP
 
 NtPowerInformation PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtPowerInformation_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPowerInformation_Check_6_X_XXXX
@@ -20220,6 +21233,8 @@ NtPowerInformation_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtPowerInformation_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPowerInformation_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPowerInformation_SystemCall_10_0_19043
 	jmp NtPowerInformation_SystemCall_Unknown
 NtPowerInformation_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 005ch
@@ -20266,6 +21281,9 @@ NtPowerInformation_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPowerInformation_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 005fh
 	jmp NtPowerInformation_Epilogue
+NtPowerInformation_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 005fh
+	jmp NtPowerInformation_Epilogue
 NtPowerInformation_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPowerInformation_Epilogue:
@@ -20275,7 +21293,7 @@ NtPowerInformation_Epilogue:
 NtPowerInformation ENDP
 
 NtPrePrepareComplete PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtPrePrepareComplete_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPrePrepareComplete_Check_6_X_XXXX
@@ -20319,6 +21337,8 @@ NtPrePrepareComplete_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtPrePrepareComplete_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPrePrepareComplete_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPrePrepareComplete_SystemCall_10_0_19043
 	jmp NtPrePrepareComplete_SystemCall_Unknown
 NtPrePrepareComplete_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0103h
@@ -20365,6 +21385,9 @@ NtPrePrepareComplete_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPrePrepareComplete_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0133h
 	jmp NtPrePrepareComplete_Epilogue
+NtPrePrepareComplete_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0133h
+	jmp NtPrePrepareComplete_Epilogue
 NtPrePrepareComplete_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPrePrepareComplete_Epilogue:
@@ -20374,7 +21397,7 @@ NtPrePrepareComplete_Epilogue:
 NtPrePrepareComplete ENDP
 
 NtPrePrepareEnlistment PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtPrePrepareEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPrePrepareEnlistment_Check_6_X_XXXX
@@ -20418,6 +21441,8 @@ NtPrePrepareEnlistment_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtPrePrepareEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPrePrepareEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPrePrepareEnlistment_SystemCall_10_0_19043
 	jmp NtPrePrepareEnlistment_SystemCall_Unknown
 NtPrePrepareEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0104h
@@ -20464,6 +21489,9 @@ NtPrePrepareEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPrePrepareEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0134h
 	jmp NtPrePrepareEnlistment_Epilogue
+NtPrePrepareEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0134h
+	jmp NtPrePrepareEnlistment_Epilogue
 NtPrePrepareEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPrePrepareEnlistment_Epilogue:
@@ -20473,7 +21501,7 @@ NtPrePrepareEnlistment_Epilogue:
 NtPrePrepareEnlistment ENDP
 
 NtPrepareComplete PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtPrepareComplete_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPrepareComplete_Check_6_X_XXXX
@@ -20517,6 +21545,8 @@ NtPrepareComplete_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtPrepareComplete_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPrepareComplete_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPrepareComplete_SystemCall_10_0_19043
 	jmp NtPrepareComplete_SystemCall_Unknown
 NtPrepareComplete_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0105h
@@ -20563,6 +21593,9 @@ NtPrepareComplete_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPrepareComplete_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0135h
 	jmp NtPrepareComplete_Epilogue
+NtPrepareComplete_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0135h
+	jmp NtPrepareComplete_Epilogue
 NtPrepareComplete_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPrepareComplete_Epilogue:
@@ -20572,7 +21605,7 @@ NtPrepareComplete_Epilogue:
 NtPrepareComplete ENDP
 
 NtPrepareEnlistment PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtPrepareEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPrepareEnlistment_Check_6_X_XXXX
@@ -20616,6 +21649,8 @@ NtPrepareEnlistment_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtPrepareEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPrepareEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPrepareEnlistment_SystemCall_10_0_19043
 	jmp NtPrepareEnlistment_SystemCall_Unknown
 NtPrepareEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0106h
@@ -20662,6 +21697,9 @@ NtPrepareEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPrepareEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0136h
 	jmp NtPrepareEnlistment_Epilogue
+NtPrepareEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0136h
+	jmp NtPrepareEnlistment_Epilogue
 NtPrepareEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPrepareEnlistment_Epilogue:
@@ -20671,7 +21709,7 @@ NtPrepareEnlistment_Epilogue:
 NtPrepareEnlistment ENDP
 
 NtPrivilegeCheck PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtPrivilegeCheck_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPrivilegeCheck_Check_6_X_XXXX
@@ -20715,6 +21753,8 @@ NtPrivilegeCheck_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtPrivilegeCheck_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPrivilegeCheck_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPrivilegeCheck_SystemCall_10_0_19043
 	jmp NtPrivilegeCheck_SystemCall_Unknown
 NtPrivilegeCheck_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0107h
@@ -20761,6 +21801,9 @@ NtPrivilegeCheck_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPrivilegeCheck_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0137h
 	jmp NtPrivilegeCheck_Epilogue
+NtPrivilegeCheck_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0137h
+	jmp NtPrivilegeCheck_Epilogue
 NtPrivilegeCheck_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPrivilegeCheck_Epilogue:
@@ -20770,7 +21813,7 @@ NtPrivilegeCheck_Epilogue:
 NtPrivilegeCheck ENDP
 
 NtPrivilegeObjectAuditAlarm PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtPrivilegeObjectAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPrivilegeObjectAuditAlarm_Check_6_X_XXXX
@@ -20814,6 +21857,8 @@ NtPrivilegeObjectAuditAlarm_Check_10_0_XXXX:              ; Check build number f
 	je  NtPrivilegeObjectAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPrivilegeObjectAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPrivilegeObjectAuditAlarm_SystemCall_10_0_19043
 	jmp NtPrivilegeObjectAuditAlarm_SystemCall_Unknown
 NtPrivilegeObjectAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0108h
@@ -20860,6 +21905,9 @@ NtPrivilegeObjectAuditAlarm_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtPrivilegeObjectAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0138h
 	jmp NtPrivilegeObjectAuditAlarm_Epilogue
+NtPrivilegeObjectAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0138h
+	jmp NtPrivilegeObjectAuditAlarm_Epilogue
 NtPrivilegeObjectAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPrivilegeObjectAuditAlarm_Epilogue:
@@ -20869,7 +21917,7 @@ NtPrivilegeObjectAuditAlarm_Epilogue:
 NtPrivilegeObjectAuditAlarm ENDP
 
 NtPrivilegedServiceAuditAlarm PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtPrivilegedServiceAuditAlarm_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPrivilegedServiceAuditAlarm_Check_6_X_XXXX
@@ -20913,6 +21961,8 @@ NtPrivilegedServiceAuditAlarm_Check_10_0_XXXX:              ; Check build number
 	je  NtPrivilegedServiceAuditAlarm_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPrivilegedServiceAuditAlarm_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPrivilegedServiceAuditAlarm_SystemCall_10_0_19043
 	jmp NtPrivilegedServiceAuditAlarm_SystemCall_Unknown
 NtPrivilegedServiceAuditAlarm_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0109h
@@ -20959,6 +22009,9 @@ NtPrivilegedServiceAuditAlarm_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtPrivilegedServiceAuditAlarm_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0139h
 	jmp NtPrivilegedServiceAuditAlarm_Epilogue
+NtPrivilegedServiceAuditAlarm_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0139h
+	jmp NtPrivilegedServiceAuditAlarm_Epilogue
 NtPrivilegedServiceAuditAlarm_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPrivilegedServiceAuditAlarm_Epilogue:
@@ -20968,7 +22021,7 @@ NtPrivilegedServiceAuditAlarm_Epilogue:
 NtPrivilegedServiceAuditAlarm ENDP
 
 NtPropagationComplete PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtPropagationComplete_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPropagationComplete_Check_6_X_XXXX
@@ -21012,6 +22065,8 @@ NtPropagationComplete_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtPropagationComplete_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPropagationComplete_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPropagationComplete_SystemCall_10_0_19043
 	jmp NtPropagationComplete_SystemCall_Unknown
 NtPropagationComplete_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 010ah
@@ -21058,6 +22113,9 @@ NtPropagationComplete_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPropagationComplete_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 013ah
 	jmp NtPropagationComplete_Epilogue
+NtPropagationComplete_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 013ah
+	jmp NtPropagationComplete_Epilogue
 NtPropagationComplete_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPropagationComplete_Epilogue:
@@ -21067,7 +22125,7 @@ NtPropagationComplete_Epilogue:
 NtPropagationComplete ENDP
 
 NtPropagationFailed PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtPropagationFailed_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPropagationFailed_Check_6_X_XXXX
@@ -21111,6 +22169,8 @@ NtPropagationFailed_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtPropagationFailed_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPropagationFailed_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPropagationFailed_SystemCall_10_0_19043
 	jmp NtPropagationFailed_SystemCall_Unknown
 NtPropagationFailed_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 010bh
@@ -21157,6 +22217,9 @@ NtPropagationFailed_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPropagationFailed_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 013bh
 	jmp NtPropagationFailed_Epilogue
+NtPropagationFailed_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 013bh
+	jmp NtPropagationFailed_Epilogue
 NtPropagationFailed_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPropagationFailed_Epilogue:
@@ -21166,7 +22229,7 @@ NtPropagationFailed_Epilogue:
 NtPropagationFailed ENDP
 
 NtProtectVirtualMemory PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtProtectVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtProtectVirtualMemory_Check_6_X_XXXX
@@ -21210,6 +22273,8 @@ NtProtectVirtualMemory_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtProtectVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtProtectVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtProtectVirtualMemory_SystemCall_10_0_19043
 	jmp NtProtectVirtualMemory_SystemCall_Unknown
 NtProtectVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 004dh
@@ -21256,6 +22321,9 @@ NtProtectVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtProtectVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0050h
 	jmp NtProtectVirtualMemory_Epilogue
+NtProtectVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0050h
+	jmp NtProtectVirtualMemory_Epilogue
 NtProtectVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtProtectVirtualMemory_Epilogue:
@@ -21265,7 +22333,7 @@ NtProtectVirtualMemory_Epilogue:
 NtProtectVirtualMemory ENDP
 
 NtPulseEvent PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtPulseEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtPulseEvent_Check_6_X_XXXX
@@ -21309,6 +22377,8 @@ NtPulseEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtPulseEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtPulseEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtPulseEvent_SystemCall_10_0_19043
 	jmp NtPulseEvent_SystemCall_Unknown
 NtPulseEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 010ch
@@ -21355,6 +22425,9 @@ NtPulseEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtPulseEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 013dh
 	jmp NtPulseEvent_Epilogue
+NtPulseEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 013dh
+	jmp NtPulseEvent_Epilogue
 NtPulseEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtPulseEvent_Epilogue:
@@ -21364,7 +22437,7 @@ NtPulseEvent_Epilogue:
 NtPulseEvent ENDP
 
 NtQueryAttributesFile PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtQueryAttributesFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryAttributesFile_Check_6_X_XXXX
@@ -21408,6 +22481,8 @@ NtQueryAttributesFile_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtQueryAttributesFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryAttributesFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryAttributesFile_SystemCall_10_0_19043
 	jmp NtQueryAttributesFile_SystemCall_Unknown
 NtQueryAttributesFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 003ah
@@ -21454,6 +22529,9 @@ NtQueryAttributesFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryAttributesFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 003dh
 	jmp NtQueryAttributesFile_Epilogue
+NtQueryAttributesFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 003dh
+	jmp NtQueryAttributesFile_Epilogue
 NtQueryAttributesFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryAttributesFile_Epilogue:
@@ -21463,7 +22541,7 @@ NtQueryAttributesFile_Epilogue:
 NtQueryAttributesFile ENDP
 
 NtQueryBootEntryOrder PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtQueryBootEntryOrder_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryBootEntryOrder_Check_6_X_XXXX
@@ -21507,6 +22585,8 @@ NtQueryBootEntryOrder_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtQueryBootEntryOrder_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryBootEntryOrder_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryBootEntryOrder_SystemCall_10_0_19043
 	jmp NtQueryBootEntryOrder_SystemCall_Unknown
 NtQueryBootEntryOrder_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 010dh
@@ -21553,6 +22633,9 @@ NtQueryBootEntryOrder_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryBootEntryOrder_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 013fh
 	jmp NtQueryBootEntryOrder_Epilogue
+NtQueryBootEntryOrder_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 013fh
+	jmp NtQueryBootEntryOrder_Epilogue
 NtQueryBootEntryOrder_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryBootEntryOrder_Epilogue:
@@ -21562,7 +22645,7 @@ NtQueryBootEntryOrder_Epilogue:
 NtQueryBootEntryOrder ENDP
 
 NtQueryBootOptions PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtQueryBootOptions_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryBootOptions_Check_6_X_XXXX
@@ -21606,6 +22689,8 @@ NtQueryBootOptions_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtQueryBootOptions_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryBootOptions_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryBootOptions_SystemCall_10_0_19043
 	jmp NtQueryBootOptions_SystemCall_Unknown
 NtQueryBootOptions_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 010eh
@@ -21652,6 +22737,9 @@ NtQueryBootOptions_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryBootOptions_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0140h
 	jmp NtQueryBootOptions_Epilogue
+NtQueryBootOptions_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0140h
+	jmp NtQueryBootOptions_Epilogue
 NtQueryBootOptions_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryBootOptions_Epilogue:
@@ -21661,7 +22749,7 @@ NtQueryBootOptions_Epilogue:
 NtQueryBootOptions ENDP
 
 NtQueryDebugFilterState PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtQueryDebugFilterState_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryDebugFilterState_Check_6_X_XXXX
@@ -21705,6 +22793,8 @@ NtQueryDebugFilterState_Check_10_0_XXXX:              ; Check build number for W
 	je  NtQueryDebugFilterState_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryDebugFilterState_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryDebugFilterState_SystemCall_10_0_19043
 	jmp NtQueryDebugFilterState_SystemCall_Unknown
 NtQueryDebugFilterState_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 010fh
@@ -21751,6 +22841,9 @@ NtQueryDebugFilterState_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtQueryDebugFilterState_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0141h
 	jmp NtQueryDebugFilterState_Epilogue
+NtQueryDebugFilterState_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0141h
+	jmp NtQueryDebugFilterState_Epilogue
 NtQueryDebugFilterState_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryDebugFilterState_Epilogue:
@@ -21760,7 +22853,7 @@ NtQueryDebugFilterState_Epilogue:
 NtQueryDebugFilterState ENDP
 
 NtQueryDefaultLocale PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtQueryDefaultLocale_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryDefaultLocale_Check_6_X_XXXX
@@ -21804,6 +22897,8 @@ NtQueryDefaultLocale_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtQueryDefaultLocale_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryDefaultLocale_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryDefaultLocale_SystemCall_10_0_19043
 	jmp NtQueryDefaultLocale_SystemCall_Unknown
 NtQueryDefaultLocale_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0012h
@@ -21850,6 +22945,9 @@ NtQueryDefaultLocale_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryDefaultLocale_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0015h
 	jmp NtQueryDefaultLocale_Epilogue
+NtQueryDefaultLocale_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0015h
+	jmp NtQueryDefaultLocale_Epilogue
 NtQueryDefaultLocale_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryDefaultLocale_Epilogue:
@@ -21859,7 +22957,7 @@ NtQueryDefaultLocale_Epilogue:
 NtQueryDefaultLocale ENDP
 
 NtQueryDefaultUILanguage PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtQueryDefaultUILanguage_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryDefaultUILanguage_Check_6_X_XXXX
@@ -21903,6 +23001,8 @@ NtQueryDefaultUILanguage_Check_10_0_XXXX:              ; Check build number for 
 	je  NtQueryDefaultUILanguage_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryDefaultUILanguage_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryDefaultUILanguage_SystemCall_10_0_19043
 	jmp NtQueryDefaultUILanguage_SystemCall_Unknown
 NtQueryDefaultUILanguage_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0041h
@@ -21949,6 +23049,9 @@ NtQueryDefaultUILanguage_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtQueryDefaultUILanguage_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0044h
 	jmp NtQueryDefaultUILanguage_Epilogue
+NtQueryDefaultUILanguage_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0044h
+	jmp NtQueryDefaultUILanguage_Epilogue
 NtQueryDefaultUILanguage_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryDefaultUILanguage_Epilogue:
@@ -21958,7 +23061,7 @@ NtQueryDefaultUILanguage_Epilogue:
 NtQueryDefaultUILanguage ENDP
 
 NtQueryDirectoryFile PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtQueryDirectoryFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryDirectoryFile_Check_6_X_XXXX
@@ -22002,6 +23105,8 @@ NtQueryDirectoryFile_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtQueryDirectoryFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryDirectoryFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryDirectoryFile_SystemCall_10_0_19043
 	jmp NtQueryDirectoryFile_SystemCall_Unknown
 NtQueryDirectoryFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0032h
@@ -22048,6 +23153,9 @@ NtQueryDirectoryFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryDirectoryFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0035h
 	jmp NtQueryDirectoryFile_Epilogue
+NtQueryDirectoryFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0035h
+	jmp NtQueryDirectoryFile_Epilogue
 NtQueryDirectoryFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryDirectoryFile_Epilogue:
@@ -22057,7 +23165,7 @@ NtQueryDirectoryFile_Epilogue:
 NtQueryDirectoryFile ENDP
 
 NtQueryDirectoryObject PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtQueryDirectoryObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryDirectoryObject_Check_6_X_XXXX
@@ -22101,6 +23209,8 @@ NtQueryDirectoryObject_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtQueryDirectoryObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryDirectoryObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryDirectoryObject_SystemCall_10_0_19043
 	jmp NtQueryDirectoryObject_SystemCall_Unknown
 NtQueryDirectoryObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0110h
@@ -22147,6 +23257,9 @@ NtQueryDirectoryObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryDirectoryObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0143h
 	jmp NtQueryDirectoryObject_Epilogue
+NtQueryDirectoryObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0143h
+	jmp NtQueryDirectoryObject_Epilogue
 NtQueryDirectoryObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryDirectoryObject_Epilogue:
@@ -22156,7 +23269,7 @@ NtQueryDirectoryObject_Epilogue:
 NtQueryDirectoryObject ENDP
 
 NtQueryDriverEntryOrder PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtQueryDriverEntryOrder_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryDriverEntryOrder_Check_6_X_XXXX
@@ -22200,6 +23313,8 @@ NtQueryDriverEntryOrder_Check_10_0_XXXX:              ; Check build number for W
 	je  NtQueryDriverEntryOrder_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryDriverEntryOrder_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryDriverEntryOrder_SystemCall_10_0_19043
 	jmp NtQueryDriverEntryOrder_SystemCall_Unknown
 NtQueryDriverEntryOrder_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0111h
@@ -22246,6 +23361,9 @@ NtQueryDriverEntryOrder_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtQueryDriverEntryOrder_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0144h
 	jmp NtQueryDriverEntryOrder_Epilogue
+NtQueryDriverEntryOrder_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0144h
+	jmp NtQueryDriverEntryOrder_Epilogue
 NtQueryDriverEntryOrder_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryDriverEntryOrder_Epilogue:
@@ -22255,7 +23373,7 @@ NtQueryDriverEntryOrder_Epilogue:
 NtQueryDriverEntryOrder ENDP
 
 NtQueryEaFile PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtQueryEaFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryEaFile_Check_6_X_XXXX
@@ -22299,6 +23417,8 @@ NtQueryEaFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtQueryEaFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryEaFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryEaFile_SystemCall_10_0_19043
 	jmp NtQueryEaFile_SystemCall_Unknown
 NtQueryEaFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0112h
@@ -22345,6 +23465,9 @@ NtQueryEaFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryEaFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0145h
 	jmp NtQueryEaFile_Epilogue
+NtQueryEaFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0145h
+	jmp NtQueryEaFile_Epilogue
 NtQueryEaFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryEaFile_Epilogue:
@@ -22354,7 +23477,7 @@ NtQueryEaFile_Epilogue:
 NtQueryEaFile ENDP
 
 NtQueryEvent PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtQueryEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryEvent_Check_6_X_XXXX
@@ -22398,6 +23521,8 @@ NtQueryEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtQueryEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryEvent_SystemCall_10_0_19043
 	jmp NtQueryEvent_SystemCall_Unknown
 NtQueryEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0053h
@@ -22444,6 +23569,9 @@ NtQueryEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0056h
 	jmp NtQueryEvent_Epilogue
+NtQueryEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0056h
+	jmp NtQueryEvent_Epilogue
 NtQueryEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryEvent_Epilogue:
@@ -22453,7 +23581,7 @@ NtQueryEvent_Epilogue:
 NtQueryEvent ENDP
 
 NtQueryFullAttributesFile PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtQueryFullAttributesFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryFullAttributesFile_Check_6_X_XXXX
@@ -22497,6 +23625,8 @@ NtQueryFullAttributesFile_Check_10_0_XXXX:              ; Check build number for
 	je  NtQueryFullAttributesFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryFullAttributesFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryFullAttributesFile_SystemCall_10_0_19043
 	jmp NtQueryFullAttributesFile_SystemCall_Unknown
 NtQueryFullAttributesFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0113h
@@ -22543,6 +23673,9 @@ NtQueryFullAttributesFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtQueryFullAttributesFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0146h
 	jmp NtQueryFullAttributesFile_Epilogue
+NtQueryFullAttributesFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0146h
+	jmp NtQueryFullAttributesFile_Epilogue
 NtQueryFullAttributesFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryFullAttributesFile_Epilogue:
@@ -22552,7 +23685,7 @@ NtQueryFullAttributesFile_Epilogue:
 NtQueryFullAttributesFile ENDP
 
 NtQueryInformationAtom PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtQueryInformationAtom_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationAtom_Check_6_X_XXXX
@@ -22596,6 +23729,8 @@ NtQueryInformationAtom_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtQueryInformationAtom_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationAtom_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationAtom_SystemCall_10_0_19043
 	jmp NtQueryInformationAtom_SystemCall_Unknown
 NtQueryInformationAtom_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0114h
@@ -22642,6 +23777,9 @@ NtQueryInformationAtom_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryInformationAtom_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0147h
 	jmp NtQueryInformationAtom_Epilogue
+NtQueryInformationAtom_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0147h
+	jmp NtQueryInformationAtom_Epilogue
 NtQueryInformationAtom_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationAtom_Epilogue:
@@ -22651,7 +23789,7 @@ NtQueryInformationAtom_Epilogue:
 NtQueryInformationAtom ENDP
 
 NtQueryInformationEnlistment PROC
-	mov rax, gs:[60h]                                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                                  ; Load PEB into RAX.
 NtQueryInformationEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationEnlistment_Check_6_X_XXXX
@@ -22695,6 +23833,8 @@ NtQueryInformationEnlistment_Check_10_0_XXXX:              ; Check build number 
 	je  NtQueryInformationEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationEnlistment_SystemCall_10_0_19043
 	jmp NtQueryInformationEnlistment_SystemCall_Unknown
 NtQueryInformationEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0115h
@@ -22741,6 +23881,9 @@ NtQueryInformationEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 
 NtQueryInformationEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0149h
 	jmp NtQueryInformationEnlistment_Epilogue
+NtQueryInformationEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0149h
+	jmp NtQueryInformationEnlistment_Epilogue
 NtQueryInformationEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationEnlistment_Epilogue:
@@ -22750,7 +23893,7 @@ NtQueryInformationEnlistment_Epilogue:
 NtQueryInformationEnlistment ENDP
 
 NtQueryInformationFile PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtQueryInformationFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationFile_Check_6_X_XXXX
@@ -22794,6 +23937,8 @@ NtQueryInformationFile_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtQueryInformationFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationFile_SystemCall_10_0_19043
 	jmp NtQueryInformationFile_SystemCall_Unknown
 NtQueryInformationFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 000eh
@@ -22840,6 +23985,9 @@ NtQueryInformationFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryInformationFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0011h
 	jmp NtQueryInformationFile_Epilogue
+NtQueryInformationFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0011h
+	jmp NtQueryInformationFile_Epilogue
 NtQueryInformationFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationFile_Epilogue:
@@ -22849,7 +23997,7 @@ NtQueryInformationFile_Epilogue:
 NtQueryInformationFile ENDP
 
 NtQueryInformationJobObject PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtQueryInformationJobObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationJobObject_Check_6_X_XXXX
@@ -22893,6 +24041,8 @@ NtQueryInformationJobObject_Check_10_0_XXXX:              ; Check build number f
 	je  NtQueryInformationJobObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationJobObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationJobObject_SystemCall_10_0_19043
 	jmp NtQueryInformationJobObject_SystemCall_Unknown
 NtQueryInformationJobObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0116h
@@ -22939,6 +24089,9 @@ NtQueryInformationJobObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtQueryInformationJobObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 014ah
 	jmp NtQueryInformationJobObject_Epilogue
+NtQueryInformationJobObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 014ah
+	jmp NtQueryInformationJobObject_Epilogue
 NtQueryInformationJobObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationJobObject_Epilogue:
@@ -22948,7 +24101,7 @@ NtQueryInformationJobObject_Epilogue:
 NtQueryInformationJobObject ENDP
 
 NtQueryInformationPort PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtQueryInformationPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationPort_Check_6_X_XXXX
@@ -22992,6 +24145,8 @@ NtQueryInformationPort_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtQueryInformationPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationPort_SystemCall_10_0_19043
 	jmp NtQueryInformationPort_SystemCall_Unknown
 NtQueryInformationPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0117h
@@ -23038,6 +24193,9 @@ NtQueryInformationPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryInformationPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 014bh
 	jmp NtQueryInformationPort_Epilogue
+NtQueryInformationPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 014bh
+	jmp NtQueryInformationPort_Epilogue
 NtQueryInformationPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationPort_Epilogue:
@@ -23047,7 +24205,7 @@ NtQueryInformationPort_Epilogue:
 NtQueryInformationPort ENDP
 
 NtQueryInformationProcess PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtQueryInformationProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationProcess_Check_6_X_XXXX
@@ -23091,6 +24249,8 @@ NtQueryInformationProcess_Check_10_0_XXXX:              ; Check build number for
 	je  NtQueryInformationProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationProcess_SystemCall_10_0_19043
 	jmp NtQueryInformationProcess_SystemCall_Unknown
 NtQueryInformationProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0016h
@@ -23137,6 +24297,9 @@ NtQueryInformationProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtQueryInformationProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0019h
 	jmp NtQueryInformationProcess_Epilogue
+NtQueryInformationProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0019h
+	jmp NtQueryInformationProcess_Epilogue
 NtQueryInformationProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationProcess_Epilogue:
@@ -23146,7 +24309,7 @@ NtQueryInformationProcess_Epilogue:
 NtQueryInformationProcess ENDP
 
 NtQueryInformationResourceManager PROC
-	mov rax, gs:[60h]                                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                                       ; Load PEB into RAX.
 NtQueryInformationResourceManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationResourceManager_Check_6_X_XXXX
@@ -23190,6 +24353,8 @@ NtQueryInformationResourceManager_Check_10_0_XXXX:              ; Check build nu
 	je  NtQueryInformationResourceManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationResourceManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationResourceManager_SystemCall_10_0_19043
 	jmp NtQueryInformationResourceManager_SystemCall_Unknown
 NtQueryInformationResourceManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0118h
@@ -23236,6 +24401,9 @@ NtQueryInformationResourceManager_SystemCall_10_0_19041:        ; Windows 10.0.1
 NtQueryInformationResourceManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 014ch
 	jmp NtQueryInformationResourceManager_Epilogue
+NtQueryInformationResourceManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 014ch
+	jmp NtQueryInformationResourceManager_Epilogue
 NtQueryInformationResourceManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationResourceManager_Epilogue:
@@ -23245,7 +24413,7 @@ NtQueryInformationResourceManager_Epilogue:
 NtQueryInformationResourceManager ENDP
 
 NtQueryInformationThread PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtQueryInformationThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationThread_Check_6_X_XXXX
@@ -23289,6 +24457,8 @@ NtQueryInformationThread_Check_10_0_XXXX:              ; Check build number for 
 	je  NtQueryInformationThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationThread_SystemCall_10_0_19043
 	jmp NtQueryInformationThread_SystemCall_Unknown
 NtQueryInformationThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0022h
@@ -23335,6 +24505,9 @@ NtQueryInformationThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtQueryInformationThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0025h
 	jmp NtQueryInformationThread_Epilogue
+NtQueryInformationThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0025h
+	jmp NtQueryInformationThread_Epilogue
 NtQueryInformationThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationThread_Epilogue:
@@ -23344,7 +24517,7 @@ NtQueryInformationThread_Epilogue:
 NtQueryInformationThread ENDP
 
 NtQueryInformationToken PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtQueryInformationToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationToken_Check_6_X_XXXX
@@ -23388,6 +24561,8 @@ NtQueryInformationToken_Check_10_0_XXXX:              ; Check build number for W
 	je  NtQueryInformationToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationToken_SystemCall_10_0_19043
 	jmp NtQueryInformationToken_SystemCall_Unknown
 NtQueryInformationToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 001eh
@@ -23434,6 +24609,9 @@ NtQueryInformationToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtQueryInformationToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0021h
 	jmp NtQueryInformationToken_Epilogue
+NtQueryInformationToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0021h
+	jmp NtQueryInformationToken_Epilogue
 NtQueryInformationToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationToken_Epilogue:
@@ -23443,7 +24621,7 @@ NtQueryInformationToken_Epilogue:
 NtQueryInformationToken ENDP
 
 NtQueryInformationTransaction PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtQueryInformationTransaction_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationTransaction_Check_6_X_XXXX
@@ -23487,6 +24665,8 @@ NtQueryInformationTransaction_Check_10_0_XXXX:              ; Check build number
 	je  NtQueryInformationTransaction_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationTransaction_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationTransaction_SystemCall_10_0_19043
 	jmp NtQueryInformationTransaction_SystemCall_Unknown
 NtQueryInformationTransaction_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0119h
@@ -23533,6 +24713,9 @@ NtQueryInformationTransaction_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtQueryInformationTransaction_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 014dh
 	jmp NtQueryInformationTransaction_Epilogue
+NtQueryInformationTransaction_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 014dh
+	jmp NtQueryInformationTransaction_Epilogue
 NtQueryInformationTransaction_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationTransaction_Epilogue:
@@ -23542,7 +24725,7 @@ NtQueryInformationTransaction_Epilogue:
 NtQueryInformationTransaction ENDP
 
 NtQueryInformationTransactionManager PROC
-	mov rax, gs:[60h]                                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                                          ; Load PEB into RAX.
 NtQueryInformationTransactionManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationTransactionManager_Check_6_X_XXXX
@@ -23586,6 +24769,8 @@ NtQueryInformationTransactionManager_Check_10_0_XXXX:              ; Check build
 	je  NtQueryInformationTransactionManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationTransactionManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationTransactionManager_SystemCall_10_0_19043
 	jmp NtQueryInformationTransactionManager_SystemCall_Unknown
 NtQueryInformationTransactionManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 011ah
@@ -23632,6 +24817,9 @@ NtQueryInformationTransactionManager_SystemCall_10_0_19041:        ; Windows 10.
 NtQueryInformationTransactionManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 014eh
 	jmp NtQueryInformationTransactionManager_Epilogue
+NtQueryInformationTransactionManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 014eh
+	jmp NtQueryInformationTransactionManager_Epilogue
 NtQueryInformationTransactionManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationTransactionManager_Epilogue:
@@ -23641,7 +24829,7 @@ NtQueryInformationTransactionManager_Epilogue:
 NtQueryInformationTransactionManager ENDP
 
 NtQueryInformationWorkerFactory PROC
-	mov rax, gs:[60h]                                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                                     ; Load PEB into RAX.
 NtQueryInformationWorkerFactory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInformationWorkerFactory_Check_6_X_XXXX
@@ -23685,6 +24873,8 @@ NtQueryInformationWorkerFactory_Check_10_0_XXXX:              ; Check build numb
 	je  NtQueryInformationWorkerFactory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInformationWorkerFactory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInformationWorkerFactory_SystemCall_10_0_19043
 	jmp NtQueryInformationWorkerFactory_SystemCall_Unknown
 NtQueryInformationWorkerFactory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 011bh
@@ -23731,6 +24921,9 @@ NtQueryInformationWorkerFactory_SystemCall_10_0_19041:        ; Windows 10.0.190
 NtQueryInformationWorkerFactory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 014fh
 	jmp NtQueryInformationWorkerFactory_Epilogue
+NtQueryInformationWorkerFactory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 014fh
+	jmp NtQueryInformationWorkerFactory_Epilogue
 NtQueryInformationWorkerFactory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInformationWorkerFactory_Epilogue:
@@ -23740,7 +24933,7 @@ NtQueryInformationWorkerFactory_Epilogue:
 NtQueryInformationWorkerFactory ENDP
 
 NtQueryInstallUILanguage PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtQueryInstallUILanguage_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryInstallUILanguage_Check_6_X_XXXX
@@ -23784,6 +24977,8 @@ NtQueryInstallUILanguage_Check_10_0_XXXX:              ; Check build number for 
 	je  NtQueryInstallUILanguage_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryInstallUILanguage_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryInstallUILanguage_SystemCall_10_0_19043
 	jmp NtQueryInstallUILanguage_SystemCall_Unknown
 NtQueryInstallUILanguage_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 011ch
@@ -23830,6 +25025,9 @@ NtQueryInstallUILanguage_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtQueryInstallUILanguage_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0150h
 	jmp NtQueryInstallUILanguage_Epilogue
+NtQueryInstallUILanguage_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0150h
+	jmp NtQueryInstallUILanguage_Epilogue
 NtQueryInstallUILanguage_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryInstallUILanguage_Epilogue:
@@ -23839,7 +25037,7 @@ NtQueryInstallUILanguage_Epilogue:
 NtQueryInstallUILanguage ENDP
 
 NtQueryIntervalProfile PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtQueryIntervalProfile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryIntervalProfile_Check_6_X_XXXX
@@ -23883,6 +25081,8 @@ NtQueryIntervalProfile_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtQueryIntervalProfile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryIntervalProfile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryIntervalProfile_SystemCall_10_0_19043
 	jmp NtQueryIntervalProfile_SystemCall_Unknown
 NtQueryIntervalProfile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 011dh
@@ -23929,6 +25129,9 @@ NtQueryIntervalProfile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryIntervalProfile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0151h
 	jmp NtQueryIntervalProfile_Epilogue
+NtQueryIntervalProfile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0151h
+	jmp NtQueryIntervalProfile_Epilogue
 NtQueryIntervalProfile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryIntervalProfile_Epilogue:
@@ -23938,7 +25141,7 @@ NtQueryIntervalProfile_Epilogue:
 NtQueryIntervalProfile ENDP
 
 NtQueryIoCompletion PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtQueryIoCompletion_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryIoCompletion_Check_6_X_XXXX
@@ -23982,6 +25185,8 @@ NtQueryIoCompletion_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtQueryIoCompletion_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryIoCompletion_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryIoCompletion_SystemCall_10_0_19043
 	jmp NtQueryIoCompletion_SystemCall_Unknown
 NtQueryIoCompletion_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 011eh
@@ -24028,6 +25233,9 @@ NtQueryIoCompletion_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryIoCompletion_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0152h
 	jmp NtQueryIoCompletion_Epilogue
+NtQueryIoCompletion_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0152h
+	jmp NtQueryIoCompletion_Epilogue
 NtQueryIoCompletion_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryIoCompletion_Epilogue:
@@ -24037,7 +25245,7 @@ NtQueryIoCompletion_Epilogue:
 NtQueryIoCompletion ENDP
 
 NtQueryKey PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtQueryKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryKey_Check_6_X_XXXX
@@ -24081,6 +25289,8 @@ NtQueryKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtQueryKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryKey_SystemCall_10_0_19043
 	jmp NtQueryKey_SystemCall_Unknown
 NtQueryKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0013h
@@ -24127,6 +25337,9 @@ NtQueryKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0016h
 	jmp NtQueryKey_Epilogue
+NtQueryKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0016h
+	jmp NtQueryKey_Epilogue
 NtQueryKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryKey_Epilogue:
@@ -24136,7 +25349,7 @@ NtQueryKey_Epilogue:
 NtQueryKey ENDP
 
 NtQueryLicenseValue PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtQueryLicenseValue_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryLicenseValue_Check_6_X_XXXX
@@ -24180,6 +25393,8 @@ NtQueryLicenseValue_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtQueryLicenseValue_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryLicenseValue_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryLicenseValue_SystemCall_10_0_19043
 	jmp NtQueryLicenseValue_SystemCall_Unknown
 NtQueryLicenseValue_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 011fh
@@ -24226,6 +25441,9 @@ NtQueryLicenseValue_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryLicenseValue_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0153h
 	jmp NtQueryLicenseValue_Epilogue
+NtQueryLicenseValue_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0153h
+	jmp NtQueryLicenseValue_Epilogue
 NtQueryLicenseValue_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryLicenseValue_Epilogue:
@@ -24235,7 +25453,7 @@ NtQueryLicenseValue_Epilogue:
 NtQueryLicenseValue ENDP
 
 NtQueryMultipleValueKey PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtQueryMultipleValueKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryMultipleValueKey_Check_6_X_XXXX
@@ -24279,6 +25497,8 @@ NtQueryMultipleValueKey_Check_10_0_XXXX:              ; Check build number for W
 	je  NtQueryMultipleValueKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryMultipleValueKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryMultipleValueKey_SystemCall_10_0_19043
 	jmp NtQueryMultipleValueKey_SystemCall_Unknown
 NtQueryMultipleValueKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0120h
@@ -24325,6 +25545,9 @@ NtQueryMultipleValueKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtQueryMultipleValueKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0154h
 	jmp NtQueryMultipleValueKey_Epilogue
+NtQueryMultipleValueKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0154h
+	jmp NtQueryMultipleValueKey_Epilogue
 NtQueryMultipleValueKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryMultipleValueKey_Epilogue:
@@ -24334,7 +25557,7 @@ NtQueryMultipleValueKey_Epilogue:
 NtQueryMultipleValueKey ENDP
 
 NtQueryMutant PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtQueryMutant_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryMutant_Check_6_X_XXXX
@@ -24378,6 +25601,8 @@ NtQueryMutant_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtQueryMutant_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryMutant_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryMutant_SystemCall_10_0_19043
 	jmp NtQueryMutant_SystemCall_Unknown
 NtQueryMutant_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0121h
@@ -24424,6 +25649,9 @@ NtQueryMutant_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryMutant_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0155h
 	jmp NtQueryMutant_Epilogue
+NtQueryMutant_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0155h
+	jmp NtQueryMutant_Epilogue
 NtQueryMutant_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryMutant_Epilogue:
@@ -24433,7 +25661,7 @@ NtQueryMutant_Epilogue:
 NtQueryMutant ENDP
 
 NtQueryObject PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtQueryObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryObject_Check_6_X_XXXX
@@ -24477,6 +25705,8 @@ NtQueryObject_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtQueryObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryObject_SystemCall_10_0_19043
 	jmp NtQueryObject_SystemCall_Unknown
 NtQueryObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 000dh
@@ -24523,6 +25753,9 @@ NtQueryObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0010h
 	jmp NtQueryObject_Epilogue
+NtQueryObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0010h
+	jmp NtQueryObject_Epilogue
 NtQueryObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryObject_Epilogue:
@@ -24532,7 +25765,7 @@ NtQueryObject_Epilogue:
 NtQueryObject ENDP
 
 NtQueryOpenSubKeys PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtQueryOpenSubKeys_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryOpenSubKeys_Check_6_X_XXXX
@@ -24576,6 +25809,8 @@ NtQueryOpenSubKeys_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtQueryOpenSubKeys_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryOpenSubKeys_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryOpenSubKeys_SystemCall_10_0_19043
 	jmp NtQueryOpenSubKeys_SystemCall_Unknown
 NtQueryOpenSubKeys_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0122h
@@ -24622,6 +25857,9 @@ NtQueryOpenSubKeys_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryOpenSubKeys_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0156h
 	jmp NtQueryOpenSubKeys_Epilogue
+NtQueryOpenSubKeys_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0156h
+	jmp NtQueryOpenSubKeys_Epilogue
 NtQueryOpenSubKeys_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryOpenSubKeys_Epilogue:
@@ -24631,7 +25869,7 @@ NtQueryOpenSubKeys_Epilogue:
 NtQueryOpenSubKeys ENDP
 
 NtQueryOpenSubKeysEx PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtQueryOpenSubKeysEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryOpenSubKeysEx_Check_6_X_XXXX
@@ -24675,6 +25913,8 @@ NtQueryOpenSubKeysEx_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtQueryOpenSubKeysEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryOpenSubKeysEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryOpenSubKeysEx_SystemCall_10_0_19043
 	jmp NtQueryOpenSubKeysEx_SystemCall_Unknown
 NtQueryOpenSubKeysEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0123h
@@ -24721,6 +25961,9 @@ NtQueryOpenSubKeysEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryOpenSubKeysEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0157h
 	jmp NtQueryOpenSubKeysEx_Epilogue
+NtQueryOpenSubKeysEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0157h
+	jmp NtQueryOpenSubKeysEx_Epilogue
 NtQueryOpenSubKeysEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryOpenSubKeysEx_Epilogue:
@@ -24730,7 +25973,7 @@ NtQueryOpenSubKeysEx_Epilogue:
 NtQueryOpenSubKeysEx ENDP
 
 NtQueryPerformanceCounter PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtQueryPerformanceCounter_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryPerformanceCounter_Check_6_X_XXXX
@@ -24774,6 +26017,8 @@ NtQueryPerformanceCounter_Check_10_0_XXXX:              ; Check build number for
 	je  NtQueryPerformanceCounter_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryPerformanceCounter_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryPerformanceCounter_SystemCall_10_0_19043
 	jmp NtQueryPerformanceCounter_SystemCall_Unknown
 NtQueryPerformanceCounter_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 002eh
@@ -24820,6 +26065,9 @@ NtQueryPerformanceCounter_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtQueryPerformanceCounter_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0031h
 	jmp NtQueryPerformanceCounter_Epilogue
+NtQueryPerformanceCounter_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0031h
+	jmp NtQueryPerformanceCounter_Epilogue
 NtQueryPerformanceCounter_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryPerformanceCounter_Epilogue:
@@ -24829,7 +26077,7 @@ NtQueryPerformanceCounter_Epilogue:
 NtQueryPerformanceCounter ENDP
 
 NtQueryPortInformationProcess PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtQueryPortInformationProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryPortInformationProcess_Check_6_X_XXXX
@@ -24873,6 +26121,8 @@ NtQueryPortInformationProcess_Check_10_0_XXXX:              ; Check build number
 	je  NtQueryPortInformationProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryPortInformationProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryPortInformationProcess_SystemCall_10_0_19043
 	jmp NtQueryPortInformationProcess_SystemCall_Unknown
 NtQueryPortInformationProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0124h
@@ -24919,6 +26169,9 @@ NtQueryPortInformationProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtQueryPortInformationProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0158h
 	jmp NtQueryPortInformationProcess_Epilogue
+NtQueryPortInformationProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0158h
+	jmp NtQueryPortInformationProcess_Epilogue
 NtQueryPortInformationProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryPortInformationProcess_Epilogue:
@@ -24928,7 +26181,7 @@ NtQueryPortInformationProcess_Epilogue:
 NtQueryPortInformationProcess ENDP
 
 NtQueryQuotaInformationFile PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtQueryQuotaInformationFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryQuotaInformationFile_Check_6_X_XXXX
@@ -24972,6 +26225,8 @@ NtQueryQuotaInformationFile_Check_10_0_XXXX:              ; Check build number f
 	je  NtQueryQuotaInformationFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryQuotaInformationFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryQuotaInformationFile_SystemCall_10_0_19043
 	jmp NtQueryQuotaInformationFile_SystemCall_Unknown
 NtQueryQuotaInformationFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0125h
@@ -25018,6 +26273,9 @@ NtQueryQuotaInformationFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtQueryQuotaInformationFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0159h
 	jmp NtQueryQuotaInformationFile_Epilogue
+NtQueryQuotaInformationFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0159h
+	jmp NtQueryQuotaInformationFile_Epilogue
 NtQueryQuotaInformationFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryQuotaInformationFile_Epilogue:
@@ -25027,7 +26285,7 @@ NtQueryQuotaInformationFile_Epilogue:
 NtQueryQuotaInformationFile ENDP
 
 NtQuerySection PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtQuerySection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySection_Check_6_X_XXXX
@@ -25071,6 +26329,8 @@ NtQuerySection_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtQuerySection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySection_SystemCall_10_0_19043
 	jmp NtQuerySection_SystemCall_Unknown
 NtQuerySection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 004eh
@@ -25117,6 +26377,9 @@ NtQuerySection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQuerySection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0051h
 	jmp NtQuerySection_Epilogue
+NtQuerySection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0051h
+	jmp NtQuerySection_Epilogue
 NtQuerySection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySection_Epilogue:
@@ -25126,7 +26389,7 @@ NtQuerySection_Epilogue:
 NtQuerySection ENDP
 
 NtQuerySecurityAttributesToken PROC
-	mov rax, gs:[60h]                                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                                    ; Load PEB into RAX.
 NtQuerySecurityAttributesToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySecurityAttributesToken_Check_6_X_XXXX
@@ -25170,6 +26433,8 @@ NtQuerySecurityAttributesToken_Check_10_0_XXXX:              ; Check build numbe
 	je  NtQuerySecurityAttributesToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySecurityAttributesToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySecurityAttributesToken_SystemCall_10_0_19043
 	jmp NtQuerySecurityAttributesToken_SystemCall_Unknown
 NtQuerySecurityAttributesToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0126h
@@ -25216,6 +26481,9 @@ NtQuerySecurityAttributesToken_SystemCall_10_0_19041:        ; Windows 10.0.1904
 NtQuerySecurityAttributesToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 015ah
 	jmp NtQuerySecurityAttributesToken_Epilogue
+NtQuerySecurityAttributesToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 015ah
+	jmp NtQuerySecurityAttributesToken_Epilogue
 NtQuerySecurityAttributesToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySecurityAttributesToken_Epilogue:
@@ -25225,7 +26493,7 @@ NtQuerySecurityAttributesToken_Epilogue:
 NtQuerySecurityAttributesToken ENDP
 
 NtQuerySecurityObject PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtQuerySecurityObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySecurityObject_Check_6_X_XXXX
@@ -25269,6 +26537,8 @@ NtQuerySecurityObject_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtQuerySecurityObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySecurityObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySecurityObject_SystemCall_10_0_19043
 	jmp NtQuerySecurityObject_SystemCall_Unknown
 NtQuerySecurityObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0127h
@@ -25315,6 +26585,9 @@ NtQuerySecurityObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQuerySecurityObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 015bh
 	jmp NtQuerySecurityObject_Epilogue
+NtQuerySecurityObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 015bh
+	jmp NtQuerySecurityObject_Epilogue
 NtQuerySecurityObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySecurityObject_Epilogue:
@@ -25324,7 +26597,7 @@ NtQuerySecurityObject_Epilogue:
 NtQuerySecurityObject ENDP
 
 NtQuerySemaphore PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtQuerySemaphore_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySemaphore_Check_6_X_XXXX
@@ -25368,6 +26641,8 @@ NtQuerySemaphore_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtQuerySemaphore_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySemaphore_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySemaphore_SystemCall_10_0_19043
 	jmp NtQuerySemaphore_SystemCall_Unknown
 NtQuerySemaphore_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0128h
@@ -25414,6 +26689,9 @@ NtQuerySemaphore_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQuerySemaphore_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 015dh
 	jmp NtQuerySemaphore_Epilogue
+NtQuerySemaphore_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 015dh
+	jmp NtQuerySemaphore_Epilogue
 NtQuerySemaphore_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySemaphore_Epilogue:
@@ -25423,7 +26701,7 @@ NtQuerySemaphore_Epilogue:
 NtQuerySemaphore ENDP
 
 NtQuerySymbolicLinkObject PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtQuerySymbolicLinkObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySymbolicLinkObject_Check_6_X_XXXX
@@ -25467,6 +26745,8 @@ NtQuerySymbolicLinkObject_Check_10_0_XXXX:              ; Check build number for
 	je  NtQuerySymbolicLinkObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySymbolicLinkObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySymbolicLinkObject_SystemCall_10_0_19043
 	jmp NtQuerySymbolicLinkObject_SystemCall_Unknown
 NtQuerySymbolicLinkObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0129h
@@ -25513,6 +26793,9 @@ NtQuerySymbolicLinkObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtQuerySymbolicLinkObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 015eh
 	jmp NtQuerySymbolicLinkObject_Epilogue
+NtQuerySymbolicLinkObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 015eh
+	jmp NtQuerySymbolicLinkObject_Epilogue
 NtQuerySymbolicLinkObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySymbolicLinkObject_Epilogue:
@@ -25522,7 +26805,7 @@ NtQuerySymbolicLinkObject_Epilogue:
 NtQuerySymbolicLinkObject ENDP
 
 NtQuerySystemEnvironmentValue PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtQuerySystemEnvironmentValue_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySystemEnvironmentValue_Check_6_X_XXXX
@@ -25566,6 +26849,8 @@ NtQuerySystemEnvironmentValue_Check_10_0_XXXX:              ; Check build number
 	je  NtQuerySystemEnvironmentValue_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySystemEnvironmentValue_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySystemEnvironmentValue_SystemCall_10_0_19043
 	jmp NtQuerySystemEnvironmentValue_SystemCall_Unknown
 NtQuerySystemEnvironmentValue_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 012ah
@@ -25612,6 +26897,9 @@ NtQuerySystemEnvironmentValue_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtQuerySystemEnvironmentValue_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 015fh
 	jmp NtQuerySystemEnvironmentValue_Epilogue
+NtQuerySystemEnvironmentValue_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 015fh
+	jmp NtQuerySystemEnvironmentValue_Epilogue
 NtQuerySystemEnvironmentValue_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySystemEnvironmentValue_Epilogue:
@@ -25621,7 +26909,7 @@ NtQuerySystemEnvironmentValue_Epilogue:
 NtQuerySystemEnvironmentValue ENDP
 
 NtQuerySystemEnvironmentValueEx PROC
-	mov rax, gs:[60h]                                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                                     ; Load PEB into RAX.
 NtQuerySystemEnvironmentValueEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySystemEnvironmentValueEx_Check_6_X_XXXX
@@ -25665,6 +26953,8 @@ NtQuerySystemEnvironmentValueEx_Check_10_0_XXXX:              ; Check build numb
 	je  NtQuerySystemEnvironmentValueEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySystemEnvironmentValueEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySystemEnvironmentValueEx_SystemCall_10_0_19043
 	jmp NtQuerySystemEnvironmentValueEx_SystemCall_Unknown
 NtQuerySystemEnvironmentValueEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 012bh
@@ -25711,6 +27001,9 @@ NtQuerySystemEnvironmentValueEx_SystemCall_10_0_19041:        ; Windows 10.0.190
 NtQuerySystemEnvironmentValueEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0160h
 	jmp NtQuerySystemEnvironmentValueEx_Epilogue
+NtQuerySystemEnvironmentValueEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0160h
+	jmp NtQuerySystemEnvironmentValueEx_Epilogue
 NtQuerySystemEnvironmentValueEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySystemEnvironmentValueEx_Epilogue:
@@ -25720,7 +27013,7 @@ NtQuerySystemEnvironmentValueEx_Epilogue:
 NtQuerySystemEnvironmentValueEx ENDP
 
 NtQuerySystemInformation PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtQuerySystemInformation_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySystemInformation_Check_6_X_XXXX
@@ -25764,6 +27057,8 @@ NtQuerySystemInformation_Check_10_0_XXXX:              ; Check build number for 
 	je  NtQuerySystemInformation_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySystemInformation_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySystemInformation_SystemCall_10_0_19043
 	jmp NtQuerySystemInformation_SystemCall_Unknown
 NtQuerySystemInformation_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0033h
@@ -25810,6 +27105,9 @@ NtQuerySystemInformation_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtQuerySystemInformation_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0036h
 	jmp NtQuerySystemInformation_Epilogue
+NtQuerySystemInformation_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0036h
+	jmp NtQuerySystemInformation_Epilogue
 NtQuerySystemInformation_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySystemInformation_Epilogue:
@@ -25819,7 +27117,7 @@ NtQuerySystemInformation_Epilogue:
 NtQuerySystemInformation ENDP
 
 NtQuerySystemInformationEx PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtQuerySystemInformationEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySystemInformationEx_Check_6_X_XXXX
@@ -25863,6 +27161,8 @@ NtQuerySystemInformationEx_Check_10_0_XXXX:              ; Check build number fo
 	je  NtQuerySystemInformationEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySystemInformationEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySystemInformationEx_SystemCall_10_0_19043
 	jmp NtQuerySystemInformationEx_SystemCall_Unknown
 NtQuerySystemInformationEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 012ch
@@ -25909,6 +27209,9 @@ NtQuerySystemInformationEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtQuerySystemInformationEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0161h
 	jmp NtQuerySystemInformationEx_Epilogue
+NtQuerySystemInformationEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0161h
+	jmp NtQuerySystemInformationEx_Epilogue
 NtQuerySystemInformationEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySystemInformationEx_Epilogue:
@@ -25918,7 +27221,7 @@ NtQuerySystemInformationEx_Epilogue:
 NtQuerySystemInformationEx ENDP
 
 NtQuerySystemTime PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtQuerySystemTime_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQuerySystemTime_Check_6_X_XXXX
@@ -25962,6 +27265,8 @@ NtQuerySystemTime_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtQuerySystemTime_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQuerySystemTime_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQuerySystemTime_SystemCall_10_0_19043
 	jmp NtQuerySystemTime_SystemCall_Unknown
 NtQuerySystemTime_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0057h
@@ -26008,6 +27313,9 @@ NtQuerySystemTime_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQuerySystemTime_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 005ah
 	jmp NtQuerySystemTime_Epilogue
+NtQuerySystemTime_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 66ffh
+	jmp NtQuerySystemTime_Epilogue
 NtQuerySystemTime_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQuerySystemTime_Epilogue:
@@ -26017,7 +27325,7 @@ NtQuerySystemTime_Epilogue:
 NtQuerySystemTime ENDP
 
 NtQueryTimer PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtQueryTimer_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryTimer_Check_6_X_XXXX
@@ -26061,6 +27369,8 @@ NtQueryTimer_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtQueryTimer_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryTimer_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryTimer_SystemCall_10_0_19043
 	jmp NtQueryTimer_SystemCall_Unknown
 NtQueryTimer_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0035h
@@ -26107,6 +27417,9 @@ NtQueryTimer_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryTimer_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0038h
 	jmp NtQueryTimer_Epilogue
+NtQueryTimer_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0038h
+	jmp NtQueryTimer_Epilogue
 NtQueryTimer_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryTimer_Epilogue:
@@ -26116,7 +27429,7 @@ NtQueryTimer_Epilogue:
 NtQueryTimer ENDP
 
 NtQueryTimerResolution PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtQueryTimerResolution_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryTimerResolution_Check_6_X_XXXX
@@ -26160,6 +27473,8 @@ NtQueryTimerResolution_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtQueryTimerResolution_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryTimerResolution_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryTimerResolution_SystemCall_10_0_19043
 	jmp NtQueryTimerResolution_SystemCall_Unknown
 NtQueryTimerResolution_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 012dh
@@ -26206,6 +27521,9 @@ NtQueryTimerResolution_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryTimerResolution_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0162h
 	jmp NtQueryTimerResolution_Epilogue
+NtQueryTimerResolution_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0162h
+	jmp NtQueryTimerResolution_Epilogue
 NtQueryTimerResolution_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryTimerResolution_Epilogue:
@@ -26215,7 +27533,7 @@ NtQueryTimerResolution_Epilogue:
 NtQueryTimerResolution ENDP
 
 NtQueryValueKey PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtQueryValueKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryValueKey_Check_6_X_XXXX
@@ -26259,6 +27577,8 @@ NtQueryValueKey_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtQueryValueKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryValueKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryValueKey_SystemCall_10_0_19043
 	jmp NtQueryValueKey_SystemCall_Unknown
 NtQueryValueKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0014h
@@ -26305,6 +27625,9 @@ NtQueryValueKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryValueKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0017h
 	jmp NtQueryValueKey_Epilogue
+NtQueryValueKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0017h
+	jmp NtQueryValueKey_Epilogue
 NtQueryValueKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryValueKey_Epilogue:
@@ -26314,7 +27637,7 @@ NtQueryValueKey_Epilogue:
 NtQueryValueKey ENDP
 
 NtQueryVirtualMemory PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtQueryVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryVirtualMemory_Check_6_X_XXXX
@@ -26358,6 +27681,8 @@ NtQueryVirtualMemory_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtQueryVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryVirtualMemory_SystemCall_10_0_19043
 	jmp NtQueryVirtualMemory_SystemCall_Unknown
 NtQueryVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0020h
@@ -26404,6 +27729,9 @@ NtQueryVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueryVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0023h
 	jmp NtQueryVirtualMemory_Epilogue
+NtQueryVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0023h
+	jmp NtQueryVirtualMemory_Epilogue
 NtQueryVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryVirtualMemory_Epilogue:
@@ -26413,7 +27741,7 @@ NtQueryVirtualMemory_Epilogue:
 NtQueryVirtualMemory ENDP
 
 NtQueryVolumeInformationFile PROC
-	mov rax, gs:[60h]                                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                                  ; Load PEB into RAX.
 NtQueryVolumeInformationFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueryVolumeInformationFile_Check_6_X_XXXX
@@ -26457,6 +27785,8 @@ NtQueryVolumeInformationFile_Check_10_0_XXXX:              ; Check build number 
 	je  NtQueryVolumeInformationFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueryVolumeInformationFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueryVolumeInformationFile_SystemCall_10_0_19043
 	jmp NtQueryVolumeInformationFile_SystemCall_Unknown
 NtQueryVolumeInformationFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0046h
@@ -26503,6 +27833,9 @@ NtQueryVolumeInformationFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 
 NtQueryVolumeInformationFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0049h
 	jmp NtQueryVolumeInformationFile_Epilogue
+NtQueryVolumeInformationFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0049h
+	jmp NtQueryVolumeInformationFile_Epilogue
 NtQueryVolumeInformationFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueryVolumeInformationFile_Epilogue:
@@ -26512,7 +27845,7 @@ NtQueryVolumeInformationFile_Epilogue:
 NtQueryVolumeInformationFile ENDP
 
 NtQueueApcThread PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtQueueApcThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueueApcThread_Check_6_X_XXXX
@@ -26556,6 +27889,8 @@ NtQueueApcThread_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtQueueApcThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueueApcThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueueApcThread_SystemCall_10_0_19043
 	jmp NtQueueApcThread_SystemCall_Unknown
 NtQueueApcThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0042h
@@ -26602,6 +27937,9 @@ NtQueueApcThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueueApcThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0045h
 	jmp NtQueueApcThread_Epilogue
+NtQueueApcThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0045h
+	jmp NtQueueApcThread_Epilogue
 NtQueueApcThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueueApcThread_Epilogue:
@@ -26611,7 +27949,7 @@ NtQueueApcThread_Epilogue:
 NtQueueApcThread ENDP
 
 NtQueueApcThreadEx PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtQueueApcThreadEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtQueueApcThreadEx_Check_6_X_XXXX
@@ -26655,6 +27993,8 @@ NtQueueApcThreadEx_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtQueueApcThreadEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtQueueApcThreadEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtQueueApcThreadEx_SystemCall_10_0_19043
 	jmp NtQueueApcThreadEx_SystemCall_Unknown
 NtQueueApcThreadEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 012eh
@@ -26701,6 +28041,9 @@ NtQueueApcThreadEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtQueueApcThreadEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0165h
 	jmp NtQueueApcThreadEx_Epilogue
+NtQueueApcThreadEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0165h
+	jmp NtQueueApcThreadEx_Epilogue
 NtQueueApcThreadEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtQueueApcThreadEx_Epilogue:
@@ -26710,7 +28053,7 @@ NtQueueApcThreadEx_Epilogue:
 NtQueueApcThreadEx ENDP
 
 NtRaiseException PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtRaiseException_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRaiseException_Check_6_X_XXXX
@@ -26754,6 +28097,8 @@ NtRaiseException_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtRaiseException_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRaiseException_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRaiseException_SystemCall_10_0_19043
 	jmp NtRaiseException_SystemCall_Unknown
 NtRaiseException_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 012fh
@@ -26800,6 +28145,9 @@ NtRaiseException_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRaiseException_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0166h
 	jmp NtRaiseException_Epilogue
+NtRaiseException_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0166h
+	jmp NtRaiseException_Epilogue
 NtRaiseException_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRaiseException_Epilogue:
@@ -26809,7 +28157,7 @@ NtRaiseException_Epilogue:
 NtRaiseException ENDP
 
 NtRaiseHardError PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtRaiseHardError_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRaiseHardError_Check_6_X_XXXX
@@ -26853,6 +28201,8 @@ NtRaiseHardError_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtRaiseHardError_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRaiseHardError_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRaiseHardError_SystemCall_10_0_19043
 	jmp NtRaiseHardError_SystemCall_Unknown
 NtRaiseHardError_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0130h
@@ -26899,6 +28249,9 @@ NtRaiseHardError_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRaiseHardError_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0167h
 	jmp NtRaiseHardError_Epilogue
+NtRaiseHardError_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0167h
+	jmp NtRaiseHardError_Epilogue
 NtRaiseHardError_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRaiseHardError_Epilogue:
@@ -26908,7 +28261,7 @@ NtRaiseHardError_Epilogue:
 NtRaiseHardError ENDP
 
 NtReadFile PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtReadFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReadFile_Check_6_X_XXXX
@@ -26952,6 +28305,8 @@ NtReadFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtReadFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReadFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReadFile_SystemCall_10_0_19043
 	jmp NtReadFile_SystemCall_Unknown
 NtReadFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0003h
@@ -26998,6 +28353,9 @@ NtReadFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReadFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0006h
 	jmp NtReadFile_Epilogue
+NtReadFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0006h
+	jmp NtReadFile_Epilogue
 NtReadFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReadFile_Epilogue:
@@ -27007,7 +28365,7 @@ NtReadFile_Epilogue:
 NtReadFile ENDP
 
 NtReadFileScatter PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtReadFileScatter_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReadFileScatter_Check_6_X_XXXX
@@ -27051,6 +28409,8 @@ NtReadFileScatter_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtReadFileScatter_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReadFileScatter_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReadFileScatter_SystemCall_10_0_19043
 	jmp NtReadFileScatter_SystemCall_Unknown
 NtReadFileScatter_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 002bh
@@ -27097,6 +28457,9 @@ NtReadFileScatter_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReadFileScatter_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 002eh
 	jmp NtReadFileScatter_Epilogue
+NtReadFileScatter_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 002eh
+	jmp NtReadFileScatter_Epilogue
 NtReadFileScatter_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReadFileScatter_Epilogue:
@@ -27106,7 +28469,7 @@ NtReadFileScatter_Epilogue:
 NtReadFileScatter ENDP
 
 NtReadOnlyEnlistment PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtReadOnlyEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReadOnlyEnlistment_Check_6_X_XXXX
@@ -27150,6 +28513,8 @@ NtReadOnlyEnlistment_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtReadOnlyEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReadOnlyEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReadOnlyEnlistment_SystemCall_10_0_19043
 	jmp NtReadOnlyEnlistment_SystemCall_Unknown
 NtReadOnlyEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0131h
@@ -27196,6 +28561,9 @@ NtReadOnlyEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReadOnlyEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0168h
 	jmp NtReadOnlyEnlistment_Epilogue
+NtReadOnlyEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0168h
+	jmp NtReadOnlyEnlistment_Epilogue
 NtReadOnlyEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReadOnlyEnlistment_Epilogue:
@@ -27205,7 +28573,7 @@ NtReadOnlyEnlistment_Epilogue:
 NtReadOnlyEnlistment ENDP
 
 NtReadRequestData PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtReadRequestData_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReadRequestData_Check_6_X_XXXX
@@ -27249,6 +28617,8 @@ NtReadRequestData_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtReadRequestData_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReadRequestData_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReadRequestData_SystemCall_10_0_19043
 	jmp NtReadRequestData_SystemCall_Unknown
 NtReadRequestData_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0051h
@@ -27295,6 +28665,9 @@ NtReadRequestData_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReadRequestData_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0054h
 	jmp NtReadRequestData_Epilogue
+NtReadRequestData_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0054h
+	jmp NtReadRequestData_Epilogue
 NtReadRequestData_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReadRequestData_Epilogue:
@@ -27304,7 +28677,7 @@ NtReadRequestData_Epilogue:
 NtReadRequestData ENDP
 
 NtReadVirtualMemory PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtReadVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReadVirtualMemory_Check_6_X_XXXX
@@ -27348,6 +28721,8 @@ NtReadVirtualMemory_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtReadVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReadVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReadVirtualMemory_SystemCall_10_0_19043
 	jmp NtReadVirtualMemory_SystemCall_Unknown
 NtReadVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 003ch
@@ -27394,6 +28769,9 @@ NtReadVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReadVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 003fh
 	jmp NtReadVirtualMemory_Epilogue
+NtReadVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 003fh
+	jmp NtReadVirtualMemory_Epilogue
 NtReadVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReadVirtualMemory_Epilogue:
@@ -27403,7 +28781,7 @@ NtReadVirtualMemory_Epilogue:
 NtReadVirtualMemory ENDP
 
 NtRecoverEnlistment PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtRecoverEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRecoverEnlistment_Check_6_X_XXXX
@@ -27447,6 +28825,8 @@ NtRecoverEnlistment_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtRecoverEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRecoverEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRecoverEnlistment_SystemCall_10_0_19043
 	jmp NtRecoverEnlistment_SystemCall_Unknown
 NtRecoverEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0132h
@@ -27493,6 +28873,9 @@ NtRecoverEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRecoverEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0169h
 	jmp NtRecoverEnlistment_Epilogue
+NtRecoverEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0169h
+	jmp NtRecoverEnlistment_Epilogue
 NtRecoverEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRecoverEnlistment_Epilogue:
@@ -27502,7 +28885,7 @@ NtRecoverEnlistment_Epilogue:
 NtRecoverEnlistment ENDP
 
 NtRecoverResourceManager PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtRecoverResourceManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRecoverResourceManager_Check_6_X_XXXX
@@ -27546,6 +28929,8 @@ NtRecoverResourceManager_Check_10_0_XXXX:              ; Check build number for 
 	je  NtRecoverResourceManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRecoverResourceManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRecoverResourceManager_SystemCall_10_0_19043
 	jmp NtRecoverResourceManager_SystemCall_Unknown
 NtRecoverResourceManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0133h
@@ -27592,6 +28977,9 @@ NtRecoverResourceManager_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtRecoverResourceManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 016ah
 	jmp NtRecoverResourceManager_Epilogue
+NtRecoverResourceManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 016ah
+	jmp NtRecoverResourceManager_Epilogue
 NtRecoverResourceManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRecoverResourceManager_Epilogue:
@@ -27601,7 +28989,7 @@ NtRecoverResourceManager_Epilogue:
 NtRecoverResourceManager ENDP
 
 NtRecoverTransactionManager PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtRecoverTransactionManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRecoverTransactionManager_Check_6_X_XXXX
@@ -27645,6 +29033,8 @@ NtRecoverTransactionManager_Check_10_0_XXXX:              ; Check build number f
 	je  NtRecoverTransactionManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRecoverTransactionManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRecoverTransactionManager_SystemCall_10_0_19043
 	jmp NtRecoverTransactionManager_SystemCall_Unknown
 NtRecoverTransactionManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0134h
@@ -27691,6 +29081,9 @@ NtRecoverTransactionManager_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtRecoverTransactionManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 016bh
 	jmp NtRecoverTransactionManager_Epilogue
+NtRecoverTransactionManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 016bh
+	jmp NtRecoverTransactionManager_Epilogue
 NtRecoverTransactionManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRecoverTransactionManager_Epilogue:
@@ -27700,7 +29093,7 @@ NtRecoverTransactionManager_Epilogue:
 NtRecoverTransactionManager ENDP
 
 NtRegisterProtocolAddressInformation PROC
-	mov rax, gs:[60h]                                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                                          ; Load PEB into RAX.
 NtRegisterProtocolAddressInformation_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRegisterProtocolAddressInformation_Check_6_X_XXXX
@@ -27744,6 +29137,8 @@ NtRegisterProtocolAddressInformation_Check_10_0_XXXX:              ; Check build
 	je  NtRegisterProtocolAddressInformation_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRegisterProtocolAddressInformation_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRegisterProtocolAddressInformation_SystemCall_10_0_19043
 	jmp NtRegisterProtocolAddressInformation_SystemCall_Unknown
 NtRegisterProtocolAddressInformation_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0135h
@@ -27790,6 +29185,9 @@ NtRegisterProtocolAddressInformation_SystemCall_10_0_19041:        ; Windows 10.
 NtRegisterProtocolAddressInformation_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 016ch
 	jmp NtRegisterProtocolAddressInformation_Epilogue
+NtRegisterProtocolAddressInformation_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 016ch
+	jmp NtRegisterProtocolAddressInformation_Epilogue
 NtRegisterProtocolAddressInformation_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRegisterProtocolAddressInformation_Epilogue:
@@ -27799,7 +29197,7 @@ NtRegisterProtocolAddressInformation_Epilogue:
 NtRegisterProtocolAddressInformation ENDP
 
 NtRegisterThreadTerminatePort PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtRegisterThreadTerminatePort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRegisterThreadTerminatePort_Check_6_X_XXXX
@@ -27843,6 +29241,8 @@ NtRegisterThreadTerminatePort_Check_10_0_XXXX:              ; Check build number
 	je  NtRegisterThreadTerminatePort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRegisterThreadTerminatePort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRegisterThreadTerminatePort_SystemCall_10_0_19043
 	jmp NtRegisterThreadTerminatePort_SystemCall_Unknown
 NtRegisterThreadTerminatePort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0136h
@@ -27889,6 +29289,9 @@ NtRegisterThreadTerminatePort_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtRegisterThreadTerminatePort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 016dh
 	jmp NtRegisterThreadTerminatePort_Epilogue
+NtRegisterThreadTerminatePort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 016dh
+	jmp NtRegisterThreadTerminatePort_Epilogue
 NtRegisterThreadTerminatePort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRegisterThreadTerminatePort_Epilogue:
@@ -27898,7 +29301,7 @@ NtRegisterThreadTerminatePort_Epilogue:
 NtRegisterThreadTerminatePort ENDP
 
 NtReleaseKeyedEvent PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtReleaseKeyedEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReleaseKeyedEvent_Check_6_X_XXXX
@@ -27942,6 +29345,8 @@ NtReleaseKeyedEvent_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtReleaseKeyedEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReleaseKeyedEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReleaseKeyedEvent_SystemCall_10_0_19043
 	jmp NtReleaseKeyedEvent_SystemCall_Unknown
 NtReleaseKeyedEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0137h
@@ -27988,6 +29393,9 @@ NtReleaseKeyedEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReleaseKeyedEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 016eh
 	jmp NtReleaseKeyedEvent_Epilogue
+NtReleaseKeyedEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 016eh
+	jmp NtReleaseKeyedEvent_Epilogue
 NtReleaseKeyedEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReleaseKeyedEvent_Epilogue:
@@ -27997,7 +29405,7 @@ NtReleaseKeyedEvent_Epilogue:
 NtReleaseKeyedEvent ENDP
 
 NtReleaseMutant PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtReleaseMutant_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReleaseMutant_Check_6_X_XXXX
@@ -28041,6 +29449,8 @@ NtReleaseMutant_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtReleaseMutant_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReleaseMutant_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReleaseMutant_SystemCall_10_0_19043
 	jmp NtReleaseMutant_SystemCall_Unknown
 NtReleaseMutant_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 001dh
@@ -28087,6 +29497,9 @@ NtReleaseMutant_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReleaseMutant_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0020h
 	jmp NtReleaseMutant_Epilogue
+NtReleaseMutant_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0020h
+	jmp NtReleaseMutant_Epilogue
 NtReleaseMutant_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReleaseMutant_Epilogue:
@@ -28096,7 +29509,7 @@ NtReleaseMutant_Epilogue:
 NtReleaseMutant ENDP
 
 NtReleaseSemaphore PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtReleaseSemaphore_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReleaseSemaphore_Check_6_X_XXXX
@@ -28140,6 +29553,8 @@ NtReleaseSemaphore_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtReleaseSemaphore_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReleaseSemaphore_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReleaseSemaphore_SystemCall_10_0_19043
 	jmp NtReleaseSemaphore_SystemCall_Unknown
 NtReleaseSemaphore_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0007h
@@ -28186,6 +29601,9 @@ NtReleaseSemaphore_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReleaseSemaphore_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 000ah
 	jmp NtReleaseSemaphore_Epilogue
+NtReleaseSemaphore_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 000ah
+	jmp NtReleaseSemaphore_Epilogue
 NtReleaseSemaphore_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReleaseSemaphore_Epilogue:
@@ -28195,7 +29613,7 @@ NtReleaseSemaphore_Epilogue:
 NtReleaseSemaphore ENDP
 
 NtReleaseWorkerFactoryWorker PROC
-	mov rax, gs:[60h]                                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                                  ; Load PEB into RAX.
 NtReleaseWorkerFactoryWorker_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReleaseWorkerFactoryWorker_Check_6_X_XXXX
@@ -28239,6 +29657,8 @@ NtReleaseWorkerFactoryWorker_Check_10_0_XXXX:              ; Check build number 
 	je  NtReleaseWorkerFactoryWorker_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReleaseWorkerFactoryWorker_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReleaseWorkerFactoryWorker_SystemCall_10_0_19043
 	jmp NtReleaseWorkerFactoryWorker_SystemCall_Unknown
 NtReleaseWorkerFactoryWorker_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0138h
@@ -28285,6 +29705,9 @@ NtReleaseWorkerFactoryWorker_SystemCall_10_0_19041:        ; Windows 10.0.19041 
 NtReleaseWorkerFactoryWorker_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 016fh
 	jmp NtReleaseWorkerFactoryWorker_Epilogue
+NtReleaseWorkerFactoryWorker_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 016fh
+	jmp NtReleaseWorkerFactoryWorker_Epilogue
 NtReleaseWorkerFactoryWorker_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReleaseWorkerFactoryWorker_Epilogue:
@@ -28294,7 +29717,7 @@ NtReleaseWorkerFactoryWorker_Epilogue:
 NtReleaseWorkerFactoryWorker ENDP
 
 NtRemoveIoCompletion PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtRemoveIoCompletion_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRemoveIoCompletion_Check_6_X_XXXX
@@ -28338,6 +29761,8 @@ NtRemoveIoCompletion_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtRemoveIoCompletion_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRemoveIoCompletion_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRemoveIoCompletion_SystemCall_10_0_19043
 	jmp NtRemoveIoCompletion_SystemCall_Unknown
 NtRemoveIoCompletion_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0006h
@@ -28384,6 +29809,9 @@ NtRemoveIoCompletion_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRemoveIoCompletion_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0009h
 	jmp NtRemoveIoCompletion_Epilogue
+NtRemoveIoCompletion_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0009h
+	jmp NtRemoveIoCompletion_Epilogue
 NtRemoveIoCompletion_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRemoveIoCompletion_Epilogue:
@@ -28393,7 +29821,7 @@ NtRemoveIoCompletion_Epilogue:
 NtRemoveIoCompletion ENDP
 
 NtRemoveIoCompletionEx PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtRemoveIoCompletionEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRemoveIoCompletionEx_Check_6_X_XXXX
@@ -28437,6 +29865,8 @@ NtRemoveIoCompletionEx_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtRemoveIoCompletionEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRemoveIoCompletionEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRemoveIoCompletionEx_SystemCall_10_0_19043
 	jmp NtRemoveIoCompletionEx_SystemCall_Unknown
 NtRemoveIoCompletionEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0139h
@@ -28483,6 +29913,9 @@ NtRemoveIoCompletionEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRemoveIoCompletionEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0170h
 	jmp NtRemoveIoCompletionEx_Epilogue
+NtRemoveIoCompletionEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0170h
+	jmp NtRemoveIoCompletionEx_Epilogue
 NtRemoveIoCompletionEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRemoveIoCompletionEx_Epilogue:
@@ -28492,7 +29925,7 @@ NtRemoveIoCompletionEx_Epilogue:
 NtRemoveIoCompletionEx ENDP
 
 NtRemoveProcessDebug PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtRemoveProcessDebug_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRemoveProcessDebug_Check_6_X_XXXX
@@ -28536,6 +29969,8 @@ NtRemoveProcessDebug_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtRemoveProcessDebug_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRemoveProcessDebug_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRemoveProcessDebug_SystemCall_10_0_19043
 	jmp NtRemoveProcessDebug_SystemCall_Unknown
 NtRemoveProcessDebug_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 013ah
@@ -28582,6 +30017,9 @@ NtRemoveProcessDebug_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRemoveProcessDebug_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0171h
 	jmp NtRemoveProcessDebug_Epilogue
+NtRemoveProcessDebug_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0171h
+	jmp NtRemoveProcessDebug_Epilogue
 NtRemoveProcessDebug_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRemoveProcessDebug_Epilogue:
@@ -28591,7 +30029,7 @@ NtRemoveProcessDebug_Epilogue:
 NtRemoveProcessDebug ENDP
 
 NtRenameKey PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtRenameKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRenameKey_Check_6_X_XXXX
@@ -28635,6 +30073,8 @@ NtRenameKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtRenameKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRenameKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRenameKey_SystemCall_10_0_19043
 	jmp NtRenameKey_SystemCall_Unknown
 NtRenameKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 013bh
@@ -28681,6 +30121,9 @@ NtRenameKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRenameKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0172h
 	jmp NtRenameKey_Epilogue
+NtRenameKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0172h
+	jmp NtRenameKey_Epilogue
 NtRenameKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRenameKey_Epilogue:
@@ -28690,7 +30133,7 @@ NtRenameKey_Epilogue:
 NtRenameKey ENDP
 
 NtRenameTransactionManager PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtRenameTransactionManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRenameTransactionManager_Check_6_X_XXXX
@@ -28734,6 +30177,8 @@ NtRenameTransactionManager_Check_10_0_XXXX:              ; Check build number fo
 	je  NtRenameTransactionManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRenameTransactionManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRenameTransactionManager_SystemCall_10_0_19043
 	jmp NtRenameTransactionManager_SystemCall_Unknown
 NtRenameTransactionManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 013ch
@@ -28780,6 +30225,9 @@ NtRenameTransactionManager_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtRenameTransactionManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0173h
 	jmp NtRenameTransactionManager_Epilogue
+NtRenameTransactionManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0173h
+	jmp NtRenameTransactionManager_Epilogue
 NtRenameTransactionManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRenameTransactionManager_Epilogue:
@@ -28789,7 +30237,7 @@ NtRenameTransactionManager_Epilogue:
 NtRenameTransactionManager ENDP
 
 NtReplaceKey PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtReplaceKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReplaceKey_Check_6_X_XXXX
@@ -28833,6 +30281,8 @@ NtReplaceKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtReplaceKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReplaceKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReplaceKey_SystemCall_10_0_19043
 	jmp NtReplaceKey_SystemCall_Unknown
 NtReplaceKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 013dh
@@ -28879,6 +30329,9 @@ NtReplaceKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReplaceKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0174h
 	jmp NtReplaceKey_Epilogue
+NtReplaceKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0174h
+	jmp NtReplaceKey_Epilogue
 NtReplaceKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReplaceKey_Epilogue:
@@ -28888,7 +30341,7 @@ NtReplaceKey_Epilogue:
 NtReplaceKey ENDP
 
 NtReplacePartitionUnit PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtReplacePartitionUnit_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReplacePartitionUnit_Check_6_X_XXXX
@@ -28932,6 +30385,8 @@ NtReplacePartitionUnit_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtReplacePartitionUnit_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReplacePartitionUnit_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReplacePartitionUnit_SystemCall_10_0_19043
 	jmp NtReplacePartitionUnit_SystemCall_Unknown
 NtReplacePartitionUnit_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 013eh
@@ -28978,6 +30433,9 @@ NtReplacePartitionUnit_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReplacePartitionUnit_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0175h
 	jmp NtReplacePartitionUnit_Epilogue
+NtReplacePartitionUnit_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0175h
+	jmp NtReplacePartitionUnit_Epilogue
 NtReplacePartitionUnit_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReplacePartitionUnit_Epilogue:
@@ -28987,7 +30445,7 @@ NtReplacePartitionUnit_Epilogue:
 NtReplacePartitionUnit ENDP
 
 NtReplyPort PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtReplyPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReplyPort_Check_6_X_XXXX
@@ -29031,6 +30489,8 @@ NtReplyPort_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtReplyPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReplyPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReplyPort_SystemCall_10_0_19043
 	jmp NtReplyPort_SystemCall_Unknown
 NtReplyPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0009h
@@ -29077,6 +30537,9 @@ NtReplyPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReplyPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 000ch
 	jmp NtReplyPort_Epilogue
+NtReplyPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 000ch
+	jmp NtReplyPort_Epilogue
 NtReplyPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReplyPort_Epilogue:
@@ -29086,7 +30549,7 @@ NtReplyPort_Epilogue:
 NtReplyPort ENDP
 
 NtReplyWaitReceivePort PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtReplyWaitReceivePort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReplyWaitReceivePort_Check_6_X_XXXX
@@ -29130,6 +30593,8 @@ NtReplyWaitReceivePort_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtReplyWaitReceivePort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReplyWaitReceivePort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReplyWaitReceivePort_SystemCall_10_0_19043
 	jmp NtReplyWaitReceivePort_SystemCall_Unknown
 NtReplyWaitReceivePort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0008h
@@ -29176,6 +30641,9 @@ NtReplyWaitReceivePort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReplyWaitReceivePort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 000bh
 	jmp NtReplyWaitReceivePort_Epilogue
+NtReplyWaitReceivePort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 000bh
+	jmp NtReplyWaitReceivePort_Epilogue
 NtReplyWaitReceivePort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReplyWaitReceivePort_Epilogue:
@@ -29185,7 +30653,7 @@ NtReplyWaitReceivePort_Epilogue:
 NtReplyWaitReceivePort ENDP
 
 NtReplyWaitReceivePortEx PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtReplyWaitReceivePortEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReplyWaitReceivePortEx_Check_6_X_XXXX
@@ -29229,6 +30697,8 @@ NtReplyWaitReceivePortEx_Check_10_0_XXXX:              ; Check build number for 
 	je  NtReplyWaitReceivePortEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReplyWaitReceivePortEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReplyWaitReceivePortEx_SystemCall_10_0_19043
 	jmp NtReplyWaitReceivePortEx_SystemCall_Unknown
 NtReplyWaitReceivePortEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0028h
@@ -29275,6 +30745,9 @@ NtReplyWaitReceivePortEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtReplyWaitReceivePortEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 002bh
 	jmp NtReplyWaitReceivePortEx_Epilogue
+NtReplyWaitReceivePortEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 002bh
+	jmp NtReplyWaitReceivePortEx_Epilogue
 NtReplyWaitReceivePortEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReplyWaitReceivePortEx_Epilogue:
@@ -29284,7 +30757,7 @@ NtReplyWaitReceivePortEx_Epilogue:
 NtReplyWaitReceivePortEx ENDP
 
 NtReplyWaitReplyPort PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtReplyWaitReplyPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtReplyWaitReplyPort_Check_6_X_XXXX
@@ -29328,6 +30801,8 @@ NtReplyWaitReplyPort_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtReplyWaitReplyPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtReplyWaitReplyPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtReplyWaitReplyPort_SystemCall_10_0_19043
 	jmp NtReplyWaitReplyPort_SystemCall_Unknown
 NtReplyWaitReplyPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 013fh
@@ -29374,6 +30849,9 @@ NtReplyWaitReplyPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtReplyWaitReplyPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0176h
 	jmp NtReplyWaitReplyPort_Epilogue
+NtReplyWaitReplyPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0176h
+	jmp NtReplyWaitReplyPort_Epilogue
 NtReplyWaitReplyPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtReplyWaitReplyPort_Epilogue:
@@ -29383,7 +30861,7 @@ NtReplyWaitReplyPort_Epilogue:
 NtReplyWaitReplyPort ENDP
 
 NtRequestPort PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtRequestPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRequestPort_Check_6_X_XXXX
@@ -29427,6 +30905,8 @@ NtRequestPort_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtRequestPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRequestPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRequestPort_SystemCall_10_0_19043
 	jmp NtRequestPort_SystemCall_Unknown
 NtRequestPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0140h
@@ -29473,6 +30953,9 @@ NtRequestPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRequestPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0177h
 	jmp NtRequestPort_Epilogue
+NtRequestPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0177h
+	jmp NtRequestPort_Epilogue
 NtRequestPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRequestPort_Epilogue:
@@ -29482,7 +30965,7 @@ NtRequestPort_Epilogue:
 NtRequestPort ENDP
 
 NtRequestWaitReplyPort PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtRequestWaitReplyPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRequestWaitReplyPort_Check_6_X_XXXX
@@ -29526,6 +31009,8 @@ NtRequestWaitReplyPort_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtRequestWaitReplyPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRequestWaitReplyPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRequestWaitReplyPort_SystemCall_10_0_19043
 	jmp NtRequestWaitReplyPort_SystemCall_Unknown
 NtRequestWaitReplyPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 001fh
@@ -29572,6 +31057,9 @@ NtRequestWaitReplyPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRequestWaitReplyPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0022h
 	jmp NtRequestWaitReplyPort_Epilogue
+NtRequestWaitReplyPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0022h
+	jmp NtRequestWaitReplyPort_Epilogue
 NtRequestWaitReplyPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRequestWaitReplyPort_Epilogue:
@@ -29581,7 +31069,7 @@ NtRequestWaitReplyPort_Epilogue:
 NtRequestWaitReplyPort ENDP
 
 NtResetEvent PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtResetEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtResetEvent_Check_6_X_XXXX
@@ -29625,6 +31113,8 @@ NtResetEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtResetEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtResetEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtResetEvent_SystemCall_10_0_19043
 	jmp NtResetEvent_SystemCall_Unknown
 NtResetEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0141h
@@ -29671,6 +31161,9 @@ NtResetEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtResetEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0178h
 	jmp NtResetEvent_Epilogue
+NtResetEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0178h
+	jmp NtResetEvent_Epilogue
 NtResetEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtResetEvent_Epilogue:
@@ -29680,7 +31173,7 @@ NtResetEvent_Epilogue:
 NtResetEvent ENDP
 
 NtResetWriteWatch PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtResetWriteWatch_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtResetWriteWatch_Check_6_X_XXXX
@@ -29724,6 +31217,8 @@ NtResetWriteWatch_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtResetWriteWatch_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtResetWriteWatch_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtResetWriteWatch_SystemCall_10_0_19043
 	jmp NtResetWriteWatch_SystemCall_Unknown
 NtResetWriteWatch_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0142h
@@ -29770,6 +31265,9 @@ NtResetWriteWatch_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtResetWriteWatch_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0179h
 	jmp NtResetWriteWatch_Epilogue
+NtResetWriteWatch_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0179h
+	jmp NtResetWriteWatch_Epilogue
 NtResetWriteWatch_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtResetWriteWatch_Epilogue:
@@ -29779,7 +31277,7 @@ NtResetWriteWatch_Epilogue:
 NtResetWriteWatch ENDP
 
 NtRestoreKey PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtRestoreKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRestoreKey_Check_6_X_XXXX
@@ -29823,6 +31321,8 @@ NtRestoreKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtRestoreKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRestoreKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRestoreKey_SystemCall_10_0_19043
 	jmp NtRestoreKey_SystemCall_Unknown
 NtRestoreKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0143h
@@ -29869,6 +31369,9 @@ NtRestoreKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRestoreKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 017ah
 	jmp NtRestoreKey_Epilogue
+NtRestoreKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 017ah
+	jmp NtRestoreKey_Epilogue
 NtRestoreKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRestoreKey_Epilogue:
@@ -29878,7 +31381,7 @@ NtRestoreKey_Epilogue:
 NtRestoreKey ENDP
 
 NtResumeProcess PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtResumeProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtResumeProcess_Check_6_X_XXXX
@@ -29922,6 +31425,8 @@ NtResumeProcess_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtResumeProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtResumeProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtResumeProcess_SystemCall_10_0_19043
 	jmp NtResumeProcess_SystemCall_Unknown
 NtResumeProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0144h
@@ -29968,6 +31473,9 @@ NtResumeProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtResumeProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 017bh
 	jmp NtResumeProcess_Epilogue
+NtResumeProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 017bh
+	jmp NtResumeProcess_Epilogue
 NtResumeProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtResumeProcess_Epilogue:
@@ -29977,7 +31485,7 @@ NtResumeProcess_Epilogue:
 NtResumeProcess ENDP
 
 NtResumeThread PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtResumeThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtResumeThread_Check_6_X_XXXX
@@ -30021,6 +31529,8 @@ NtResumeThread_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtResumeThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtResumeThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtResumeThread_SystemCall_10_0_19043
 	jmp NtResumeThread_SystemCall_Unknown
 NtResumeThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 004fh
@@ -30067,6 +31577,9 @@ NtResumeThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtResumeThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0052h
 	jmp NtResumeThread_Epilogue
+NtResumeThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0052h
+	jmp NtResumeThread_Epilogue
 NtResumeThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtResumeThread_Epilogue:
@@ -30076,7 +31589,7 @@ NtResumeThread_Epilogue:
 NtResumeThread ENDP
 
 NtRollbackComplete PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtRollbackComplete_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRollbackComplete_Check_6_X_XXXX
@@ -30120,6 +31633,8 @@ NtRollbackComplete_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtRollbackComplete_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRollbackComplete_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRollbackComplete_SystemCall_10_0_19043
 	jmp NtRollbackComplete_SystemCall_Unknown
 NtRollbackComplete_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0145h
@@ -30166,6 +31681,9 @@ NtRollbackComplete_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRollbackComplete_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 017dh
 	jmp NtRollbackComplete_Epilogue
+NtRollbackComplete_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 017dh
+	jmp NtRollbackComplete_Epilogue
 NtRollbackComplete_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRollbackComplete_Epilogue:
@@ -30175,7 +31693,7 @@ NtRollbackComplete_Epilogue:
 NtRollbackComplete ENDP
 
 NtRollbackEnlistment PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtRollbackEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRollbackEnlistment_Check_6_X_XXXX
@@ -30219,6 +31737,8 @@ NtRollbackEnlistment_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtRollbackEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRollbackEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRollbackEnlistment_SystemCall_10_0_19043
 	jmp NtRollbackEnlistment_SystemCall_Unknown
 NtRollbackEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0146h
@@ -30265,6 +31785,9 @@ NtRollbackEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRollbackEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 017eh
 	jmp NtRollbackEnlistment_Epilogue
+NtRollbackEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 017eh
+	jmp NtRollbackEnlistment_Epilogue
 NtRollbackEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRollbackEnlistment_Epilogue:
@@ -30274,7 +31797,7 @@ NtRollbackEnlistment_Epilogue:
 NtRollbackEnlistment ENDP
 
 NtRollbackTransaction PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtRollbackTransaction_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRollbackTransaction_Check_6_X_XXXX
@@ -30318,6 +31841,8 @@ NtRollbackTransaction_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtRollbackTransaction_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRollbackTransaction_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRollbackTransaction_SystemCall_10_0_19043
 	jmp NtRollbackTransaction_SystemCall_Unknown
 NtRollbackTransaction_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0147h
@@ -30364,6 +31889,9 @@ NtRollbackTransaction_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtRollbackTransaction_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0180h
 	jmp NtRollbackTransaction_Epilogue
+NtRollbackTransaction_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0180h
+	jmp NtRollbackTransaction_Epilogue
 NtRollbackTransaction_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRollbackTransaction_Epilogue:
@@ -30373,7 +31901,7 @@ NtRollbackTransaction_Epilogue:
 NtRollbackTransaction ENDP
 
 NtRollforwardTransactionManager PROC
-	mov rax, gs:[60h]                                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                                     ; Load PEB into RAX.
 NtRollforwardTransactionManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtRollforwardTransactionManager_Check_6_X_XXXX
@@ -30417,6 +31945,8 @@ NtRollforwardTransactionManager_Check_10_0_XXXX:              ; Check build numb
 	je  NtRollforwardTransactionManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtRollforwardTransactionManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtRollforwardTransactionManager_SystemCall_10_0_19043
 	jmp NtRollforwardTransactionManager_SystemCall_Unknown
 NtRollforwardTransactionManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0148h
@@ -30463,6 +31993,9 @@ NtRollforwardTransactionManager_SystemCall_10_0_19041:        ; Windows 10.0.190
 NtRollforwardTransactionManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0181h
 	jmp NtRollforwardTransactionManager_Epilogue
+NtRollforwardTransactionManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0181h
+	jmp NtRollforwardTransactionManager_Epilogue
 NtRollforwardTransactionManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtRollforwardTransactionManager_Epilogue:
@@ -30472,7 +32005,7 @@ NtRollforwardTransactionManager_Epilogue:
 NtRollforwardTransactionManager ENDP
 
 NtSaveKey PROC
-	mov rax, gs:[60h]                   ; Load PEB into RAX.
+	mov rax, gs:[60h]               ; Load PEB into RAX.
 NtSaveKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSaveKey_Check_6_X_XXXX
@@ -30516,6 +32049,8 @@ NtSaveKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSaveKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSaveKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSaveKey_SystemCall_10_0_19043
 	jmp NtSaveKey_SystemCall_Unknown
 NtSaveKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0149h
@@ -30562,6 +32097,9 @@ NtSaveKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSaveKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0182h
 	jmp NtSaveKey_Epilogue
+NtSaveKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0182h
+	jmp NtSaveKey_Epilogue
 NtSaveKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSaveKey_Epilogue:
@@ -30571,7 +32109,7 @@ NtSaveKey_Epilogue:
 NtSaveKey ENDP
 
 NtSaveKeyEx PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtSaveKeyEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSaveKeyEx_Check_6_X_XXXX
@@ -30615,6 +32153,8 @@ NtSaveKeyEx_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSaveKeyEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSaveKeyEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSaveKeyEx_SystemCall_10_0_19043
 	jmp NtSaveKeyEx_SystemCall_Unknown
 NtSaveKeyEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 014ah
@@ -30661,6 +32201,9 @@ NtSaveKeyEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSaveKeyEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0183h
 	jmp NtSaveKeyEx_Epilogue
+NtSaveKeyEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0183h
+	jmp NtSaveKeyEx_Epilogue
 NtSaveKeyEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSaveKeyEx_Epilogue:
@@ -30670,7 +32213,7 @@ NtSaveKeyEx_Epilogue:
 NtSaveKeyEx ENDP
 
 NtSaveMergedKeys PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtSaveMergedKeys_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSaveMergedKeys_Check_6_X_XXXX
@@ -30714,6 +32257,8 @@ NtSaveMergedKeys_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtSaveMergedKeys_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSaveMergedKeys_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSaveMergedKeys_SystemCall_10_0_19043
 	jmp NtSaveMergedKeys_SystemCall_Unknown
 NtSaveMergedKeys_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 014bh
@@ -30760,6 +32305,9 @@ NtSaveMergedKeys_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSaveMergedKeys_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0184h
 	jmp NtSaveMergedKeys_Epilogue
+NtSaveMergedKeys_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0184h
+	jmp NtSaveMergedKeys_Epilogue
 NtSaveMergedKeys_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSaveMergedKeys_Epilogue:
@@ -30769,7 +32317,7 @@ NtSaveMergedKeys_Epilogue:
 NtSaveMergedKeys ENDP
 
 NtSecureConnectPort PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtSecureConnectPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSecureConnectPort_Check_6_X_XXXX
@@ -30813,6 +32361,8 @@ NtSecureConnectPort_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtSecureConnectPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSecureConnectPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSecureConnectPort_SystemCall_10_0_19043
 	jmp NtSecureConnectPort_SystemCall_Unknown
 NtSecureConnectPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 014ch
@@ -30859,6 +32409,9 @@ NtSecureConnectPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSecureConnectPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0185h
 	jmp NtSecureConnectPort_Epilogue
+NtSecureConnectPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0185h
+	jmp NtSecureConnectPort_Epilogue
 NtSecureConnectPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSecureConnectPort_Epilogue:
@@ -30868,7 +32421,7 @@ NtSecureConnectPort_Epilogue:
 NtSecureConnectPort ENDP
 
 NtSerializeBoot PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtSerializeBoot_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSerializeBoot_Check_6_X_XXXX
@@ -30912,6 +32465,8 @@ NtSerializeBoot_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtSerializeBoot_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSerializeBoot_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSerializeBoot_SystemCall_10_0_19043
 	jmp NtSerializeBoot_SystemCall_Unknown
 NtSerializeBoot_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 014dh
@@ -30958,6 +32513,9 @@ NtSerializeBoot_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSerializeBoot_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0186h
 	jmp NtSerializeBoot_Epilogue
+NtSerializeBoot_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0186h
+	jmp NtSerializeBoot_Epilogue
 NtSerializeBoot_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSerializeBoot_Epilogue:
@@ -30967,7 +32525,7 @@ NtSerializeBoot_Epilogue:
 NtSerializeBoot ENDP
 
 NtSetBootEntryOrder PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtSetBootEntryOrder_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetBootEntryOrder_Check_6_X_XXXX
@@ -31011,6 +32569,8 @@ NtSetBootEntryOrder_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtSetBootEntryOrder_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetBootEntryOrder_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetBootEntryOrder_SystemCall_10_0_19043
 	jmp NtSetBootEntryOrder_SystemCall_Unknown
 NtSetBootEntryOrder_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 014eh
@@ -31057,6 +32617,9 @@ NtSetBootEntryOrder_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetBootEntryOrder_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0187h
 	jmp NtSetBootEntryOrder_Epilogue
+NtSetBootEntryOrder_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0187h
+	jmp NtSetBootEntryOrder_Epilogue
 NtSetBootEntryOrder_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetBootEntryOrder_Epilogue:
@@ -31066,7 +32629,7 @@ NtSetBootEntryOrder_Epilogue:
 NtSetBootEntryOrder ENDP
 
 NtSetBootOptions PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtSetBootOptions_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetBootOptions_Check_6_X_XXXX
@@ -31110,6 +32673,8 @@ NtSetBootOptions_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtSetBootOptions_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetBootOptions_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetBootOptions_SystemCall_10_0_19043
 	jmp NtSetBootOptions_SystemCall_Unknown
 NtSetBootOptions_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 014fh
@@ -31156,6 +32721,9 @@ NtSetBootOptions_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetBootOptions_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0188h
 	jmp NtSetBootOptions_Epilogue
+NtSetBootOptions_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0188h
+	jmp NtSetBootOptions_Epilogue
 NtSetBootOptions_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetBootOptions_Epilogue:
@@ -31165,7 +32733,7 @@ NtSetBootOptions_Epilogue:
 NtSetBootOptions ENDP
 
 NtSetContextThread PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtSetContextThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetContextThread_Check_6_X_XXXX
@@ -31209,6 +32777,8 @@ NtSetContextThread_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtSetContextThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetContextThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetContextThread_SystemCall_10_0_19043
 	jmp NtSetContextThread_SystemCall_Unknown
 NtSetContextThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0150h
@@ -31255,6 +32825,9 @@ NtSetContextThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetContextThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 018bh
 	jmp NtSetContextThread_Epilogue
+NtSetContextThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 018bh
+	jmp NtSetContextThread_Epilogue
 NtSetContextThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetContextThread_Epilogue:
@@ -31264,7 +32837,7 @@ NtSetContextThread_Epilogue:
 NtSetContextThread ENDP
 
 NtSetDebugFilterState PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtSetDebugFilterState_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetDebugFilterState_Check_6_X_XXXX
@@ -31308,6 +32881,8 @@ NtSetDebugFilterState_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtSetDebugFilterState_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetDebugFilterState_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetDebugFilterState_SystemCall_10_0_19043
 	jmp NtSetDebugFilterState_SystemCall_Unknown
 NtSetDebugFilterState_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0151h
@@ -31354,6 +32929,9 @@ NtSetDebugFilterState_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetDebugFilterState_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 018ch
 	jmp NtSetDebugFilterState_Epilogue
+NtSetDebugFilterState_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 018ch
+	jmp NtSetDebugFilterState_Epilogue
 NtSetDebugFilterState_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetDebugFilterState_Epilogue:
@@ -31363,7 +32941,7 @@ NtSetDebugFilterState_Epilogue:
 NtSetDebugFilterState ENDP
 
 NtSetDefaultHardErrorPort PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtSetDefaultHardErrorPort_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetDefaultHardErrorPort_Check_6_X_XXXX
@@ -31407,6 +32985,8 @@ NtSetDefaultHardErrorPort_Check_10_0_XXXX:              ; Check build number for
 	je  NtSetDefaultHardErrorPort_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetDefaultHardErrorPort_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetDefaultHardErrorPort_SystemCall_10_0_19043
 	jmp NtSetDefaultHardErrorPort_SystemCall_Unknown
 NtSetDefaultHardErrorPort_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0152h
@@ -31453,6 +33033,9 @@ NtSetDefaultHardErrorPort_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtSetDefaultHardErrorPort_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 018dh
 	jmp NtSetDefaultHardErrorPort_Epilogue
+NtSetDefaultHardErrorPort_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 018dh
+	jmp NtSetDefaultHardErrorPort_Epilogue
 NtSetDefaultHardErrorPort_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetDefaultHardErrorPort_Epilogue:
@@ -31462,7 +33045,7 @@ NtSetDefaultHardErrorPort_Epilogue:
 NtSetDefaultHardErrorPort ENDP
 
 NtSetDefaultLocale PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtSetDefaultLocale_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetDefaultLocale_Check_6_X_XXXX
@@ -31506,6 +33089,8 @@ NtSetDefaultLocale_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtSetDefaultLocale_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetDefaultLocale_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetDefaultLocale_SystemCall_10_0_19043
 	jmp NtSetDefaultLocale_SystemCall_Unknown
 NtSetDefaultLocale_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0153h
@@ -31552,6 +33137,9 @@ NtSetDefaultLocale_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetDefaultLocale_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 018eh
 	jmp NtSetDefaultLocale_Epilogue
+NtSetDefaultLocale_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 018eh
+	jmp NtSetDefaultLocale_Epilogue
 NtSetDefaultLocale_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetDefaultLocale_Epilogue:
@@ -31561,7 +33149,7 @@ NtSetDefaultLocale_Epilogue:
 NtSetDefaultLocale ENDP
 
 NtSetDefaultUILanguage PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtSetDefaultUILanguage_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetDefaultUILanguage_Check_6_X_XXXX
@@ -31605,6 +33193,8 @@ NtSetDefaultUILanguage_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtSetDefaultUILanguage_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetDefaultUILanguage_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetDefaultUILanguage_SystemCall_10_0_19043
 	jmp NtSetDefaultUILanguage_SystemCall_Unknown
 NtSetDefaultUILanguage_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0154h
@@ -31651,6 +33241,9 @@ NtSetDefaultUILanguage_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetDefaultUILanguage_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 018fh
 	jmp NtSetDefaultUILanguage_Epilogue
+NtSetDefaultUILanguage_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 018fh
+	jmp NtSetDefaultUILanguage_Epilogue
 NtSetDefaultUILanguage_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetDefaultUILanguage_Epilogue:
@@ -31660,7 +33253,7 @@ NtSetDefaultUILanguage_Epilogue:
 NtSetDefaultUILanguage ENDP
 
 NtSetDriverEntryOrder PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtSetDriverEntryOrder_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetDriverEntryOrder_Check_6_X_XXXX
@@ -31704,6 +33297,8 @@ NtSetDriverEntryOrder_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtSetDriverEntryOrder_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetDriverEntryOrder_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetDriverEntryOrder_SystemCall_10_0_19043
 	jmp NtSetDriverEntryOrder_SystemCall_Unknown
 NtSetDriverEntryOrder_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0155h
@@ -31750,6 +33345,9 @@ NtSetDriverEntryOrder_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetDriverEntryOrder_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0190h
 	jmp NtSetDriverEntryOrder_Epilogue
+NtSetDriverEntryOrder_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0190h
+	jmp NtSetDriverEntryOrder_Epilogue
 NtSetDriverEntryOrder_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetDriverEntryOrder_Epilogue:
@@ -31759,7 +33357,7 @@ NtSetDriverEntryOrder_Epilogue:
 NtSetDriverEntryOrder ENDP
 
 NtSetEaFile PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtSetEaFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetEaFile_Check_6_X_XXXX
@@ -31803,6 +33401,8 @@ NtSetEaFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSetEaFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetEaFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetEaFile_SystemCall_10_0_19043
 	jmp NtSetEaFile_SystemCall_Unknown
 NtSetEaFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0156h
@@ -31849,6 +33449,9 @@ NtSetEaFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetEaFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0191h
 	jmp NtSetEaFile_Epilogue
+NtSetEaFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0191h
+	jmp NtSetEaFile_Epilogue
 NtSetEaFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetEaFile_Epilogue:
@@ -31858,7 +33461,7 @@ NtSetEaFile_Epilogue:
 NtSetEaFile ENDP
 
 NtSetEvent PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtSetEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetEvent_Check_6_X_XXXX
@@ -31902,6 +33505,8 @@ NtSetEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSetEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetEvent_SystemCall_10_0_19043
 	jmp NtSetEvent_SystemCall_Unknown
 NtSetEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 000bh
@@ -31948,6 +33553,9 @@ NtSetEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 000eh
 	jmp NtSetEvent_Epilogue
+NtSetEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 000eh
+	jmp NtSetEvent_Epilogue
 NtSetEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetEvent_Epilogue:
@@ -31957,7 +33565,7 @@ NtSetEvent_Epilogue:
 NtSetEvent ENDP
 
 NtSetEventBoostPriority PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtSetEventBoostPriority_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetEventBoostPriority_Check_6_X_XXXX
@@ -32001,6 +33609,8 @@ NtSetEventBoostPriority_Check_10_0_XXXX:              ; Check build number for W
 	je  NtSetEventBoostPriority_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetEventBoostPriority_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetEventBoostPriority_SystemCall_10_0_19043
 	jmp NtSetEventBoostPriority_SystemCall_Unknown
 NtSetEventBoostPriority_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 002ah
@@ -32047,6 +33657,9 @@ NtSetEventBoostPriority_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtSetEventBoostPriority_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 002dh
 	jmp NtSetEventBoostPriority_Epilogue
+NtSetEventBoostPriority_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 002dh
+	jmp NtSetEventBoostPriority_Epilogue
 NtSetEventBoostPriority_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetEventBoostPriority_Epilogue:
@@ -32056,7 +33669,7 @@ NtSetEventBoostPriority_Epilogue:
 NtSetEventBoostPriority ENDP
 
 NtSetHighEventPair PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtSetHighEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetHighEventPair_Check_6_X_XXXX
@@ -32100,6 +33713,8 @@ NtSetHighEventPair_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtSetHighEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetHighEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetHighEventPair_SystemCall_10_0_19043
 	jmp NtSetHighEventPair_SystemCall_Unknown
 NtSetHighEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0157h
@@ -32146,6 +33761,9 @@ NtSetHighEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetHighEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0192h
 	jmp NtSetHighEventPair_Epilogue
+NtSetHighEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0192h
+	jmp NtSetHighEventPair_Epilogue
 NtSetHighEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetHighEventPair_Epilogue:
@@ -32155,7 +33773,7 @@ NtSetHighEventPair_Epilogue:
 NtSetHighEventPair ENDP
 
 NtSetHighWaitLowEventPair PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtSetHighWaitLowEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetHighWaitLowEventPair_Check_6_X_XXXX
@@ -32199,6 +33817,8 @@ NtSetHighWaitLowEventPair_Check_10_0_XXXX:              ; Check build number for
 	je  NtSetHighWaitLowEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetHighWaitLowEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetHighWaitLowEventPair_SystemCall_10_0_19043
 	jmp NtSetHighWaitLowEventPair_SystemCall_Unknown
 NtSetHighWaitLowEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0158h
@@ -32245,6 +33865,9 @@ NtSetHighWaitLowEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtSetHighWaitLowEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0193h
 	jmp NtSetHighWaitLowEventPair_Epilogue
+NtSetHighWaitLowEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0193h
+	jmp NtSetHighWaitLowEventPair_Epilogue
 NtSetHighWaitLowEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetHighWaitLowEventPair_Epilogue:
@@ -32254,7 +33877,7 @@ NtSetHighWaitLowEventPair_Epilogue:
 NtSetHighWaitLowEventPair ENDP
 
 NtSetInformationDebugObject PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtSetInformationDebugObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationDebugObject_Check_6_X_XXXX
@@ -32298,6 +33921,8 @@ NtSetInformationDebugObject_Check_10_0_XXXX:              ; Check build number f
 	je  NtSetInformationDebugObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationDebugObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationDebugObject_SystemCall_10_0_19043
 	jmp NtSetInformationDebugObject_SystemCall_Unknown
 NtSetInformationDebugObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0159h
@@ -32344,6 +33969,9 @@ NtSetInformationDebugObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtSetInformationDebugObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0195h
 	jmp NtSetInformationDebugObject_Epilogue
+NtSetInformationDebugObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0195h
+	jmp NtSetInformationDebugObject_Epilogue
 NtSetInformationDebugObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationDebugObject_Epilogue:
@@ -32353,7 +33981,7 @@ NtSetInformationDebugObject_Epilogue:
 NtSetInformationDebugObject ENDP
 
 NtSetInformationEnlistment PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtSetInformationEnlistment_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationEnlistment_Check_6_X_XXXX
@@ -32397,6 +34025,8 @@ NtSetInformationEnlistment_Check_10_0_XXXX:              ; Check build number fo
 	je  NtSetInformationEnlistment_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationEnlistment_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationEnlistment_SystemCall_10_0_19043
 	jmp NtSetInformationEnlistment_SystemCall_Unknown
 NtSetInformationEnlistment_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 015ah
@@ -32443,6 +34073,9 @@ NtSetInformationEnlistment_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtSetInformationEnlistment_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0196h
 	jmp NtSetInformationEnlistment_Epilogue
+NtSetInformationEnlistment_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0196h
+	jmp NtSetInformationEnlistment_Epilogue
 NtSetInformationEnlistment_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationEnlistment_Epilogue:
@@ -32452,7 +34085,7 @@ NtSetInformationEnlistment_Epilogue:
 NtSetInformationEnlistment ENDP
 
 NtSetInformationFile PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtSetInformationFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationFile_Check_6_X_XXXX
@@ -32496,6 +34129,8 @@ NtSetInformationFile_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtSetInformationFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationFile_SystemCall_10_0_19043
 	jmp NtSetInformationFile_SystemCall_Unknown
 NtSetInformationFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0024h
@@ -32542,6 +34177,9 @@ NtSetInformationFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetInformationFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0027h
 	jmp NtSetInformationFile_Epilogue
+NtSetInformationFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0027h
+	jmp NtSetInformationFile_Epilogue
 NtSetInformationFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationFile_Epilogue:
@@ -32551,7 +34189,7 @@ NtSetInformationFile_Epilogue:
 NtSetInformationFile ENDP
 
 NtSetInformationJobObject PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtSetInformationJobObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationJobObject_Check_6_X_XXXX
@@ -32595,6 +34233,8 @@ NtSetInformationJobObject_Check_10_0_XXXX:              ; Check build number for
 	je  NtSetInformationJobObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationJobObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationJobObject_SystemCall_10_0_19043
 	jmp NtSetInformationJobObject_SystemCall_Unknown
 NtSetInformationJobObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 015bh
@@ -32641,6 +34281,9 @@ NtSetInformationJobObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtSetInformationJobObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0197h
 	jmp NtSetInformationJobObject_Epilogue
+NtSetInformationJobObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0197h
+	jmp NtSetInformationJobObject_Epilogue
 NtSetInformationJobObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationJobObject_Epilogue:
@@ -32650,7 +34293,7 @@ NtSetInformationJobObject_Epilogue:
 NtSetInformationJobObject ENDP
 
 NtSetInformationKey PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtSetInformationKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationKey_Check_6_X_XXXX
@@ -32694,6 +34337,8 @@ NtSetInformationKey_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtSetInformationKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationKey_SystemCall_10_0_19043
 	jmp NtSetInformationKey_SystemCall_Unknown
 NtSetInformationKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 015ch
@@ -32740,6 +34385,9 @@ NtSetInformationKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetInformationKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0198h
 	jmp NtSetInformationKey_Epilogue
+NtSetInformationKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0198h
+	jmp NtSetInformationKey_Epilogue
 NtSetInformationKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationKey_Epilogue:
@@ -32749,7 +34397,7 @@ NtSetInformationKey_Epilogue:
 NtSetInformationKey ENDP
 
 NtSetInformationObject PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtSetInformationObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationObject_Check_6_X_XXXX
@@ -32793,6 +34441,8 @@ NtSetInformationObject_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtSetInformationObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationObject_SystemCall_10_0_19043
 	jmp NtSetInformationObject_SystemCall_Unknown
 NtSetInformationObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0059h
@@ -32839,6 +34489,9 @@ NtSetInformationObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetInformationObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 005ch
 	jmp NtSetInformationObject_Epilogue
+NtSetInformationObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 005ch
+	jmp NtSetInformationObject_Epilogue
 NtSetInformationObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationObject_Epilogue:
@@ -32848,7 +34501,7 @@ NtSetInformationObject_Epilogue:
 NtSetInformationObject ENDP
 
 NtSetInformationProcess PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtSetInformationProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationProcess_Check_6_X_XXXX
@@ -32892,6 +34545,8 @@ NtSetInformationProcess_Check_10_0_XXXX:              ; Check build number for W
 	je  NtSetInformationProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationProcess_SystemCall_10_0_19043
 	jmp NtSetInformationProcess_SystemCall_Unknown
 NtSetInformationProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0019h
@@ -32938,6 +34593,9 @@ NtSetInformationProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtSetInformationProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 001ch
 	jmp NtSetInformationProcess_Epilogue
+NtSetInformationProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 001ch
+	jmp NtSetInformationProcess_Epilogue
 NtSetInformationProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationProcess_Epilogue:
@@ -32947,7 +34605,7 @@ NtSetInformationProcess_Epilogue:
 NtSetInformationProcess ENDP
 
 NtSetInformationResourceManager PROC
-	mov rax, gs:[60h]                                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                                     ; Load PEB into RAX.
 NtSetInformationResourceManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationResourceManager_Check_6_X_XXXX
@@ -32991,6 +34649,8 @@ NtSetInformationResourceManager_Check_10_0_XXXX:              ; Check build numb
 	je  NtSetInformationResourceManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationResourceManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationResourceManager_SystemCall_10_0_19043
 	jmp NtSetInformationResourceManager_SystemCall_Unknown
 NtSetInformationResourceManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 015dh
@@ -33037,6 +34697,9 @@ NtSetInformationResourceManager_SystemCall_10_0_19041:        ; Windows 10.0.190
 NtSetInformationResourceManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0199h
 	jmp NtSetInformationResourceManager_Epilogue
+NtSetInformationResourceManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0199h
+	jmp NtSetInformationResourceManager_Epilogue
 NtSetInformationResourceManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationResourceManager_Epilogue:
@@ -33046,7 +34709,7 @@ NtSetInformationResourceManager_Epilogue:
 NtSetInformationResourceManager ENDP
 
 NtSetInformationThread PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtSetInformationThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationThread_Check_6_X_XXXX
@@ -33090,6 +34753,8 @@ NtSetInformationThread_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtSetInformationThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationThread_SystemCall_10_0_19043
 	jmp NtSetInformationThread_SystemCall_Unknown
 NtSetInformationThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 000ah
@@ -33136,6 +34801,9 @@ NtSetInformationThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetInformationThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 000dh
 	jmp NtSetInformationThread_Epilogue
+NtSetInformationThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 000dh
+	jmp NtSetInformationThread_Epilogue
 NtSetInformationThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationThread_Epilogue:
@@ -33145,7 +34813,7 @@ NtSetInformationThread_Epilogue:
 NtSetInformationThread ENDP
 
 NtSetInformationToken PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtSetInformationToken_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationToken_Check_6_X_XXXX
@@ -33189,6 +34857,8 @@ NtSetInformationToken_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtSetInformationToken_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationToken_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationToken_SystemCall_10_0_19043
 	jmp NtSetInformationToken_SystemCall_Unknown
 NtSetInformationToken_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 015eh
@@ -33235,6 +34905,9 @@ NtSetInformationToken_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetInformationToken_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 019bh
 	jmp NtSetInformationToken_Epilogue
+NtSetInformationToken_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 019bh
+	jmp NtSetInformationToken_Epilogue
 NtSetInformationToken_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationToken_Epilogue:
@@ -33244,7 +34917,7 @@ NtSetInformationToken_Epilogue:
 NtSetInformationToken ENDP
 
 NtSetInformationTransaction PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtSetInformationTransaction_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationTransaction_Check_6_X_XXXX
@@ -33288,6 +34961,8 @@ NtSetInformationTransaction_Check_10_0_XXXX:              ; Check build number f
 	je  NtSetInformationTransaction_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationTransaction_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationTransaction_SystemCall_10_0_19043
 	jmp NtSetInformationTransaction_SystemCall_Unknown
 NtSetInformationTransaction_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 015fh
@@ -33334,6 +35009,9 @@ NtSetInformationTransaction_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtSetInformationTransaction_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 019ch
 	jmp NtSetInformationTransaction_Epilogue
+NtSetInformationTransaction_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 019ch
+	jmp NtSetInformationTransaction_Epilogue
 NtSetInformationTransaction_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationTransaction_Epilogue:
@@ -33343,7 +35021,7 @@ NtSetInformationTransaction_Epilogue:
 NtSetInformationTransaction ENDP
 
 NtSetInformationTransactionManager PROC
-	mov rax, gs:[60h]                                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                                        ; Load PEB into RAX.
 NtSetInformationTransactionManager_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationTransactionManager_Check_6_X_XXXX
@@ -33387,6 +35065,8 @@ NtSetInformationTransactionManager_Check_10_0_XXXX:              ; Check build n
 	je  NtSetInformationTransactionManager_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationTransactionManager_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationTransactionManager_SystemCall_10_0_19043
 	jmp NtSetInformationTransactionManager_SystemCall_Unknown
 NtSetInformationTransactionManager_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0160h
@@ -33433,6 +35113,9 @@ NtSetInformationTransactionManager_SystemCall_10_0_19041:        ; Windows 10.0.
 NtSetInformationTransactionManager_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 019dh
 	jmp NtSetInformationTransactionManager_Epilogue
+NtSetInformationTransactionManager_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 019dh
+	jmp NtSetInformationTransactionManager_Epilogue
 NtSetInformationTransactionManager_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationTransactionManager_Epilogue:
@@ -33442,7 +35125,7 @@ NtSetInformationTransactionManager_Epilogue:
 NtSetInformationTransactionManager ENDP
 
 NtSetInformationWorkerFactory PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtSetInformationWorkerFactory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetInformationWorkerFactory_Check_6_X_XXXX
@@ -33486,6 +35169,8 @@ NtSetInformationWorkerFactory_Check_10_0_XXXX:              ; Check build number
 	je  NtSetInformationWorkerFactory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetInformationWorkerFactory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetInformationWorkerFactory_SystemCall_10_0_19043
 	jmp NtSetInformationWorkerFactory_SystemCall_Unknown
 NtSetInformationWorkerFactory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0161h
@@ -33532,6 +35217,9 @@ NtSetInformationWorkerFactory_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtSetInformationWorkerFactory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 019fh
 	jmp NtSetInformationWorkerFactory_Epilogue
+NtSetInformationWorkerFactory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 019fh
+	jmp NtSetInformationWorkerFactory_Epilogue
 NtSetInformationWorkerFactory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetInformationWorkerFactory_Epilogue:
@@ -33541,7 +35229,7 @@ NtSetInformationWorkerFactory_Epilogue:
 NtSetInformationWorkerFactory ENDP
 
 NtSetIntervalProfile PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtSetIntervalProfile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetIntervalProfile_Check_6_X_XXXX
@@ -33585,6 +35273,8 @@ NtSetIntervalProfile_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtSetIntervalProfile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetIntervalProfile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetIntervalProfile_SystemCall_10_0_19043
 	jmp NtSetIntervalProfile_SystemCall_Unknown
 NtSetIntervalProfile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0162h
@@ -33631,6 +35321,9 @@ NtSetIntervalProfile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetIntervalProfile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a0h
 	jmp NtSetIntervalProfile_Epilogue
+NtSetIntervalProfile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a0h
+	jmp NtSetIntervalProfile_Epilogue
 NtSetIntervalProfile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetIntervalProfile_Epilogue:
@@ -33640,7 +35333,7 @@ NtSetIntervalProfile_Epilogue:
 NtSetIntervalProfile ENDP
 
 NtSetIoCompletion PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtSetIoCompletion_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetIoCompletion_Check_6_X_XXXX
@@ -33684,6 +35377,8 @@ NtSetIoCompletion_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtSetIoCompletion_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetIoCompletion_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetIoCompletion_SystemCall_10_0_19043
 	jmp NtSetIoCompletion_SystemCall_Unknown
 NtSetIoCompletion_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0163h
@@ -33730,6 +35425,9 @@ NtSetIoCompletion_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetIoCompletion_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a1h
 	jmp NtSetIoCompletion_Epilogue
+NtSetIoCompletion_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a1h
+	jmp NtSetIoCompletion_Epilogue
 NtSetIoCompletion_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetIoCompletion_Epilogue:
@@ -33739,7 +35437,7 @@ NtSetIoCompletion_Epilogue:
 NtSetIoCompletion ENDP
 
 NtSetIoCompletionEx PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtSetIoCompletionEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetIoCompletionEx_Check_6_X_XXXX
@@ -33783,6 +35481,8 @@ NtSetIoCompletionEx_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtSetIoCompletionEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetIoCompletionEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetIoCompletionEx_SystemCall_10_0_19043
 	jmp NtSetIoCompletionEx_SystemCall_Unknown
 NtSetIoCompletionEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0164h
@@ -33829,6 +35529,9 @@ NtSetIoCompletionEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetIoCompletionEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a2h
 	jmp NtSetIoCompletionEx_Epilogue
+NtSetIoCompletionEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a2h
+	jmp NtSetIoCompletionEx_Epilogue
 NtSetIoCompletionEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetIoCompletionEx_Epilogue:
@@ -33838,7 +35541,7 @@ NtSetIoCompletionEx_Epilogue:
 NtSetIoCompletionEx ENDP
 
 NtSetLdtEntries PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtSetLdtEntries_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetLdtEntries_Check_6_X_XXXX
@@ -33882,6 +35585,8 @@ NtSetLdtEntries_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtSetLdtEntries_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetLdtEntries_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetLdtEntries_SystemCall_10_0_19043
 	jmp NtSetLdtEntries_SystemCall_Unknown
 NtSetLdtEntries_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0165h
@@ -33928,6 +35633,9 @@ NtSetLdtEntries_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetLdtEntries_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a3h
 	jmp NtSetLdtEntries_Epilogue
+NtSetLdtEntries_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a3h
+	jmp NtSetLdtEntries_Epilogue
 NtSetLdtEntries_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetLdtEntries_Epilogue:
@@ -33937,7 +35645,7 @@ NtSetLdtEntries_Epilogue:
 NtSetLdtEntries ENDP
 
 NtSetLowEventPair PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtSetLowEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetLowEventPair_Check_6_X_XXXX
@@ -33981,6 +35689,8 @@ NtSetLowEventPair_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtSetLowEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetLowEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetLowEventPair_SystemCall_10_0_19043
 	jmp NtSetLowEventPair_SystemCall_Unknown
 NtSetLowEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0166h
@@ -34027,6 +35737,9 @@ NtSetLowEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetLowEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a4h
 	jmp NtSetLowEventPair_Epilogue
+NtSetLowEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a4h
+	jmp NtSetLowEventPair_Epilogue
 NtSetLowEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetLowEventPair_Epilogue:
@@ -34036,7 +35749,7 @@ NtSetLowEventPair_Epilogue:
 NtSetLowEventPair ENDP
 
 NtSetLowWaitHighEventPair PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtSetLowWaitHighEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetLowWaitHighEventPair_Check_6_X_XXXX
@@ -34080,6 +35793,8 @@ NtSetLowWaitHighEventPair_Check_10_0_XXXX:              ; Check build number for
 	je  NtSetLowWaitHighEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetLowWaitHighEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetLowWaitHighEventPair_SystemCall_10_0_19043
 	jmp NtSetLowWaitHighEventPair_SystemCall_Unknown
 NtSetLowWaitHighEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0167h
@@ -34126,6 +35841,9 @@ NtSetLowWaitHighEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtSetLowWaitHighEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a5h
 	jmp NtSetLowWaitHighEventPair_Epilogue
+NtSetLowWaitHighEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a5h
+	jmp NtSetLowWaitHighEventPair_Epilogue
 NtSetLowWaitHighEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetLowWaitHighEventPair_Epilogue:
@@ -34135,7 +35853,7 @@ NtSetLowWaitHighEventPair_Epilogue:
 NtSetLowWaitHighEventPair ENDP
 
 NtSetQuotaInformationFile PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtSetQuotaInformationFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetQuotaInformationFile_Check_6_X_XXXX
@@ -34179,6 +35897,8 @@ NtSetQuotaInformationFile_Check_10_0_XXXX:              ; Check build number for
 	je  NtSetQuotaInformationFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetQuotaInformationFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetQuotaInformationFile_SystemCall_10_0_19043
 	jmp NtSetQuotaInformationFile_SystemCall_Unknown
 NtSetQuotaInformationFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0168h
@@ -34225,6 +35945,9 @@ NtSetQuotaInformationFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtSetQuotaInformationFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a6h
 	jmp NtSetQuotaInformationFile_Epilogue
+NtSetQuotaInformationFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a6h
+	jmp NtSetQuotaInformationFile_Epilogue
 NtSetQuotaInformationFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetQuotaInformationFile_Epilogue:
@@ -34234,7 +35957,7 @@ NtSetQuotaInformationFile_Epilogue:
 NtSetQuotaInformationFile ENDP
 
 NtSetSecurityObject PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtSetSecurityObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetSecurityObject_Check_6_X_XXXX
@@ -34278,6 +36001,8 @@ NtSetSecurityObject_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtSetSecurityObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetSecurityObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetSecurityObject_SystemCall_10_0_19043
 	jmp NtSetSecurityObject_SystemCall_Unknown
 NtSetSecurityObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0169h
@@ -34324,6 +36049,9 @@ NtSetSecurityObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetSecurityObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a7h
 	jmp NtSetSecurityObject_Epilogue
+NtSetSecurityObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a7h
+	jmp NtSetSecurityObject_Epilogue
 NtSetSecurityObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetSecurityObject_Epilogue:
@@ -34333,7 +36061,7 @@ NtSetSecurityObject_Epilogue:
 NtSetSecurityObject ENDP
 
 NtSetSystemEnvironmentValue PROC
-	mov rax, gs:[60h]                                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                                 ; Load PEB into RAX.
 NtSetSystemEnvironmentValue_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetSystemEnvironmentValue_Check_6_X_XXXX
@@ -34377,6 +36105,8 @@ NtSetSystemEnvironmentValue_Check_10_0_XXXX:              ; Check build number f
 	je  NtSetSystemEnvironmentValue_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetSystemEnvironmentValue_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetSystemEnvironmentValue_SystemCall_10_0_19043
 	jmp NtSetSystemEnvironmentValue_SystemCall_Unknown
 NtSetSystemEnvironmentValue_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 016ah
@@ -34423,6 +36153,9 @@ NtSetSystemEnvironmentValue_SystemCall_10_0_19041:        ; Windows 10.0.19041 (
 NtSetSystemEnvironmentValue_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a8h
 	jmp NtSetSystemEnvironmentValue_Epilogue
+NtSetSystemEnvironmentValue_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a8h
+	jmp NtSetSystemEnvironmentValue_Epilogue
 NtSetSystemEnvironmentValue_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetSystemEnvironmentValue_Epilogue:
@@ -34432,7 +36165,7 @@ NtSetSystemEnvironmentValue_Epilogue:
 NtSetSystemEnvironmentValue ENDP
 
 NtSetSystemEnvironmentValueEx PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtSetSystemEnvironmentValueEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetSystemEnvironmentValueEx_Check_6_X_XXXX
@@ -34476,6 +36209,8 @@ NtSetSystemEnvironmentValueEx_Check_10_0_XXXX:              ; Check build number
 	je  NtSetSystemEnvironmentValueEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetSystemEnvironmentValueEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetSystemEnvironmentValueEx_SystemCall_10_0_19043
 	jmp NtSetSystemEnvironmentValueEx_SystemCall_Unknown
 NtSetSystemEnvironmentValueEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 016bh
@@ -34522,6 +36257,9 @@ NtSetSystemEnvironmentValueEx_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtSetSystemEnvironmentValueEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01a9h
 	jmp NtSetSystemEnvironmentValueEx_Epilogue
+NtSetSystemEnvironmentValueEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01a9h
+	jmp NtSetSystemEnvironmentValueEx_Epilogue
 NtSetSystemEnvironmentValueEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetSystemEnvironmentValueEx_Epilogue:
@@ -34531,7 +36269,7 @@ NtSetSystemEnvironmentValueEx_Epilogue:
 NtSetSystemEnvironmentValueEx ENDP
 
 NtSetSystemInformation PROC
-	mov rax, gs:[60h]                                ; Load PEB into RAX.
+	mov rax, gs:[60h]                            ; Load PEB into RAX.
 NtSetSystemInformation_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetSystemInformation_Check_6_X_XXXX
@@ -34575,6 +36313,8 @@ NtSetSystemInformation_Check_10_0_XXXX:              ; Check build number for Wi
 	je  NtSetSystemInformation_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetSystemInformation_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetSystemInformation_SystemCall_10_0_19043
 	jmp NtSetSystemInformation_SystemCall_Unknown
 NtSetSystemInformation_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 016ch
@@ -34621,6 +36361,9 @@ NtSetSystemInformation_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetSystemInformation_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01aah
 	jmp NtSetSystemInformation_Epilogue
+NtSetSystemInformation_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01aah
+	jmp NtSetSystemInformation_Epilogue
 NtSetSystemInformation_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetSystemInformation_Epilogue:
@@ -34630,7 +36373,7 @@ NtSetSystemInformation_Epilogue:
 NtSetSystemInformation ENDP
 
 NtSetSystemPowerState PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtSetSystemPowerState_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetSystemPowerState_Check_6_X_XXXX
@@ -34674,6 +36417,8 @@ NtSetSystemPowerState_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtSetSystemPowerState_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetSystemPowerState_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetSystemPowerState_SystemCall_10_0_19043
 	jmp NtSetSystemPowerState_SystemCall_Unknown
 NtSetSystemPowerState_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 016dh
@@ -34720,6 +36465,9 @@ NtSetSystemPowerState_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetSystemPowerState_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01abh
 	jmp NtSetSystemPowerState_Epilogue
+NtSetSystemPowerState_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01abh
+	jmp NtSetSystemPowerState_Epilogue
 NtSetSystemPowerState_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetSystemPowerState_Epilogue:
@@ -34729,7 +36477,7 @@ NtSetSystemPowerState_Epilogue:
 NtSetSystemPowerState ENDP
 
 NtSetSystemTime PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtSetSystemTime_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetSystemTime_Check_6_X_XXXX
@@ -34773,6 +36521,8 @@ NtSetSystemTime_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtSetSystemTime_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetSystemTime_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetSystemTime_SystemCall_10_0_19043
 	jmp NtSetSystemTime_SystemCall_Unknown
 NtSetSystemTime_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 016eh
@@ -34819,6 +36569,9 @@ NtSetSystemTime_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetSystemTime_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01ach
 	jmp NtSetSystemTime_Epilogue
+NtSetSystemTime_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01ach
+	jmp NtSetSystemTime_Epilogue
 NtSetSystemTime_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetSystemTime_Epilogue:
@@ -34828,7 +36581,7 @@ NtSetSystemTime_Epilogue:
 NtSetSystemTime ENDP
 
 NtSetThreadExecutionState PROC
-	mov rax, gs:[60h]                                   ; Load PEB into RAX.
+	mov rax, gs:[60h]                               ; Load PEB into RAX.
 NtSetThreadExecutionState_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetThreadExecutionState_Check_6_X_XXXX
@@ -34872,6 +36625,8 @@ NtSetThreadExecutionState_Check_10_0_XXXX:              ; Check build number for
 	je  NtSetThreadExecutionState_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetThreadExecutionState_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetThreadExecutionState_SystemCall_10_0_19043
 	jmp NtSetThreadExecutionState_SystemCall_Unknown
 NtSetThreadExecutionState_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 016fh
@@ -34918,6 +36673,9 @@ NtSetThreadExecutionState_SystemCall_10_0_19041:        ; Windows 10.0.19041 (20
 NtSetThreadExecutionState_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01adh
 	jmp NtSetThreadExecutionState_Epilogue
+NtSetThreadExecutionState_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01adh
+	jmp NtSetThreadExecutionState_Epilogue
 NtSetThreadExecutionState_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetThreadExecutionState_Epilogue:
@@ -34927,7 +36685,7 @@ NtSetThreadExecutionState_Epilogue:
 NtSetThreadExecutionState ENDP
 
 NtSetTimer PROC
-	mov rax, gs:[60h]                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                ; Load PEB into RAX.
 NtSetTimer_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetTimer_Check_6_X_XXXX
@@ -34971,6 +36729,8 @@ NtSetTimer_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSetTimer_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetTimer_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetTimer_SystemCall_10_0_19043
 	jmp NtSetTimer_SystemCall_Unknown
 NtSetTimer_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 005fh
@@ -35017,6 +36777,9 @@ NtSetTimer_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetTimer_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0062h
 	jmp NtSetTimer_Epilogue
+NtSetTimer_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0062h
+	jmp NtSetTimer_Epilogue
 NtSetTimer_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetTimer_Epilogue:
@@ -35026,7 +36789,7 @@ NtSetTimer_Epilogue:
 NtSetTimer ENDP
 
 NtSetTimerEx PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtSetTimerEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetTimerEx_Check_6_X_XXXX
@@ -35070,6 +36833,8 @@ NtSetTimerEx_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSetTimerEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetTimerEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetTimerEx_SystemCall_10_0_19043
 	jmp NtSetTimerEx_SystemCall_Unknown
 NtSetTimerEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0170h
@@ -35116,6 +36881,9 @@ NtSetTimerEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetTimerEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01afh
 	jmp NtSetTimerEx_Epilogue
+NtSetTimerEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01afh
+	jmp NtSetTimerEx_Epilogue
 NtSetTimerEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetTimerEx_Epilogue:
@@ -35125,7 +36893,7 @@ NtSetTimerEx_Epilogue:
 NtSetTimerEx ENDP
 
 NtSetTimerResolution PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtSetTimerResolution_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetTimerResolution_Check_6_X_XXXX
@@ -35169,6 +36937,8 @@ NtSetTimerResolution_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtSetTimerResolution_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetTimerResolution_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetTimerResolution_SystemCall_10_0_19043
 	jmp NtSetTimerResolution_SystemCall_Unknown
 NtSetTimerResolution_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0171h
@@ -35215,6 +36985,9 @@ NtSetTimerResolution_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetTimerResolution_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b0h
 	jmp NtSetTimerResolution_Epilogue
+NtSetTimerResolution_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b0h
+	jmp NtSetTimerResolution_Epilogue
 NtSetTimerResolution_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetTimerResolution_Epilogue:
@@ -35224,7 +36997,7 @@ NtSetTimerResolution_Epilogue:
 NtSetTimerResolution ENDP
 
 NtSetUuidSeed PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtSetUuidSeed_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetUuidSeed_Check_6_X_XXXX
@@ -35268,6 +37041,8 @@ NtSetUuidSeed_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSetUuidSeed_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetUuidSeed_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetUuidSeed_SystemCall_10_0_19043
 	jmp NtSetUuidSeed_SystemCall_Unknown
 NtSetUuidSeed_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0172h
@@ -35314,6 +37089,9 @@ NtSetUuidSeed_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetUuidSeed_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b1h
 	jmp NtSetUuidSeed_Epilogue
+NtSetUuidSeed_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b1h
+	jmp NtSetUuidSeed_Epilogue
 NtSetUuidSeed_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetUuidSeed_Epilogue:
@@ -35323,7 +37101,7 @@ NtSetUuidSeed_Epilogue:
 NtSetUuidSeed ENDP
 
 NtSetValueKey PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtSetValueKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetValueKey_Check_6_X_XXXX
@@ -35367,6 +37145,8 @@ NtSetValueKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtSetValueKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetValueKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetValueKey_SystemCall_10_0_19043
 	jmp NtSetValueKey_SystemCall_Unknown
 NtSetValueKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 005dh
@@ -35413,6 +37193,9 @@ NtSetValueKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSetValueKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0060h
 	jmp NtSetValueKey_Epilogue
+NtSetValueKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0060h
+	jmp NtSetValueKey_Epilogue
 NtSetValueKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetValueKey_Epilogue:
@@ -35422,7 +37205,7 @@ NtSetValueKey_Epilogue:
 NtSetValueKey ENDP
 
 NtSetVolumeInformationFile PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtSetVolumeInformationFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSetVolumeInformationFile_Check_6_X_XXXX
@@ -35466,6 +37249,8 @@ NtSetVolumeInformationFile_Check_10_0_XXXX:              ; Check build number fo
 	je  NtSetVolumeInformationFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSetVolumeInformationFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSetVolumeInformationFile_SystemCall_10_0_19043
 	jmp NtSetVolumeInformationFile_SystemCall_Unknown
 NtSetVolumeInformationFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0173h
@@ -35512,6 +37297,9 @@ NtSetVolumeInformationFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtSetVolumeInformationFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b2h
 	jmp NtSetVolumeInformationFile_Epilogue
+NtSetVolumeInformationFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b2h
+	jmp NtSetVolumeInformationFile_Epilogue
 NtSetVolumeInformationFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSetVolumeInformationFile_Epilogue:
@@ -35521,7 +37309,7 @@ NtSetVolumeInformationFile_Epilogue:
 NtSetVolumeInformationFile ENDP
 
 NtShutdownSystem PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtShutdownSystem_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtShutdownSystem_Check_6_X_XXXX
@@ -35565,6 +37353,8 @@ NtShutdownSystem_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtShutdownSystem_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtShutdownSystem_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtShutdownSystem_SystemCall_10_0_19043
 	jmp NtShutdownSystem_SystemCall_Unknown
 NtShutdownSystem_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0174h
@@ -35611,6 +37401,9 @@ NtShutdownSystem_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtShutdownSystem_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b4h
 	jmp NtShutdownSystem_Epilogue
+NtShutdownSystem_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b4h
+	jmp NtShutdownSystem_Epilogue
 NtShutdownSystem_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtShutdownSystem_Epilogue:
@@ -35620,7 +37413,7 @@ NtShutdownSystem_Epilogue:
 NtShutdownSystem ENDP
 
 NtShutdownWorkerFactory PROC
-	mov rax, gs:[60h]                                 ; Load PEB into RAX.
+	mov rax, gs:[60h]                             ; Load PEB into RAX.
 NtShutdownWorkerFactory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtShutdownWorkerFactory_Check_6_X_XXXX
@@ -35664,6 +37457,8 @@ NtShutdownWorkerFactory_Check_10_0_XXXX:              ; Check build number for W
 	je  NtShutdownWorkerFactory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtShutdownWorkerFactory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtShutdownWorkerFactory_SystemCall_10_0_19043
 	jmp NtShutdownWorkerFactory_SystemCall_Unknown
 NtShutdownWorkerFactory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0175h
@@ -35710,6 +37505,9 @@ NtShutdownWorkerFactory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004
 NtShutdownWorkerFactory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b5h
 	jmp NtShutdownWorkerFactory_Epilogue
+NtShutdownWorkerFactory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b5h
+	jmp NtShutdownWorkerFactory_Epilogue
 NtShutdownWorkerFactory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtShutdownWorkerFactory_Epilogue:
@@ -35719,7 +37517,7 @@ NtShutdownWorkerFactory_Epilogue:
 NtShutdownWorkerFactory ENDP
 
 NtSignalAndWaitForSingleObject PROC
-	mov rax, gs:[60h]                                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                                    ; Load PEB into RAX.
 NtSignalAndWaitForSingleObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSignalAndWaitForSingleObject_Check_6_X_XXXX
@@ -35763,6 +37561,8 @@ NtSignalAndWaitForSingleObject_Check_10_0_XXXX:              ; Check build numbe
 	je  NtSignalAndWaitForSingleObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSignalAndWaitForSingleObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSignalAndWaitForSingleObject_SystemCall_10_0_19043
 	jmp NtSignalAndWaitForSingleObject_SystemCall_Unknown
 NtSignalAndWaitForSingleObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0176h
@@ -35809,6 +37609,9 @@ NtSignalAndWaitForSingleObject_SystemCall_10_0_19041:        ; Windows 10.0.1904
 NtSignalAndWaitForSingleObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b6h
 	jmp NtSignalAndWaitForSingleObject_Epilogue
+NtSignalAndWaitForSingleObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b6h
+	jmp NtSignalAndWaitForSingleObject_Epilogue
 NtSignalAndWaitForSingleObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSignalAndWaitForSingleObject_Epilogue:
@@ -35818,7 +37621,7 @@ NtSignalAndWaitForSingleObject_Epilogue:
 NtSignalAndWaitForSingleObject ENDP
 
 NtSinglePhaseReject PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtSinglePhaseReject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSinglePhaseReject_Check_6_X_XXXX
@@ -35862,6 +37665,8 @@ NtSinglePhaseReject_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtSinglePhaseReject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSinglePhaseReject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSinglePhaseReject_SystemCall_10_0_19043
 	jmp NtSinglePhaseReject_SystemCall_Unknown
 NtSinglePhaseReject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0177h
@@ -35908,6 +37713,9 @@ NtSinglePhaseReject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSinglePhaseReject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b7h
 	jmp NtSinglePhaseReject_Epilogue
+NtSinglePhaseReject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b7h
+	jmp NtSinglePhaseReject_Epilogue
 NtSinglePhaseReject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSinglePhaseReject_Epilogue:
@@ -35917,7 +37725,7 @@ NtSinglePhaseReject_Epilogue:
 NtSinglePhaseReject ENDP
 
 NtStartProfile PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtStartProfile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtStartProfile_Check_6_X_XXXX
@@ -35961,6 +37769,8 @@ NtStartProfile_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtStartProfile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtStartProfile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtStartProfile_SystemCall_10_0_19043
 	jmp NtStartProfile_SystemCall_Unknown
 NtStartProfile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0178h
@@ -36007,6 +37817,9 @@ NtStartProfile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtStartProfile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b8h
 	jmp NtStartProfile_Epilogue
+NtStartProfile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b8h
+	jmp NtStartProfile_Epilogue
 NtStartProfile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtStartProfile_Epilogue:
@@ -36016,7 +37829,7 @@ NtStartProfile_Epilogue:
 NtStartProfile ENDP
 
 NtStopProfile PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtStopProfile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtStopProfile_Check_6_X_XXXX
@@ -36060,6 +37873,8 @@ NtStopProfile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtStopProfile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtStopProfile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtStopProfile_SystemCall_10_0_19043
 	jmp NtStopProfile_SystemCall_Unknown
 NtStopProfile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0179h
@@ -36106,6 +37921,9 @@ NtStopProfile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtStopProfile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01b9h
 	jmp NtStopProfile_Epilogue
+NtStopProfile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01b9h
+	jmp NtStopProfile_Epilogue
 NtStopProfile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtStopProfile_Epilogue:
@@ -36115,7 +37933,7 @@ NtStopProfile_Epilogue:
 NtStopProfile ENDP
 
 NtSuspendProcess PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtSuspendProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSuspendProcess_Check_6_X_XXXX
@@ -36159,6 +37977,8 @@ NtSuspendProcess_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtSuspendProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSuspendProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSuspendProcess_SystemCall_10_0_19043
 	jmp NtSuspendProcess_SystemCall_Unknown
 NtSuspendProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 017ah
@@ -36205,6 +38025,9 @@ NtSuspendProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSuspendProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01bbh
 	jmp NtSuspendProcess_Epilogue
+NtSuspendProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01bbh
+	jmp NtSuspendProcess_Epilogue
 NtSuspendProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSuspendProcess_Epilogue:
@@ -36214,7 +38037,7 @@ NtSuspendProcess_Epilogue:
 NtSuspendProcess ENDP
 
 NtSuspendThread PROC
-	mov rax, gs:[60h]                         ; Load PEB into RAX.
+	mov rax, gs:[60h]                     ; Load PEB into RAX.
 NtSuspendThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSuspendThread_Check_6_X_XXXX
@@ -36258,6 +38081,8 @@ NtSuspendThread_Check_10_0_XXXX:              ; Check build number for Windows 1
 	je  NtSuspendThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSuspendThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSuspendThread_SystemCall_10_0_19043
 	jmp NtSuspendThread_SystemCall_Unknown
 NtSuspendThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 017bh
@@ -36304,6 +38129,9 @@ NtSuspendThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSuspendThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01bch
 	jmp NtSuspendThread_Epilogue
+NtSuspendThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01bch
+	jmp NtSuspendThread_Epilogue
 NtSuspendThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSuspendThread_Epilogue:
@@ -36313,7 +38141,7 @@ NtSuspendThread_Epilogue:
 NtSuspendThread ENDP
 
 NtSystemDebugControl PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtSystemDebugControl_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtSystemDebugControl_Check_6_X_XXXX
@@ -36357,6 +38185,8 @@ NtSystemDebugControl_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtSystemDebugControl_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtSystemDebugControl_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtSystemDebugControl_SystemCall_10_0_19043
 	jmp NtSystemDebugControl_SystemCall_Unknown
 NtSystemDebugControl_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 017ch
@@ -36403,6 +38233,9 @@ NtSystemDebugControl_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtSystemDebugControl_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01bdh
 	jmp NtSystemDebugControl_Epilogue
+NtSystemDebugControl_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01bdh
+	jmp NtSystemDebugControl_Epilogue
 NtSystemDebugControl_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtSystemDebugControl_Epilogue:
@@ -36412,7 +38245,7 @@ NtSystemDebugControl_Epilogue:
 NtSystemDebugControl ENDP
 
 NtTerminateJobObject PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtTerminateJobObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtTerminateJobObject_Check_6_X_XXXX
@@ -36456,6 +38289,8 @@ NtTerminateJobObject_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtTerminateJobObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtTerminateJobObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtTerminateJobObject_SystemCall_10_0_19043
 	jmp NtTerminateJobObject_SystemCall_Unknown
 NtTerminateJobObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 017dh
@@ -36502,6 +38337,9 @@ NtTerminateJobObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtTerminateJobObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01bfh
 	jmp NtTerminateJobObject_Epilogue
+NtTerminateJobObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01bfh
+	jmp NtTerminateJobObject_Epilogue
 NtTerminateJobObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtTerminateJobObject_Epilogue:
@@ -36511,7 +38349,7 @@ NtTerminateJobObject_Epilogue:
 NtTerminateJobObject ENDP
 
 NtTerminateProcess PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtTerminateProcess_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtTerminateProcess_Check_6_X_XXXX
@@ -36555,6 +38393,8 @@ NtTerminateProcess_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtTerminateProcess_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtTerminateProcess_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtTerminateProcess_SystemCall_10_0_19043
 	jmp NtTerminateProcess_SystemCall_Unknown
 NtTerminateProcess_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0029h
@@ -36601,6 +38441,9 @@ NtTerminateProcess_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtTerminateProcess_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 002ch
 	jmp NtTerminateProcess_Epilogue
+NtTerminateProcess_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 002ch
+	jmp NtTerminateProcess_Epilogue
 NtTerminateProcess_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtTerminateProcess_Epilogue:
@@ -36610,7 +38453,7 @@ NtTerminateProcess_Epilogue:
 NtTerminateProcess ENDP
 
 NtTerminateThread PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtTerminateThread_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtTerminateThread_Check_6_X_XXXX
@@ -36654,6 +38497,8 @@ NtTerminateThread_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtTerminateThread_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtTerminateThread_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtTerminateThread_SystemCall_10_0_19043
 	jmp NtTerminateThread_SystemCall_Unknown
 NtTerminateThread_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0050h
@@ -36700,6 +38545,9 @@ NtTerminateThread_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtTerminateThread_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0053h
 	jmp NtTerminateThread_Epilogue
+NtTerminateThread_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0053h
+	jmp NtTerminateThread_Epilogue
 NtTerminateThread_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtTerminateThread_Epilogue:
@@ -36709,7 +38557,7 @@ NtTerminateThread_Epilogue:
 NtTerminateThread ENDP
 
 NtTestAlert PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtTestAlert_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtTestAlert_Check_6_X_XXXX
@@ -36753,6 +38601,8 @@ NtTestAlert_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtTestAlert_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtTestAlert_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtTestAlert_SystemCall_10_0_19043
 	jmp NtTestAlert_SystemCall_Unknown
 NtTestAlert_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 017eh
@@ -36799,6 +38649,9 @@ NtTestAlert_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtTestAlert_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c0h
 	jmp NtTestAlert_Epilogue
+NtTestAlert_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c0h
+	jmp NtTestAlert_Epilogue
 NtTestAlert_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtTestAlert_Epilogue:
@@ -36808,7 +38661,7 @@ NtTestAlert_Epilogue:
 NtTestAlert ENDP
 
 NtThawRegistry PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtThawRegistry_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtThawRegistry_Check_6_X_XXXX
@@ -36852,6 +38705,8 @@ NtThawRegistry_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtThawRegistry_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtThawRegistry_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtThawRegistry_SystemCall_10_0_19043
 	jmp NtThawRegistry_SystemCall_Unknown
 NtThawRegistry_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 017fh
@@ -36898,6 +38753,9 @@ NtThawRegistry_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtThawRegistry_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c1h
 	jmp NtThawRegistry_Epilogue
+NtThawRegistry_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c1h
+	jmp NtThawRegistry_Epilogue
 NtThawRegistry_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtThawRegistry_Epilogue:
@@ -36907,7 +38765,7 @@ NtThawRegistry_Epilogue:
 NtThawRegistry ENDP
 
 NtThawTransactions PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtThawTransactions_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtThawTransactions_Check_6_X_XXXX
@@ -36951,6 +38809,8 @@ NtThawTransactions_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtThawTransactions_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtThawTransactions_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtThawTransactions_SystemCall_10_0_19043
 	jmp NtThawTransactions_SystemCall_Unknown
 NtThawTransactions_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0180h
@@ -36997,6 +38857,9 @@ NtThawTransactions_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtThawTransactions_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c2h
 	jmp NtThawTransactions_Epilogue
+NtThawTransactions_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c2h
+	jmp NtThawTransactions_Epilogue
 NtThawTransactions_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtThawTransactions_Epilogue:
@@ -37006,7 +38869,7 @@ NtThawTransactions_Epilogue:
 NtThawTransactions ENDP
 
 NtTraceControl PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtTraceControl_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtTraceControl_Check_6_X_XXXX
@@ -37050,6 +38913,8 @@ NtTraceControl_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtTraceControl_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtTraceControl_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtTraceControl_SystemCall_10_0_19043
 	jmp NtTraceControl_SystemCall_Unknown
 NtTraceControl_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0181h
@@ -37096,6 +38961,9 @@ NtTraceControl_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtTraceControl_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c3h
 	jmp NtTraceControl_Epilogue
+NtTraceControl_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c3h
+	jmp NtTraceControl_Epilogue
 NtTraceControl_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtTraceControl_Epilogue:
@@ -37105,7 +38973,7 @@ NtTraceControl_Epilogue:
 NtTraceControl ENDP
 
 NtTraceEvent PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtTraceEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtTraceEvent_Check_6_X_XXXX
@@ -37149,6 +39017,8 @@ NtTraceEvent_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtTraceEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtTraceEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtTraceEvent_SystemCall_10_0_19043
 	jmp NtTraceEvent_SystemCall_Unknown
 NtTraceEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 005bh
@@ -37195,6 +39065,9 @@ NtTraceEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtTraceEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 005eh
 	jmp NtTraceEvent_Epilogue
+NtTraceEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 005eh
+	jmp NtTraceEvent_Epilogue
 NtTraceEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtTraceEvent_Epilogue:
@@ -37204,7 +39077,7 @@ NtTraceEvent_Epilogue:
 NtTraceEvent ENDP
 
 NtTranslateFilePath PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtTranslateFilePath_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtTranslateFilePath_Check_6_X_XXXX
@@ -37248,6 +39121,8 @@ NtTranslateFilePath_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtTranslateFilePath_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtTranslateFilePath_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtTranslateFilePath_SystemCall_10_0_19043
 	jmp NtTranslateFilePath_SystemCall_Unknown
 NtTranslateFilePath_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0182h
@@ -37294,6 +39169,9 @@ NtTranslateFilePath_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtTranslateFilePath_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c4h
 	jmp NtTranslateFilePath_Epilogue
+NtTranslateFilePath_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c4h
+	jmp NtTranslateFilePath_Epilogue
 NtTranslateFilePath_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtTranslateFilePath_Epilogue:
@@ -37303,7 +39181,7 @@ NtTranslateFilePath_Epilogue:
 NtTranslateFilePath ENDP
 
 NtUmsThreadYield PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtUmsThreadYield_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUmsThreadYield_Check_6_X_XXXX
@@ -37347,6 +39225,8 @@ NtUmsThreadYield_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtUmsThreadYield_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUmsThreadYield_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUmsThreadYield_SystemCall_10_0_19043
 	jmp NtUmsThreadYield_SystemCall_Unknown
 NtUmsThreadYield_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0183h
@@ -37393,6 +39273,9 @@ NtUmsThreadYield_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUmsThreadYield_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c5h
 	jmp NtUmsThreadYield_Epilogue
+NtUmsThreadYield_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c5h
+	jmp NtUmsThreadYield_Epilogue
 NtUmsThreadYield_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUmsThreadYield_Epilogue:
@@ -37402,7 +39285,7 @@ NtUmsThreadYield_Epilogue:
 NtUmsThreadYield ENDP
 
 NtUnloadDriver PROC
-	mov rax, gs:[60h]                        ; Load PEB into RAX.
+	mov rax, gs:[60h]                    ; Load PEB into RAX.
 NtUnloadDriver_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUnloadDriver_Check_6_X_XXXX
@@ -37446,6 +39329,8 @@ NtUnloadDriver_Check_10_0_XXXX:              ; Check build number for Windows 10
 	je  NtUnloadDriver_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUnloadDriver_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUnloadDriver_SystemCall_10_0_19043
 	jmp NtUnloadDriver_SystemCall_Unknown
 NtUnloadDriver_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0184h
@@ -37492,6 +39377,9 @@ NtUnloadDriver_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUnloadDriver_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c6h
 	jmp NtUnloadDriver_Epilogue
+NtUnloadDriver_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c6h
+	jmp NtUnloadDriver_Epilogue
 NtUnloadDriver_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUnloadDriver_Epilogue:
@@ -37501,7 +39389,7 @@ NtUnloadDriver_Epilogue:
 NtUnloadDriver ENDP
 
 NtUnloadKey PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtUnloadKey_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUnloadKey_Check_6_X_XXXX
@@ -37545,6 +39433,8 @@ NtUnloadKey_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtUnloadKey_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUnloadKey_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUnloadKey_SystemCall_10_0_19043
 	jmp NtUnloadKey_SystemCall_Unknown
 NtUnloadKey_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0185h
@@ -37591,6 +39481,9 @@ NtUnloadKey_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUnloadKey_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c7h
 	jmp NtUnloadKey_Epilogue
+NtUnloadKey_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c7h
+	jmp NtUnloadKey_Epilogue
 NtUnloadKey_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUnloadKey_Epilogue:
@@ -37600,7 +39493,7 @@ NtUnloadKey_Epilogue:
 NtUnloadKey ENDP
 
 NtUnloadKey2 PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtUnloadKey2_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUnloadKey2_Check_6_X_XXXX
@@ -37644,6 +39537,8 @@ NtUnloadKey2_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtUnloadKey2_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUnloadKey2_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUnloadKey2_SystemCall_10_0_19043
 	jmp NtUnloadKey2_SystemCall_Unknown
 NtUnloadKey2_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0186h
@@ -37690,6 +39585,9 @@ NtUnloadKey2_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUnloadKey2_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c8h
 	jmp NtUnloadKey2_Epilogue
+NtUnloadKey2_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c8h
+	jmp NtUnloadKey2_Epilogue
 NtUnloadKey2_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUnloadKey2_Epilogue:
@@ -37699,7 +39597,7 @@ NtUnloadKey2_Epilogue:
 NtUnloadKey2 ENDP
 
 NtUnloadKeyEx PROC
-	mov rax, gs:[60h]                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                   ; Load PEB into RAX.
 NtUnloadKeyEx_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUnloadKeyEx_Check_6_X_XXXX
@@ -37743,6 +39641,8 @@ NtUnloadKeyEx_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtUnloadKeyEx_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUnloadKeyEx_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUnloadKeyEx_SystemCall_10_0_19043
 	jmp NtUnloadKeyEx_SystemCall_Unknown
 NtUnloadKeyEx_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0187h
@@ -37789,6 +39689,9 @@ NtUnloadKeyEx_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUnloadKeyEx_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01c9h
 	jmp NtUnloadKeyEx_Epilogue
+NtUnloadKeyEx_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01c9h
+	jmp NtUnloadKeyEx_Epilogue
 NtUnloadKeyEx_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUnloadKeyEx_Epilogue:
@@ -37798,7 +39701,7 @@ NtUnloadKeyEx_Epilogue:
 NtUnloadKeyEx ENDP
 
 NtUnlockFile PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtUnlockFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUnlockFile_Check_6_X_XXXX
@@ -37842,6 +39745,8 @@ NtUnlockFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtUnlockFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUnlockFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUnlockFile_SystemCall_10_0_19043
 	jmp NtUnlockFile_SystemCall_Unknown
 NtUnlockFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0188h
@@ -37888,6 +39793,9 @@ NtUnlockFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUnlockFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01cah
 	jmp NtUnlockFile_Epilogue
+NtUnlockFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01cah
+	jmp NtUnlockFile_Epilogue
 NtUnlockFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUnlockFile_Epilogue:
@@ -37897,7 +39805,7 @@ NtUnlockFile_Epilogue:
 NtUnlockFile ENDP
 
 NtUnlockVirtualMemory PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtUnlockVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUnlockVirtualMemory_Check_6_X_XXXX
@@ -37941,6 +39849,8 @@ NtUnlockVirtualMemory_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtUnlockVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUnlockVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUnlockVirtualMemory_SystemCall_10_0_19043
 	jmp NtUnlockVirtualMemory_SystemCall_Unknown
 NtUnlockVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0189h
@@ -37987,6 +39897,9 @@ NtUnlockVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUnlockVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01cbh
 	jmp NtUnlockVirtualMemory_Epilogue
+NtUnlockVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01cbh
+	jmp NtUnlockVirtualMemory_Epilogue
 NtUnlockVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUnlockVirtualMemory_Epilogue:
@@ -37996,7 +39909,7 @@ NtUnlockVirtualMemory_Epilogue:
 NtUnlockVirtualMemory ENDP
 
 NtUnmapViewOfSection PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtUnmapViewOfSection_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtUnmapViewOfSection_Check_6_X_XXXX
@@ -38040,6 +39953,8 @@ NtUnmapViewOfSection_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtUnmapViewOfSection_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtUnmapViewOfSection_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtUnmapViewOfSection_SystemCall_10_0_19043
 	jmp NtUnmapViewOfSection_SystemCall_Unknown
 NtUnmapViewOfSection_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0027h
@@ -38086,6 +40001,9 @@ NtUnmapViewOfSection_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtUnmapViewOfSection_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 002ah
 	jmp NtUnmapViewOfSection_Epilogue
+NtUnmapViewOfSection_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 002ah
+	jmp NtUnmapViewOfSection_Epilogue
 NtUnmapViewOfSection_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtUnmapViewOfSection_Epilogue:
@@ -38095,7 +40013,7 @@ NtUnmapViewOfSection_Epilogue:
 NtUnmapViewOfSection ENDP
 
 NtVdmControl PROC
-	mov rax, gs:[60h]                      ; Load PEB into RAX.
+	mov rax, gs:[60h]                  ; Load PEB into RAX.
 NtVdmControl_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtVdmControl_Check_6_X_XXXX
@@ -38139,6 +40057,8 @@ NtVdmControl_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtVdmControl_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtVdmControl_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtVdmControl_SystemCall_10_0_19043
 	jmp NtVdmControl_SystemCall_Unknown
 NtVdmControl_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 018ah
@@ -38185,6 +40105,9 @@ NtVdmControl_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtVdmControl_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01cfh
 	jmp NtVdmControl_Epilogue
+NtVdmControl_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01cfh
+	jmp NtVdmControl_Epilogue
 NtVdmControl_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtVdmControl_Epilogue:
@@ -38194,7 +40117,7 @@ NtVdmControl_Epilogue:
 NtVdmControl ENDP
 
 NtWaitForDebugEvent PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtWaitForDebugEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitForDebugEvent_Check_6_X_XXXX
@@ -38238,6 +40161,8 @@ NtWaitForDebugEvent_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtWaitForDebugEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitForDebugEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitForDebugEvent_SystemCall_10_0_19043
 	jmp NtWaitForDebugEvent_SystemCall_Unknown
 NtWaitForDebugEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 018bh
@@ -38284,6 +40209,9 @@ NtWaitForDebugEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWaitForDebugEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01d1h
 	jmp NtWaitForDebugEvent_Epilogue
+NtWaitForDebugEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01d1h
+	jmp NtWaitForDebugEvent_Epilogue
 NtWaitForDebugEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitForDebugEvent_Epilogue:
@@ -38293,7 +40221,7 @@ NtWaitForDebugEvent_Epilogue:
 NtWaitForDebugEvent ENDP
 
 NtWaitForKeyedEvent PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtWaitForKeyedEvent_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitForKeyedEvent_Check_6_X_XXXX
@@ -38337,6 +40265,8 @@ NtWaitForKeyedEvent_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtWaitForKeyedEvent_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitForKeyedEvent_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitForKeyedEvent_SystemCall_10_0_19043
 	jmp NtWaitForKeyedEvent_SystemCall_Unknown
 NtWaitForKeyedEvent_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 018ch
@@ -38383,6 +40313,9 @@ NtWaitForKeyedEvent_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWaitForKeyedEvent_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01d2h
 	jmp NtWaitForKeyedEvent_Epilogue
+NtWaitForKeyedEvent_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01d2h
+	jmp NtWaitForKeyedEvent_Epilogue
 NtWaitForKeyedEvent_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitForKeyedEvent_Epilogue:
@@ -38392,7 +40325,7 @@ NtWaitForKeyedEvent_Epilogue:
 NtWaitForKeyedEvent ENDP
 
 NtWaitForMultipleObjects PROC
-	mov rax, gs:[60h]                                  ; Load PEB into RAX.
+	mov rax, gs:[60h]                              ; Load PEB into RAX.
 NtWaitForMultipleObjects_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitForMultipleObjects_Check_6_X_XXXX
@@ -38436,6 +40369,8 @@ NtWaitForMultipleObjects_Check_10_0_XXXX:              ; Check build number for 
 	je  NtWaitForMultipleObjects_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitForMultipleObjects_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitForMultipleObjects_SystemCall_10_0_19043
 	jmp NtWaitForMultipleObjects_SystemCall_Unknown
 NtWaitForMultipleObjects_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0058h
@@ -38482,6 +40417,9 @@ NtWaitForMultipleObjects_SystemCall_10_0_19041:        ; Windows 10.0.19041 (200
 NtWaitForMultipleObjects_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 005bh
 	jmp NtWaitForMultipleObjects_Epilogue
+NtWaitForMultipleObjects_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 005bh
+	jmp NtWaitForMultipleObjects_Epilogue
 NtWaitForMultipleObjects_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitForMultipleObjects_Epilogue:
@@ -38491,7 +40429,7 @@ NtWaitForMultipleObjects_Epilogue:
 NtWaitForMultipleObjects ENDP
 
 NtWaitForMultipleObjects32 PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtWaitForMultipleObjects32_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitForMultipleObjects32_Check_6_X_XXXX
@@ -38535,6 +40473,8 @@ NtWaitForMultipleObjects32_Check_10_0_XXXX:              ; Check build number fo
 	je  NtWaitForMultipleObjects32_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitForMultipleObjects32_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitForMultipleObjects32_SystemCall_10_0_19043
 	jmp NtWaitForMultipleObjects32_SystemCall_Unknown
 NtWaitForMultipleObjects32_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0017h
@@ -38581,6 +40521,9 @@ NtWaitForMultipleObjects32_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtWaitForMultipleObjects32_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 001ah
 	jmp NtWaitForMultipleObjects32_Epilogue
+NtWaitForMultipleObjects32_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 001ah
+	jmp NtWaitForMultipleObjects32_Epilogue
 NtWaitForMultipleObjects32_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitForMultipleObjects32_Epilogue:
@@ -38590,7 +40533,7 @@ NtWaitForMultipleObjects32_Epilogue:
 NtWaitForMultipleObjects32 ENDP
 
 NtWaitForSingleObject PROC
-	mov rax, gs:[60h]                               ; Load PEB into RAX.
+	mov rax, gs:[60h]                           ; Load PEB into RAX.
 NtWaitForSingleObject_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitForSingleObject_Check_6_X_XXXX
@@ -38634,6 +40577,8 @@ NtWaitForSingleObject_Check_10_0_XXXX:              ; Check build number for Win
 	je  NtWaitForSingleObject_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitForSingleObject_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitForSingleObject_SystemCall_10_0_19043
 	jmp NtWaitForSingleObject_SystemCall_Unknown
 NtWaitForSingleObject_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0001h
@@ -38680,6 +40625,9 @@ NtWaitForSingleObject_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWaitForSingleObject_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0004h
 	jmp NtWaitForSingleObject_Epilogue
+NtWaitForSingleObject_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0004h
+	jmp NtWaitForSingleObject_Epilogue
 NtWaitForSingleObject_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitForSingleObject_Epilogue:
@@ -38689,7 +40637,7 @@ NtWaitForSingleObject_Epilogue:
 NtWaitForSingleObject ENDP
 
 NtWaitForWorkViaWorkerFactory PROC
-	mov rax, gs:[60h]                                       ; Load PEB into RAX.
+	mov rax, gs:[60h]                                   ; Load PEB into RAX.
 NtWaitForWorkViaWorkerFactory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitForWorkViaWorkerFactory_Check_6_X_XXXX
@@ -38733,6 +40681,8 @@ NtWaitForWorkViaWorkerFactory_Check_10_0_XXXX:              ; Check build number
 	je  NtWaitForWorkViaWorkerFactory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitForWorkViaWorkerFactory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitForWorkViaWorkerFactory_SystemCall_10_0_19043
 	jmp NtWaitForWorkViaWorkerFactory_SystemCall_Unknown
 NtWaitForWorkViaWorkerFactory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 018dh
@@ -38779,6 +40729,9 @@ NtWaitForWorkViaWorkerFactory_SystemCall_10_0_19041:        ; Windows 10.0.19041
 NtWaitForWorkViaWorkerFactory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01d3h
 	jmp NtWaitForWorkViaWorkerFactory_Epilogue
+NtWaitForWorkViaWorkerFactory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01d3h
+	jmp NtWaitForWorkViaWorkerFactory_Epilogue
 NtWaitForWorkViaWorkerFactory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitForWorkViaWorkerFactory_Epilogue:
@@ -38788,7 +40741,7 @@ NtWaitForWorkViaWorkerFactory_Epilogue:
 NtWaitForWorkViaWorkerFactory ENDP
 
 NtWaitHighEventPair PROC
-	mov rax, gs:[60h]                             ; Load PEB into RAX.
+	mov rax, gs:[60h]                         ; Load PEB into RAX.
 NtWaitHighEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitHighEventPair_Check_6_X_XXXX
@@ -38832,6 +40785,8 @@ NtWaitHighEventPair_Check_10_0_XXXX:              ; Check build number for Windo
 	je  NtWaitHighEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitHighEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitHighEventPair_SystemCall_10_0_19043
 	jmp NtWaitHighEventPair_SystemCall_Unknown
 NtWaitHighEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 018eh
@@ -38878,6 +40833,9 @@ NtWaitHighEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWaitHighEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01d4h
 	jmp NtWaitHighEventPair_Epilogue
+NtWaitHighEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01d4h
+	jmp NtWaitHighEventPair_Epilogue
 NtWaitHighEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitHighEventPair_Epilogue:
@@ -38887,7 +40845,7 @@ NtWaitHighEventPair_Epilogue:
 NtWaitHighEventPair ENDP
 
 NtWaitLowEventPair PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtWaitLowEventPair_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWaitLowEventPair_Check_6_X_XXXX
@@ -38931,6 +40889,8 @@ NtWaitLowEventPair_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtWaitLowEventPair_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWaitLowEventPair_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWaitLowEventPair_SystemCall_10_0_19043
 	jmp NtWaitLowEventPair_SystemCall_Unknown
 NtWaitLowEventPair_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 018fh
@@ -38977,6 +40937,9 @@ NtWaitLowEventPair_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWaitLowEventPair_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 01d5h
 	jmp NtWaitLowEventPair_Epilogue
+NtWaitLowEventPair_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 01d5h
+	jmp NtWaitLowEventPair_Epilogue
 NtWaitLowEventPair_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWaitLowEventPair_Epilogue:
@@ -38986,7 +40949,7 @@ NtWaitLowEventPair_Epilogue:
 NtWaitLowEventPair ENDP
 
 NtWorkerFactoryWorkerReady PROC
-	mov rax, gs:[60h]                                    ; Load PEB into RAX.
+	mov rax, gs:[60h]                                ; Load PEB into RAX.
 NtWorkerFactoryWorkerReady_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWorkerFactoryWorkerReady_Check_6_X_XXXX
@@ -39030,6 +40993,8 @@ NtWorkerFactoryWorkerReady_Check_10_0_XXXX:              ; Check build number fo
 	je  NtWorkerFactoryWorkerReady_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWorkerFactoryWorkerReady_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWorkerFactoryWorkerReady_SystemCall_10_0_19043
 	jmp NtWorkerFactoryWorkerReady_SystemCall_Unknown
 NtWorkerFactoryWorkerReady_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0190h
@@ -39076,6 +41041,9 @@ NtWorkerFactoryWorkerReady_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2
 NtWorkerFactoryWorkerReady_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0001h
 	jmp NtWorkerFactoryWorkerReady_Epilogue
+NtWorkerFactoryWorkerReady_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0001h
+	jmp NtWorkerFactoryWorkerReady_Epilogue
 NtWorkerFactoryWorkerReady_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWorkerFactoryWorkerReady_Epilogue:
@@ -39085,7 +41053,7 @@ NtWorkerFactoryWorkerReady_Epilogue:
 NtWorkerFactoryWorkerReady ENDP
 
 NtWriteFile PROC
-	mov rax, gs:[60h]                     ; Load PEB into RAX.
+	mov rax, gs:[60h]                 ; Load PEB into RAX.
 NtWriteFile_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWriteFile_Check_6_X_XXXX
@@ -39129,6 +41097,8 @@ NtWriteFile_Check_10_0_XXXX:              ; Check build number for Windows 10.
 	je  NtWriteFile_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWriteFile_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWriteFile_SystemCall_10_0_19043
 	jmp NtWriteFile_SystemCall_Unknown
 NtWriteFile_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0005h
@@ -39175,6 +41145,9 @@ NtWriteFile_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWriteFile_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0008h
 	jmp NtWriteFile_Epilogue
+NtWriteFile_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0008h
+	jmp NtWriteFile_Epilogue
 NtWriteFile_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWriteFile_Epilogue:
@@ -39184,7 +41157,7 @@ NtWriteFile_Epilogue:
 NtWriteFile ENDP
 
 NtWriteFileGather PROC
-	mov rax, gs:[60h]                           ; Load PEB into RAX.
+	mov rax, gs:[60h]                       ; Load PEB into RAX.
 NtWriteFileGather_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWriteFileGather_Check_6_X_XXXX
@@ -39228,6 +41201,8 @@ NtWriteFileGather_Check_10_0_XXXX:              ; Check build number for Windows
 	je  NtWriteFileGather_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWriteFileGather_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWriteFileGather_SystemCall_10_0_19043
 	jmp NtWriteFileGather_SystemCall_Unknown
 NtWriteFileGather_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0018h
@@ -39274,6 +41249,9 @@ NtWriteFileGather_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWriteFileGather_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 001bh
 	jmp NtWriteFileGather_Epilogue
+NtWriteFileGather_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 001bh
+	jmp NtWriteFileGather_Epilogue
 NtWriteFileGather_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWriteFileGather_Epilogue:
@@ -39283,7 +41261,7 @@ NtWriteFileGather_Epilogue:
 NtWriteFileGather ENDP
 
 NtWriteRequestData PROC
-	mov rax, gs:[60h]                            ; Load PEB into RAX.
+	mov rax, gs:[60h]                        ; Load PEB into RAX.
 NtWriteRequestData_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWriteRequestData_Check_6_X_XXXX
@@ -39327,6 +41305,8 @@ NtWriteRequestData_Check_10_0_XXXX:              ; Check build number for Window
 	je  NtWriteRequestData_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWriteRequestData_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWriteRequestData_SystemCall_10_0_19043
 	jmp NtWriteRequestData_SystemCall_Unknown
 NtWriteRequestData_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0054h
@@ -39373,6 +41353,9 @@ NtWriteRequestData_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWriteRequestData_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 0057h
 	jmp NtWriteRequestData_Epilogue
+NtWriteRequestData_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 0057h
+	jmp NtWriteRequestData_Epilogue
 NtWriteRequestData_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWriteRequestData_Epilogue:
@@ -39382,7 +41365,7 @@ NtWriteRequestData_Epilogue:
 NtWriteRequestData ENDP
 
 NtWriteVirtualMemory PROC
-	mov rax, gs:[60h]                              ; Load PEB into RAX.
+	mov rax, gs:[60h]                          ; Load PEB into RAX.
 NtWriteVirtualMemory_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtWriteVirtualMemory_Check_6_X_XXXX
@@ -39426,6 +41409,8 @@ NtWriteVirtualMemory_Check_10_0_XXXX:              ; Check build number for Wind
 	je  NtWriteVirtualMemory_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtWriteVirtualMemory_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtWriteVirtualMemory_SystemCall_10_0_19043
 	jmp NtWriteVirtualMemory_SystemCall_Unknown
 NtWriteVirtualMemory_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0037h
@@ -39472,6 +41457,9 @@ NtWriteVirtualMemory_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 NtWriteVirtualMemory_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
 	mov eax, 003ah
 	jmp NtWriteVirtualMemory_Epilogue
+NtWriteVirtualMemory_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
+	mov eax, 003ah
+	jmp NtWriteVirtualMemory_Epilogue
 NtWriteVirtualMemory_SystemCall_Unknown:           ; Unknown/unsupported version.
 	ret
 NtWriteVirtualMemory_Epilogue:
@@ -39481,7 +41469,7 @@ NtWriteVirtualMemory_Epilogue:
 NtWriteVirtualMemory ENDP
 
 NtYieldExecution PROC
-	mov rax, gs:[60h]                          ; Load PEB into RAX.
+	mov rax, gs:[60h]                      ; Load PEB into RAX.
 NtYieldExecution_Check_X_X_XXXX:               ; Check major version.
 	cmp dword ptr [rax+118h], 6
 	je  NtYieldExecution_Check_6_X_XXXX
@@ -39525,6 +41513,8 @@ NtYieldExecution_Check_10_0_XXXX:              ; Check build number for Windows 
 	je  NtYieldExecution_SystemCall_10_0_19041
 	cmp word ptr [rax+120h], 19042
 	je  NtYieldExecution_SystemCall_10_0_19042
+	cmp word ptr [rax+120h], 19043
+	je  NtYieldExecution_SystemCall_10_0_19043
 	jmp NtYieldExecution_SystemCall_Unknown
 NtYieldExecution_SystemCall_6_1_7600:          ; Windows 7 SP0
 	mov eax, 0043h
@@ -39569,6 +41559,9 @@ NtYieldExecution_SystemCall_10_0_19041:        ; Windows 10.0.19041 (2004)
 	mov eax, 0046h
 	jmp NtYieldExecution_Epilogue
 NtYieldExecution_SystemCall_10_0_19042:        ; Windows 10.0.19042 (20H2)
+	mov eax, 0046h
+	jmp NtYieldExecution_Epilogue
+NtYieldExecution_SystemCall_10_0_19043:        ; Windows 10.0.19043 (21H1)
 	mov eax, 0046h
 	jmp NtYieldExecution_Epilogue
 NtYieldExecution_SystemCall_Unknown:           ; Unknown/unsupported version.
